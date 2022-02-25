@@ -1,0 +1,12 @@
+{
+  "ServerUri": "http://sonarqube.lumigame.com/",
+  "Organization": null,
+  "ProjectKey": "l1-game-admin",
+  "ProjectName": "l1-game-admin",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AXSuqrHSMkh2CgVkmwi1",
+      "ProfileTimestamp": "2020-09-21T03:17:36Z"
+    }
+  }
+}

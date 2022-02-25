@@ -1,0 +1,46 @@
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+
+namespace GamesAdminMonitoring.Site.Database
+{
+    public class GameConfig
+    {
+        [JsonConstructor]
+        public GameConfig(
+            string id,
+            Dictionary<string, double> odds,
+            GameInfo info = null,
+            EnableSetting enableSetting = null,
+            BotSetting botSettings = null,
+            BetLimit betLimit = null,
+            SlotsConfig slotsConfig = null,
+            bool isBeta = false
+            )
+        {
+            Id = id;
+            Odds = odds;
+            Info = info;
+            EnableSetting = enableSetting;
+            BotSetting = botSettings;
+            BetLimit = betLimit;
+            SlotsConfig = slotsConfig;
+            IsBeta = isBeta;
+        }
+
+        public string Id { get; }
+
+        public Dictionary<string, double> Odds { get; }
+
+        public GameInfo Info { get; set; }
+
+        public EnableSetting EnableSetting { get; set; }
+
+        public BotSetting BotSetting { get; set; }
+
+        public BetLimit BetLimit { get; set; }
+
+        public SlotsConfig SlotsConfig { get; set; }
+
+        public bool IsBeta { get; set; }
+    }
+}
