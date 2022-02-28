@@ -11,6 +11,13 @@ using System.Threading.Tasks;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
+    [Headers("Authorization: Bearer")]
+    public interface IUserApi
+    {
+        [Post("/users/validateJwtToken")]
+        Task<bool> ValidateJwtToken(string token);
+    }
+
     public interface IResultMonitorService
     {
         Task<SettlementBoard> SetSlotBoard(SetSlotBoardRequest request);
@@ -20,17 +27,20 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 
     public class ResultMonitorService : IResultMonitorService
     {
+        private readonly IUserApi uerApi;
         private readonly IGameSettingsService gameSettingService;
         private readonly ISlotBoardApiFactory slotBoardApiFactory;
         private readonly IHoldemPokerApiFactory holdemPokerApiFactory;
         private readonly ISentryClient sentryClient;
 
         public ResultMonitorService(
+            IUserApi uerApi,
             IGameSettingsService gameSettingService,
             ISlotBoardApiFactory slotBoardApiFactory,
             IHoldemPokerApiFactory holdemPokerApiFactory,
             ISentryClient sentryClient)
         {
+            this.uerApi = uerApi;
             this.gameSettingService = gameSettingService;
             this.slotBoardApiFactory = slotBoardApiFactory;
             this.holdemPokerApiFactory = holdemPokerApiFactory;

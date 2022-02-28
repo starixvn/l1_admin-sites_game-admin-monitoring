@@ -1,7 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using GamesAdmin.Core.IdentityServer;
+﻿using GamesAdmin.Core.IdentityServer;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.ComponentModel;
 
 namespace GamesAdminMonitoring.Site._Shared.Configurations
 {
@@ -22,6 +22,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         ResultPageConfiguration ResultPageConfiguration { get; }
 
         GameServerSettings GameServers { get; }
+
+        public JwtSettings JwtSettings { get; }
     }
 
     public class ResultPageConfiguration
@@ -48,6 +50,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             Env = GetValue<string>(nameof(Env));
             ResultPageConfiguration = configuration.GetSection(nameof(ResultPageConfiguration)).Get<ResultPageConfiguration>();
             MaxDecreased = GetValue<int>(nameof(MaxDecreased));
+            JwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
         }
 
         public string ApiHost { get; }
@@ -65,6 +68,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         public int MaxDecreased { get; }
 
         public GameServerSettings GameServers { get; }
+
+        public JwtSettings JwtSettings { get; }
 
         public T GetValue<T>(string key)
         {

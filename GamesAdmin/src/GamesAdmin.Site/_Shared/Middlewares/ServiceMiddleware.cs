@@ -18,6 +18,8 @@ namespace GamesAdminMonitoring.Site._Shared.Middlewares
                 AuthorizationHeaderValueGetter = IdentityServerManager.GetAccessToken
             };
 
+            services.AddSingleton(RestService.For<IUserApi>(appSettings.ApiHost, refitSettings));
+
             services.AddScoped<IGameSettingsService, GameSettingsService>();
 
             services.AddScoped<IHoldemPokerApiFactory, HoldemPokerApiFactory>();

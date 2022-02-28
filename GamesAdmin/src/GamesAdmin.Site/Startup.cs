@@ -107,6 +107,13 @@ namespace GamesAdminMonitoring.Site
                 await next();
             });
 
+            app.UseMiddleware<JwtMiddleware>();
+
+            app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health");
@@ -114,8 +121,6 @@ namespace GamesAdminMonitoring.Site
                     name: "default",
                     pattern: "{controller=Home}/{action=Error}");
             });
-
-
         }
     }
 }

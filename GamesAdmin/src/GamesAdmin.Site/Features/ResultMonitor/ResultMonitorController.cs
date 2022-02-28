@@ -18,7 +18,8 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             this.mediator = mediator;
         }
 
-        [HttpGet]
+        [Authorize]
+        [HttpPost]
         public IActionResult SlotResult(string gameConfigName)
             => View(new SlotResultViewModel(gameConfigName));
 
@@ -33,7 +34,8 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray())));
         }
 
-        [HttpGet]
+        [Authorize]
+        [HttpPost]
         public IActionResult HoldemPokderResult(string gameConfigName)
            => View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
 
