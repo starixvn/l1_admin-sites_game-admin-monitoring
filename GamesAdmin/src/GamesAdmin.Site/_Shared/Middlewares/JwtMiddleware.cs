@@ -35,7 +35,7 @@ namespace GamesAdminMonitoring.Site._Shared.Middlewares
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(appSettings.JwtSettings.SecretKey);
+                var key = Encoding.ASCII.GetBytes(appSettings.JwtSecretKey);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,

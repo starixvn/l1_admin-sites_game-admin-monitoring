@@ -23,7 +23,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         GameServerSettings GameServers { get; }
 
-        public JwtSettings JwtSettings { get; }
+        public string JwtSecretKey { get; }
     }
 
     public class ResultPageConfiguration
@@ -50,7 +50,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             Env = GetValue<string>(nameof(Env));
             ResultPageConfiguration = configuration.GetSection(nameof(ResultPageConfiguration)).Get<ResultPageConfiguration>();
             MaxDecreased = GetValue<int>(nameof(MaxDecreased));
-            JwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
+            JwtSecretKey = GetValue<string>(nameof(JwtSecretKey));
         }
 
         public string ApiHost { get; }
@@ -69,7 +69,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         public GameServerSettings GameServers { get; }
 
-        public JwtSettings JwtSettings { get; }
+        public string JwtSecretKey { get; }
 
         public T GetValue<T>(string key)
         {

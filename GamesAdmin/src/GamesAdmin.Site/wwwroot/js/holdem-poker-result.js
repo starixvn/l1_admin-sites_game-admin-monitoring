@@ -1,4 +1,4 @@
-﻿var casinoHoldemPokerResult = (function () {
+﻿var holdemPokerResult = (function () {
     var cards = [];
     var index = 0;
     return {
