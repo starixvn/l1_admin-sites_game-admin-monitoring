@@ -1,6 +1,7 @@
 ﻿using GamesAdmin.Core.Models.SlotGame;
 using GamesAdmin.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features._Shared;
+using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
@@ -13,8 +14,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         [Post("/game_server/slot/set_board")]
         Task<SettlementBoard> SetSlotResult([FromBody] SetSlotResultRequest request);
 
-        [Post("/game_server/casinoholdempoker/set_result")]
-        Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult([FromBody] SetCasinoHoldemPokerResultRequest request);
+        [Post("/game_server/holdempoker/set_result")]
+        Task<HoldemPokerResultControl> SetHoldemPokerResult([FromBody] SetHoldemPokerResultRequest request);
 
         [Post("/game_server/verify_admin_monitoring_token")]
         Task<bool> VerifyAdminMonitoringToken(string token);
@@ -24,7 +25,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
     {
         Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request);
 
-        Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult(SetCasinoHoldemPokerResultRequest request);
+        Task<HoldemPokerResultControl> SetHoldemPokerResult(SetHoldemPokerResultRequest request);
 
         Task<bool> VerifyToken(string token);
     }
@@ -39,14 +40,12 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         }
 
         public async Task<bool> VerifyToken(string token)
-        {
-            return await api.VerifyAdminMonitoringToken(token);
-        }
+            => await api.VerifyAdminMonitoringToken(token);
 
-        public Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request)
-        => api.SetSlotResult(request);
+        public async Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request)
+        => await api.SetSlotResult(request);
 
-        public Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult(SetCasinoHoldemPokerResultRequest request)
-      => api.SetCasinoHoldemPokerResult(request);
+        public async Task<HoldemPokerResultControl> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
+            => await api.SetHoldemPokerResult(request);
     }
 }

@@ -21,10 +21,6 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         ResultPageConfiguration ResultPageConfiguration { get; }
 
-        GameServerSettings GameServers { get; }
-
-        DatabaseSettings DatabaseSettings { get; }
-
         public string JwtSecretKey { get; }
     }
 
@@ -45,7 +41,6 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             this.configuration = configuration;
 
             ApiHost = GetValue<string>(nameof(ApiHost));
-            GameServers = configuration.GetSection(nameof(GameServers)).Get<GameServerSettings>();
             IdentityServerAuth = configuration.GetSection(nameof(IdentityServerAuth)).Get<IdentityServerAuth>();
             DefaultTimeZone = TimeZoneInfo.FindSystemTimeZoneById(GetValue<string>(nameof(DefaultTimeZone)));
             DefaultUmMessage = GetValue<string>(nameof(DefaultUmMessage));
@@ -53,7 +48,6 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             ResultPageConfiguration = configuration.GetSection(nameof(ResultPageConfiguration)).Get<ResultPageConfiguration>();
             MaxDecreased = GetValue<int>(nameof(MaxDecreased));
             JwtSecretKey = GetValue<string>(nameof(JwtSecretKey));
-            DatabaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         }
 
         public string ApiHost { get; }
@@ -66,13 +60,9 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         public string Env { get; }
 
-        public DatabaseSettings DatabaseSettings { get; }
-
         public ResultPageConfiguration ResultPageConfiguration { get; }
 
         public int MaxDecreased { get; }
-
-        public GameServerSettings GameServers { get; }
 
         public string JwtSecretKey { get; }
 

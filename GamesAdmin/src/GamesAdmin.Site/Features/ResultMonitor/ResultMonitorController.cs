@@ -1,5 +1,4 @@
-﻿using GamesAdmin.Site.Features.ResultMonitor.Requests;
-using GamesAdminMonitoring.Site.Enumeration;
+﻿using GamesAdminMonitoring.Site.Enumeration;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using MediatR;
@@ -51,7 +50,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         //=> View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
 
         [HttpPost]
-        public async Task<IActionResult> SetHoldemPokerResult(SetCasinoHoldemPokerResultRequest request)
+        public async Task<IActionResult> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
             => PartialView("HoldemPoker/_ResultMonitor", await mediator.Send(request));
     }
 }

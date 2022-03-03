@@ -10,7 +10,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
     public class ResultMonitorHandler :
          IRequestHandler<VerifyTokenRequest, VerifyTokenViewModel>,
         IRequestHandler<SetSlotResultRequest, SettlementBoardViewModel>,
-        IRequestHandler<SetCasinoHoldemPokerResultRequest, HoldemPokerResultControl>
+        IRequestHandler<SetHoldemPokerResultRequest, HoldemPokerResultControl>
     {
         private readonly IResultMonitorService service;
 
@@ -29,9 +29,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
             return new SettlementBoardViewModel(request.GameConfigName, settlementBoard);
         }
 
-        public async Task<HoldemPokerResultControl> Handle(SetCasinoHoldemPokerResultRequest request, CancellationToken cancellationToken)
+        public async Task<HoldemPokerResultControl> Handle(SetHoldemPokerResultRequest request, CancellationToken cancellationToken)
         {
-            return await service.SetCasinoHoldemPokerResult(request);
+            return await service.SetHoldemPokerResult(request);
         }
     }
 }

@@ -40,8 +40,6 @@ namespace GamesAdminMonitoring.Site
             services.AddServices(appSettings);
             services.AddHealthChecks();
 
-            AuditConfiguration.Init(Configuration);
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
