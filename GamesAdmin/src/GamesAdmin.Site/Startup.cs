@@ -17,8 +17,6 @@ namespace GamesAdminMonitoring.Site
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,8 +27,6 @@ namespace GamesAdminMonitoring.Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<List<AuthenticationClient>>(Configuration.GetSection("AuthenticationClients"));
-            //services.Configure<HostConfiguration>(Configuration.GetSection("HostConfiguration"));
             services.AddMediatR(typeof(Startup));
             services.AddAutoMapper(typeof(Startup));
 
@@ -41,12 +37,12 @@ namespace GamesAdminMonitoring.Site
             services.AddHealthChecks();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                    options.LoginPath = "/Error/NotAuthorized";
-                    options.AccessDeniedPath = "/Error/NotAuthorized";
-                });
+               .AddCookie(options =>
+               {
+                   options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                   options.LoginPath = "/Home/Error";
+                   options.AccessDeniedPath = "/Home/Error";
+               });
 
             services.AddMvc(o => o.Conventions.Add(new FeatureConvention()))
                   .AddRazorOptions(options =>
@@ -66,15 +62,6 @@ namespace GamesAdminMonitoring.Site
                   });
 
             services.AddScheduler();
-
-            //services.AddCors(c => c.AddPolicy("PolicyName", policy =>
-            //{
-            //    policy.WithOrigins("http://localhost:7779")
-            //    .AllowAnyMethod()
-            //    .AllowAnyHeader();
-            //}));
-            //services.AddCors(); // Make sure you call this previous to AddMvc
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,7 +82,6 @@ namespace GamesAdminMonitoring.Site
 
             app.UseRouting();
 
-            //app.UseCors("PolicyName");
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -106,9 +92,9 @@ namespace GamesAdminMonitoring.Site
             });
 
             app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {

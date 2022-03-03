@@ -22,11 +22,6 @@
     <Content Remove="wwwroot\js\partner - Copy.min.js" />
   </ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\scss\pages\adjust-bot.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\scss\pages\online-users.css" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Audit.Mvc.Core" Version="18.1.6" />

@@ -1,5 +1,15 @@
 [
   {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/scss/base/material-icon.min.css",
+      "wwwroot/scss/base/roboto.min.css",
+      "wwwroot/scss/themes/themel1.min.css",
+      "wwwroot/scss/pages/site.min.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/css/holdem-poker-result.min.css",
     "inputFiles": [
       "wwwroot/lib/data-tables/datatables.min.css",
@@ -10,7 +20,6 @@
   {
     "outputFileName": "wwwroot/js/holdem-poker-result.min.js",
     "inputFiles": [
-      "wwwroot/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js",
       "wwwroot/js/holdem-poker-result.js"
     ]
   }

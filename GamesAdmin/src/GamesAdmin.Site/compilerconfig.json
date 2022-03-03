@@ -1,5 +1,17 @@
 ﻿[
   {
+    "outputFile": "wwwroot/scss/pages/site.css",
+    "inputFile": "wwwroot/scss/pages/site.scss"
+  },
+  {
+    "outputFile": "wwwroot/scss/base/roboto.css",
+    "inputFile": "wwwroot/scss/base/roboto.scss"
+  },
+  {
+    "outputFile": "wwwroot/scss/pages/reports.css",
+    "inputFile": "wwwroot/scss/pages/reports.scss"
+  },
+  {
     "outputFile": "wwwroot/scss/pages/holdem-poker-result.css",
     "inputFile": "wwwroot/scss/pages/holdem-poker-result.scss"
   }

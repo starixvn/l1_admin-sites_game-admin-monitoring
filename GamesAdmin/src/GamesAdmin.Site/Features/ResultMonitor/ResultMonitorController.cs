@@ -24,7 +24,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 
             if (model.IsValid)
             {
-                return View(new SlotResultViewModel(gameConfigName));
+                return View("SlotGames/Index", new SlotResultViewModel(gameConfigName));
             }
 
             return RedirectToAction("Error", "Home");
@@ -36,7 +36,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             var viewName = viewModel.GameName == Game.HeroesSlotValue ?
                 "_HeroesSlotResultMonitor" : "_ResultMonitor";
 
-            return PartialView(viewName, await mediator.Send(new SetSlotBoardRequest(
+            return PartialView($"SlotGames/{viewName}", await mediator.Send(new SetSlotBoardRequest(
                 viewModel.GameName,
                 viewModel.Nickname,
                 viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray())));
