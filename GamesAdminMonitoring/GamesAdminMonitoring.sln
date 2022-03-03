@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{44BAC410-7BBB-44BF-B111-7088CC9B06EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesAdminMonitoring.Site", "src\GamesAdmin.Site\GamesAdminMonitoring.Site.csproj", "{775C2E74-7BC1-4704-923B-CE99319861DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesAdminMonitoring.Site", "src\GamesAdminMonitoring.Site\GamesAdminMonitoring.Site.csproj", "{775C2E74-7BC1-4704-923B-CE99319861DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
