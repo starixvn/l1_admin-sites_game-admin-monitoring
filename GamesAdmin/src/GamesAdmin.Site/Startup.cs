@@ -105,8 +105,6 @@ namespace GamesAdminMonitoring.Site
                 await next();
             });
 
-            app.UseMiddleware<JwtMiddleware>();
-
             app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()
