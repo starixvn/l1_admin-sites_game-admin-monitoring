@@ -23,6 +23,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         GameServerSettings GameServers { get; }
 
+        DatabaseSettings DatabaseSettings { get; }
+
         public string JwtSecretKey { get; }
     }
 
@@ -51,6 +53,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             ResultPageConfiguration = configuration.GetSection(nameof(ResultPageConfiguration)).Get<ResultPageConfiguration>();
             MaxDecreased = GetValue<int>(nameof(MaxDecreased));
             JwtSecretKey = GetValue<string>(nameof(JwtSecretKey));
+            DatabaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         }
 
         public string ApiHost { get; }
@@ -62,6 +65,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         public string DefaultUmMessage { get; }
 
         public string Env { get; }
+
+        public DatabaseSettings DatabaseSettings { get; }
 
         public ResultPageConfiguration ResultPageConfiguration { get; }
 

@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
 {
-    public class SetSlotBoardServerRequest : IRequest<bool>
+    public class SetSlotBoardApiRequest : IRequest<bool>
     {
-        public SetSlotBoardServerRequest(string name, IEnumerable<byte> result)
+        public SetSlotBoardApiRequest(string name, IEnumerable<byte> result)
         {
             this.name = name;
             this.result = result.ToList();

@@ -19,7 +19,11 @@ namespace GamesAdminMonitoring.Site.GameSettings
         private readonly IGenericRepository<AccountInfoEntity> accountInfoRepository;
         private readonly ISentryClient sentryClient;
 
-        public GameSettingsService(IMapper mapper, IGenericRepository<GameConfigEntity> repository, ISentryClient sentryClient, IGenericRepository<AccountInfoEntity> accountInfoRepository)
+        public GameSettingsService(
+            IMapper mapper,
+            IGenericRepository<GameConfigEntity> repository,
+            ISentryClient sentryClient,
+            IGenericRepository<AccountInfoEntity> accountInfoRepository)
         {
             this.repository = repository;
             this.mapper = mapper;

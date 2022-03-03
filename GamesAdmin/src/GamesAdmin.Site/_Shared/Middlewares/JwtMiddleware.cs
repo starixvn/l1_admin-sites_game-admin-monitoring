@@ -47,7 +47,7 @@ namespace GamesAdminMonitoring.Site._Shared.Middlewares
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var username = jwtToken.Claims.First(x => x.Type == "id").Value.ToString();
+                var username = jwtToken.Claims.First(x => x.Type == "username").Value.ToString();
 
                 // attach user to context on successful jwt validation
                 context.Items["User"] = username;

@@ -1,112 +1,52 @@
 ﻿using GamesAdmin.Core.Models.SlotGame;
-using GamesAdminMonitoring.Site.Enumeration;
-using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
+using GamesAdmin.Site.Features.ResultMonitor.Requests;
+using GamesAdminMonitoring.Site.Features._Shared;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
-using GamesAdminMonitoring.Site.GameSettings;
+using Microsoft.AspNetCore.Mvc;
 using Refit;
-using Sentry;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace GamesAdminMonitoring.Site.Features.ResultMonitor
+namespace GamesAdmin.Site.Features.ResultMonitor
 {
-    [Headers("Authorization: Bearer")]
-    public interface IUserApi
+    public interface IResultMonitorApi : IBaseAuthorizationApi
     {
-        [Post("/users/validateJwtToken")]
-        Task<bool> ValidateJwtToken(string token);
+        [Post("/game_server/slot/set_board")]
+        Task<SettlementBoard> SetSlotResult([FromBody] SetSlotResultRequest request);
+
+        [Post("/game_server/casinoholdempoker/set_result")]
+        Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult([FromBody] SetCasinoHoldemPokerResultRequest request);
+
+        [Post("/game_server/verify_admin_monitoring_token")]
+        Task<bool> VerifyAdminMonitoringToken(string token);
     }
 
     public interface IResultMonitorService
     {
-        Task<SettlementBoard> SetSlotBoard(SetSlotBoardRequest request);
+        Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request);
 
-        Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult(SetHoldemPokerResultRequest request);
+        Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult(SetCasinoHoldemPokerResultRequest request);
+
+        Task<bool> VerifyToken(string token);
     }
 
     public class ResultMonitorService : IResultMonitorService
     {
-        private readonly IUserApi uerApi;
-        private readonly IGameSettingsService gameSettingService;
-        private readonly ISlotBoardApiFactory slotBoardApiFactory;
-        private readonly IHoldemPokerApiFactory holdemPokerApiFactory;
-        private readonly ISentryClient sentryClient;
+        private readonly IResultMonitorApi api;
 
-        public ResultMonitorService(
-            IUserApi uerApi,
-            IGameSettingsService gameSettingService,
-            ISlotBoardApiFactory slotBoardApiFactory,
-            IHoldemPokerApiFactory holdemPokerApiFactory,
-            ISentryClient sentryClient)
+        public ResultMonitorService(IResultMonitorApi api)
         {
-            this.uerApi = uerApi;
-            this.gameSettingService = gameSettingService;
-            this.slotBoardApiFactory = slotBoardApiFactory;
-            this.holdemPokerApiFactory = holdemPokerApiFactory;
-            this.sentryClient = sentryClient;
+            this.api = api;
         }
 
-        public async Task<SettlementBoard> SetSlotBoard(SetSlotBoardRequest request)
+        public async Task<bool> VerifyToken(string token)
         {
-            try
-            {
-                var config = await gameSettingService.GetByName(request.GameConfigName);
-                var isExcludeUUS = (config?.SlotsConfig?.Jackpot) != null && config.SlotsConfig.Jackpot.ExcludeUUS;
-
-                if (await gameSettingService.IsAbleToSetSlotResult(request.Nickname, isExcludeUUS))
-                {
-                    var gameEnum = Enumeration.Enumeration.FromValue<Game>(request.GameConfigName);
-
-                    var result = await slotBoardApiFactory.SetBoardApi(gameEnum).SetBoard(new SetSlotBoardServerRequest(request.Nickname, request.Results));
-                    result.Result = request.Results.ToList();
-
-                    return result;
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-
-            return null;
+            return await api.VerifyAdminMonitoringToken(token);
         }
 
-        public async Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult(SetHoldemPokerResultRequest request)
-        {
-            try
-            {
-                var pokerApi = holdemPokerApiFactory.SetResultApi(Enumeration.Enumeration.FromValue<Game>(request.gameConfigName));
-                var model = await pokerApi.SetResult(request);
+        public Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request)
+        => api.SetSlotResult(request);
 
-                return new HoldemPokerResultControl
-                {
-                    playerResult = new HoldemPokerHandModel { Cards = request.player, CombinationCards = model.playerResult.Cards, Id = model.playerResult.Id },
-                    dealerResult = new HoldemPokerHandModel { Cards = request.dealer, CombinationCards = model.dealerResult.Cards, Id = model.dealerResult.Id },
-                    communityCards = request.communityCards,
-                    isQualified = model.isQualified
-                };
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-                return null;
-            }
-        }
-
-        private void HandleException(Exception ex, string title = null)
-        {
-            if (ex is ApiException apiEx)
-            {
-                sentryClient.CaptureMessage($"Request {apiEx.Uri} error: {apiEx.Message}");
-            }
-
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                sentryClient.CaptureMessage(title, Sentry.Protocol.SentryLevel.Error);
-            }
-
-            sentryClient.CaptureException(ex);
-        }
+        public Task<HoldemPokerResultControl> SetCasinoHoldemPokerResult(SetCasinoHoldemPokerResultRequest request)
+      => api.SetCasinoHoldemPokerResult(request);
     }
 }

@@ -13,7 +13,7 @@
 <div class="form filter casino-holdem-poker">
     <div class="form-row col-auto nickname">
         <label class="control-label bold">Nickname:</label>
-        <input type="text" class="form-control" id="nickname" onkeyup="casinoHoldemPokerResult.onInputNickname(event)">
+        <input type="text" class="form-control" id="nickname" onkeyup="holdemPokerResult.onInputNickname(event)">
         <div class="error hidden">Please input nickname !</div>
         <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameName" />
     </div>
@@ -35,7 +35,7 @@
         }
     </div>
     <div class="form-row  col-auto mt-5">
-        <button type="submit" class="btn-submit disabled" disabled onclick="casinoHoldemPokerResult.submit(event)">Submit</button>
+        <button type="submit" class="btn-submit disabled" disabled onclick="holdemPokerResult.submit(event)">Submit</button>
         <div id="spinner" class="spinner-border" style="display: none">
             <span class="sr-only">Loading...</span>
         </div>

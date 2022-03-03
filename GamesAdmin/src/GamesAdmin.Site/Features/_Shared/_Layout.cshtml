@@ -1,4 +1,4 @@
-﻿@using System.Threading
+﻿@using System.Security.Claims;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,34 +6,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <environment include="Development">
-        <link href="~/scss/pages/site.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <environment exclude="Development">
-        <link href="~/scss/pages/site.min.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    @RenderSection("Styles", required: false)
-
+    <link rel="icon" href="favicon.ico">
+    <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
+    @RenderSection("Styles", false)
 </head>
 <body>
-
-    <div class="main-container">
+    <div class="inner-content">
         @RenderBody()
     </div>
-    <div id="overlay">
-        <div class="pulse-container">
-            <div class="pulse-bubble pulse-bubble-1"></div>
-            <div class="pulse-bubble pulse-bubble-2"></div>
-            <div class="pulse-bubble pulse-bubble-3"></div>
-        </div>
-    </div>
-    <input type="hidden" value="@Thread.CurrentThread.CurrentCulture.Name" id="culture" />
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    </environment>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/dashboard.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

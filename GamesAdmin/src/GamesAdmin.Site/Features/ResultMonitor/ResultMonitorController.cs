@@ -1,4 +1,5 @@
-﻿using GamesAdminMonitoring.Site.Enumeration;
+﻿using GamesAdmin.Site.Features.ResultMonitor.Requests;
+using GamesAdminMonitoring.Site.Enumeration;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using MediatR;
@@ -18,7 +19,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             this.mediator = mediator;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public IActionResult SlotResult(string gameConfigName)
             => View(new SlotResultViewModel(gameConfigName));
@@ -34,13 +35,23 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray())));
         }
 
-        [Authorize]
-        [HttpPost]
-        public IActionResult HoldemPokderResult(string gameConfigName)
-           => View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
+        //[Authorize]
+        [HttpGet]
+        public async Task<IActionResult> HoldemPokderResult(string token, string gameConfigName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            if (model.IsValid)
+            {
+                return View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
+            }
+
+            return RedirectToAction("Home", "Error");
+        }
+        //=> View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
 
         [HttpPost]
-        public async Task<IActionResult> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
+        public async Task<IActionResult> SetHoldemPokerResult(SetCasinoHoldemPokerResultRequest request)
             => PartialView("HoldemPoker/_ResultMonitor", await mediator.Send(request));
     }
 }

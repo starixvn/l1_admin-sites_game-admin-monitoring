@@ -1,7 +1,7 @@
 ﻿using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using MediatR;
 
-namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
+namespace GamesAdmin.Site.Features.ResultMonitor.Requests
 {
     public class SetSlotResultRequest : IRequest<SettlementBoardViewModel>
     {
