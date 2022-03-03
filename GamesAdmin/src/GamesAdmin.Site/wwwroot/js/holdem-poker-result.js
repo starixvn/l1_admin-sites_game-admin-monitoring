@@ -1,4 +1,7 @@
 ﻿var holdemPokerResult = (function () {
+    var pathname = window.location.pathname;
+    window.history.replaceState(null, null, pathname);
+
     var cards = [];
     var index = 0;
     return {
@@ -36,9 +39,13 @@
                 index++;
             }
         },
-        reloadPage: function (e) {
+        reset: function (e) {
             e.preventDefault();
-            location.reload();
+            cards = [];
+            index = 0;
+            $('.gray').removeClass('gray').removeAttr("disabled");
+            $('.btn-submit').addClass('disabled').attr("disabled");
+            $("#nickname").val('');
         },
         submit: function (e) {
             e.preventDefault();
