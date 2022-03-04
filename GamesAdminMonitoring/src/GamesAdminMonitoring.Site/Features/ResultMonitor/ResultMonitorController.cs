@@ -36,7 +36,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             var viewName = viewModel.GameName == Game.HeroesSlotValue ?
                 "_HeroesSlotResultMonitor" : "_ResultMonitor";
 
-            return PartialView($"SlotGames/{viewName}", await mediator.Send(new SetSlotBoardRequest(
+            return PartialView($"SlotGames/{viewName}", await mediator.Send(new SetSlotResultRequest(
                 viewModel.GameName,
                 viewModel.Nickname,
                 viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray())));

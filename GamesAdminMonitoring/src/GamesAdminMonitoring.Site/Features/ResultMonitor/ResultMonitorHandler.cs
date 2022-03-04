@@ -1,5 +1,4 @@
-﻿using GamesAdmin.Site.Features.ResultMonitor.Requests;
-using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
+﻿using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using MediatR;
 using System.Threading;
