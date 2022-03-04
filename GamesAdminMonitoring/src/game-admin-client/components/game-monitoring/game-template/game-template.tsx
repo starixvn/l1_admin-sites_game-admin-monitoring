@@ -34,7 +34,7 @@ export default function GameTemplate(props: Props) {
         {renderMonitor()}
         {enableFilter && (
           <div className={styles.filter}>
-            {/* <div>
+            <div>
               <label>Partner</label>
               <select onChange={onChangePartnerFilter}>
                 {partners.length > 1 && <option value={""}>All</option>}
@@ -42,7 +42,7 @@ export default function GameTemplate(props: Props) {
                   <option value={key}>{Partners[key]}</option>
                 ))}
               </select>
-            </div> */}
+            </div>
             <div>
               <label>App Type</label>
               <select onChange={onChangeSystemFilter}>

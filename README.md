@@ -1,2 +1,2 @@
-# games-admin
+# games-admin-monitoring
 
