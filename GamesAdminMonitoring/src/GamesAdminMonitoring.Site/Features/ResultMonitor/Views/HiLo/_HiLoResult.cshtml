@@ -1,0 +1,35 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+@model IEnumerable<PokerCard>
+
+<h3>Card Result</h3>
+<table class="table table-bordered">
+
+    <tbody>
+        <tr>
+            <td>Total Cards</td>
+            <td class="text-center">
+                @Model.Count()
+            </td>
+        </tr>
+        <tr>
+            <td>No. of Turn</td>
+            <td class="text-center">
+                @(Model.Count() - 1)
+            </td>
+        </tr>
+        <tr>
+            <td>Card Details</td>
+            <td class="hilo-result">
+                <div class="cards">
+                    @foreach (var card in Model)
+                    {
+                        <div class="card card-type-@card.suit">
+                            <span>@card.rank</span>
+                            <img class="img" src="~/images/card_@(card.suit).png" />
+                        </div>
+                    }
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

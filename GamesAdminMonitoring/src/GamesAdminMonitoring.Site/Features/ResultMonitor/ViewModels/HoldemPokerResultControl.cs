@@ -40,11 +40,4 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public string Rank => RankHandName[Id];
     }
-
-    public class PokerCard
-    {
-        public byte rank { get; set; }
-
-        public byte suit { get; set; }
-    }
 }

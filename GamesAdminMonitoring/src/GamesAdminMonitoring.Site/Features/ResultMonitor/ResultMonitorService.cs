@@ -4,6 +4,7 @@ using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GamesAdmin.Site.Features.ResultMonitor
@@ -18,6 +19,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/verify_admin_monitoring_token")]
         Task<bool> VerifyAdminMonitoringToken(string token);
+
+        [Post("/game_server/hilo/set_result")]
+        Task<IEnumerable<PokerCard>> SetHiLoResult([FromBody] SetHiLoResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -27,6 +31,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<HoldemPokerResultControl> SetHoldemPokerResult(SetHoldemPokerResultRequest request);
 
         Task<bool> VerifyToken(string token);
+
+        Task<IEnumerable<PokerCard>> SetHiLoResult(SetHiLoResultRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
@@ -46,5 +52,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<HoldemPokerResultControl> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
             => await api.SetHoldemPokerResult(request);
+
+        public Task<IEnumerable<PokerCard>> SetHiLoResult(SetHiLoResultRequest request)
+            => api.SetHiLoResult(request);
     }
 }

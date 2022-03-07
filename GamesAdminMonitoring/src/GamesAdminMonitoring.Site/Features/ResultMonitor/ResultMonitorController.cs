@@ -58,5 +58,24 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         [HttpPost]
         public async Task<IActionResult> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
             => PartialView("HoldemPoker/_ResultMonitor", await mediator.Send(request));
+
+        [HttpGet]
+        public async Task<IActionResult> HiLoResult(string token)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token));
+
+            if (model.IsValid)
+            {
+                return View("HiLo/Index", new HiLoResultViewModel());
+            }
+
+            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetHiLoResult(HiLoResultViewModel viewModel)
+        {
+            return PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
+        }
     }
 }
