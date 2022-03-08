@@ -1,0 +1,133 @@
+﻿{
+  "Env": "LOCAL",
+  "GameServers": {
+    "0": {
+      "Endpoint": "l1-proxy1.lumigame.com/main",
+      "Route": ""
+    },
+    "1": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/taixiu",
+      "Route": "/bigsmall/socket.io"
+    },
+    "2": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/xocxoc",
+      "Route": "/sedie/socket.io"
+    },
+    "3": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/baucua",
+      "Route": "/fishprawncrab/socket.io"
+    },
+    "4": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/txturbo",
+      "Route": "/turbobigsmall/socket.io"
+    },
+    "6": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/oeturbo",
+      "Route": "/turbooddeven/socket.io"
+    },
+    "7": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/dragontiger",
+      "Route": "/dragontiger/socket.io"
+    },
+    "8": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenopromax",
+      "Route": "/kenopromax/socket.io"
+    },
+    "9": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/minisedie",
+      "Route": "/minisedie/socket.io"
+    },
+    "10": {
+      "Endpoint": "localhost:8087/",
+      "Route": "/socket.io"
+    },
+    "12": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenomax",
+      "Route": "/minikeno/socket.io"
+    },
+    "13": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenomax2",
+      "Route": "/minikeno/socket.io"
+    },
+    "14": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenomini",
+      "Route": "/minikeno/socket.io"
+    },
+    "15": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenomini2",
+      "Route": "/minikeno/socket.io"
+    },
+    "16": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenoeast",
+      "Route": "/minikeno/socket.io"
+    },
+    "17": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenowest",
+      "Route": "/minikeno/socket.io"
+    },
+    "18": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenosouth",
+      "Route": "/minikeno/socket.io"
+    },
+    "19": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenonorth",
+      "Route": "/minikeno/socket.io"
+    },
+    "21": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/roulette",
+      "Route": "/roulette/socket.io"
+    },
+    "22": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/vipsedie",
+      "Route": "/vsedie/socket.io"
+    },
+    "24": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/specialsedie",
+      "Route": "/specialsedie/socket.io"
+    },
+    "25": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/sicbo",
+      "Route": "/sicbo/socket.io"
+    },
+    "26": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/vipfishprawncrab",
+      "Route": "/vipfishprawncrab/socket.io"
+    },
+    "27": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/vipbaccarat",
+      "Route": "/vipbaccarat/socket.io"
+    },
+    "28": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/vipsediewar",
+      "Route": "/vipsediewar/socket.io"
+    },
+    "31": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/lottery",
+      "Route": "/lottery/socket.io"
+    },
+    "35": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/threecards",
+      "Route": "/threecards/socket.io"
+    },
+    "36": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenomatch1",
+      "Route": "/kenomatch/socket.io"
+    },
+    "37": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenomatch2",
+      "Route": "/kenomatch/socket.io"
+    },
+    "40": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenopower1",
+      "Route": "/kenopower/socket.io"
+    },
+    "41": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/kenopower2",
+      "Route": "/kenopower/socket.io"
+    },
+    "43": {
+      "Endpoint": "l1-proxy1.lumigame.com/admin/bitcoinmaster",
+      "Route": "/bitcoinmaster/socket.io"
+    }
+  }
+}
