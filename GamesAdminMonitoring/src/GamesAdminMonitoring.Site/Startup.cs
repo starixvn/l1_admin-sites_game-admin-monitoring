@@ -88,7 +88,7 @@ namespace GamesAdminMonitoring.Site
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();
-                context.Request.PathBase = "/monitoring";
+                context.Request.PathBase = env.IsDevelopment() ? string.Empty : "/monitoring";
                 await next();
             });
 
