@@ -15,7 +15,7 @@ import GameWsEndpoint from "../components/util/game-server-endpoint/websocket";
 import MessageTransmitter, {
   MessageTransmitterType,
 } from "../components/util/message-transmitter";
-import config from "../configs.json";
+import config from "../../GamesAdminMonitoring.Site/appsettings.json";
 
 type Props = {
   router: NextRouter;

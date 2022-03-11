@@ -1,7 +1,4 @@
 ﻿var holdemPokerResult = (function () {
-    var pathname = window.location.pathname;
-    window.history.replaceState(null, null, pathname);
-
     var cards = [];
     var index = 0;
     return {
