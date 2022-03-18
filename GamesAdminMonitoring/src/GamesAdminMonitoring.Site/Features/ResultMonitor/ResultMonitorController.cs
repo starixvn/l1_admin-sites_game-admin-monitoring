@@ -18,6 +18,10 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index(string token, string gameName)
+            => View("Container/Index", await mediator.Send(new GameSettingsRequest(token, gameName)));
+
+        [HttpGet]
         public async Task<IActionResult> SlotResult(string token, string gameConfigName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));

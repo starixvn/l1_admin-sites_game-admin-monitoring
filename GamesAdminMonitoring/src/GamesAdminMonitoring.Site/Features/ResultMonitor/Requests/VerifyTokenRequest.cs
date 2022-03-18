@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+using MediatR;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
 {

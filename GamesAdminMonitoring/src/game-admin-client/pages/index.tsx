@@ -15,7 +15,6 @@ import GameWsEndpoint from "../components/util/game-server-endpoint/websocket";
 import MessageTransmitter, {
   MessageTransmitterType,
 } from "../components/util/message-transmitter";
-import config from "../../GamesAdminMonitoring.Site/appsettings.json";
 
 type Props = {
   router: NextRouter;
@@ -40,8 +39,12 @@ export class Home extends React.Component<Props, State> {
     super(props);
 
     this.messageTransmitter = MessageTransmitter();
-    this.partners = config.Partners;
-    this.isProduction = config.Env === "PRO";
+    // this.partners = config.Partners;
+    // this.isProduction = config.Env === "PRO";
+
+    // TO DO
+    this.partners = [ "ONEworks1", "SBO" ];
+    this.isProduction = false;
 
     this.state = {
       gameId: 0,
@@ -53,11 +56,19 @@ export class Home extends React.Component<Props, State> {
     };
   }
 
-  initSocket(gameId: number) {
-    const socketInfo = gameId > 0 ? config.GameServers[gameId.toString()] : config.GameServers["0"];
+  initSocket(gameId: string) {
+    // const socketInfo = gameId > 0 ? config.GameServers[gameId.toString()] : config.GameServers["0"];
+    // TO DO  DEV MODE
+    const gameServers = JSON.parse(localStorage.getItem('gameServers'));
+    console.log(JSON.stringify(gameServers, null, 2));
+    const socketInfo = gameServers.filter(function(gameConfig) {
+      return gameConfig.Id === gameId; // Filter out the appropriate one
+  })[0];;
+    console.log(JSON.stringify(socketInfo, null, 2));
+  
     const socket = new SocketIO(
       `wss://${socketInfo.Socket}`,
-      socketInfo.SocketRoute
+      socketInfo.Route
     );
 
     socket.onDisconnected(this.showWebSocketDisconnected.bind(this));
@@ -74,15 +85,17 @@ export class Home extends React.Component<Props, State> {
     const { query } = this.props.router;
 
     if (query !== prevProps.router.query) {
-      const gameId = (query.gameId || 0).toString();
+      const gameId = (query.gameid || 0).toString();
       const gameName = (query.game || "").toString();
-      const token = (query.token || process.env.NEXT_PUBLIC_TOKEN).toString();
+      const token = (localStorage.getItem('token') || process.env.NEXT_PUBLIC_TOKEN).toString();
 
-      const socket = this.initSocket(
-        parseInt(gameId) > 0
-          ? parseInt(gameId)
-          : parseInt(gameNameMapper[gameName])
-      );
+      // const socket = this.initSocket(
+      //   parseInt(gameId) > 0
+      //     ? parseInt(gameId)
+      //     : parseInt(gameNameMapper[gameName])
+      // );
+
+      const socket = this.initSocket(gameId);
 
       await socket.connect();
 

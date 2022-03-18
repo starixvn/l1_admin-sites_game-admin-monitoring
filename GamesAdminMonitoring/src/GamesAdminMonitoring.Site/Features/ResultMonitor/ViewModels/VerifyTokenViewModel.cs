@@ -1,4 +1,4 @@
-﻿namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
+﻿namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
     public class VerifyTokenViewModel
     {
