@@ -1,12 +1,11 @@
-﻿using GamesAdminMonitoring.Site._Shared.Configurations;
+﻿using GamesAdmin.Site._Shared.Configurations;
 using Newtonsoft.Json.Serialization;
-using System.Collections.Generic;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
     public class GameSettingsViewModel
     {
-        public GameSettingsViewModel(string token, string gameName, List<GameServerConfigs> gameServers)
+        public GameSettingsViewModel(string token, string gameName, GameServerSettings gameServers)
         {
             Token = token;
             GameName = gameName;
@@ -17,7 +16,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public string GameName { get; }
 
-        public List<GameServerConfigs> GameServers { get; }
+        public GameServerSettings GameServers { get; }
     }
 
     public class LowercaseNamingStrategy : NamingStrategy
