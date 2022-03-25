@@ -8,5 +8,11 @@ namespace GamesAdminMonitoring.Site.Features._Shared
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Whoami()
+        {
+            return View();
+        }
     }
 }

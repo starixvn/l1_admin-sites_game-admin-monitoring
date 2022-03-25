@@ -18,6 +18,7 @@
     <Content Remove="appsettings.UAT.json" />
     <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Features\ResultMonitor\Views\Container\WhoAmI.cshtml" />
     <Content Remove="Features\ResultMonitor\Views\Index.cshtml" />
     <Content Remove="wwwroot\js\.js" />
     <Content Remove="wwwroot\js\partner - Copy.min.js" />
@@ -89,6 +90,7 @@
     <None Include="compilerconfig.json" />
     <None Include="wwwroot\game-admin\**" />
     <AdditionalFiles Include="..\..\.sonarlint\l1-game-admin\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    <None Include="Features\_Shared\Whoami.cshtml" />
     <None Include="Features\ResultMonitor\Views\HoldemPoker\Index.cshtml" />
     <None Include="Features\ResultMonitor\Views\HoldemPoker\_ResultMonitor.cshtml" />
     <None Include="Features\ResultMonitor\Views\Container\Index.cshtml" />
