@@ -5,13 +5,13 @@ RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 
-COPY ./GamesAdminMonitoring/src/game-admin-client ./game-admin-client
-COPY ./GamesAdminMonitoring/src/GamesAdminMonitoring.Site/GamesAdminMonitoring.Site.csproj ./GamesAdminMonitoring.Site/GamesAdminMonitoring.Site.csproj
+COPY ./src/game-admin-client ./game-admin-client
+COPY ./src/GamesAdminMonitoring.Site/GamesAdminMonitoring.Site.csproj ./GamesAdminMonitoring.Site/GamesAdminMonitoring.Site.csproj
 
 WORKDIR /src/GamesAdminMonitoring.Site
 RUN dotnet restore -v diag
 
-COPY ./GamesAdminMonitoring/src/GamesAdminMonitoring.Site .
+COPY ./src/GamesAdminMonitoring.Site .
 RUN npm run export --prefix ../game-admin-client
 
 RUN dotnet publish -r linux-x64 --self-contained false -o /app 
