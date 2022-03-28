@@ -1,5 +1,3 @@
-$rootUrl: env('ROOTURL');
-
 html {
   padding: 0;
   margin: 0;
@@ -10,7 +8,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
-  background: #280a06 url(rootUrl + "/game-admin/images/common/background-home.jpg")
+  background: #280a06 url("/game-admin/images/common/background-home.jpg")
     no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;

@@ -8,25 +8,6 @@ module.exports = {
       };
     }
 
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: [
-        {
-          loader: "sass-loader",
-          options: {
-            functions: {
-              "env($variable)": variable => {
-                  const value = variable.getValue();
-                  const envValue = process.env[value]
-                  const sassValue = new nodeSass.types.String(envValue); 
-                  return sassValue;
-              }
-          }
-          }
-        },
-      ],
-    })
-
     return config;
   },
   assetPrefix: "./",
@@ -37,9 +18,5 @@ module.exports = {
     return {
       "/monitor": { page: "/" }
     };
-  },
-  images: {
-    domains: ['https://l1-proxy1.lumigame.com/monitoring', 'https://l1uatproxy.sgamesuat.com/sit/monitoring'],
-    formats: ['image/webp', 'image/jpeg', 'image/png', 'image/gif'],
-  },
+  }
 };

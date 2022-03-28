@@ -1,5 +1,3 @@
-$rootUrl: env('ROOTURL');
-
 .win {
   border-radius: 20px;
   animation: shining 0.7s infinite;
@@ -22,7 +20,7 @@ $rootUrl: env('ROOTURL');
 
     width: var(--size);
     height: var(--size);
-    background: url($rootUrl + "/game-admin/images/dragon-tiger/dragon.png") no-repeat;
+    background: url("/game-admin/images/dragon-tiger/dragon.png") no-repeat;
     background-size: contain;
 
     @media screen and (max-width: 1199px) {
@@ -47,7 +45,7 @@ $rootUrl: env('ROOTURL');
 
     width: var(--size);
     height: var(--size);
-    background: url($rootUrl + "/game-admin/images/dragon-tiger/tiger.png") no-repeat;
+    background: url("/game-admin/images/dragon-tiger/tiger.png") no-repeat;
     background-size: contain;
 
     @media screen and (max-width: 1199px) {
