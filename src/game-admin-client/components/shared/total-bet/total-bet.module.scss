@@ -20,7 +20,7 @@
 
     width: var(--size);
     height: var(--size);
-    background: url("/game-admin/images/dragon-tiger/dragon.png") no-repeat;
+    background: url("../../images/dragon.png") no-repeat;
     background-size: contain;
 
     @media screen and (max-width: 1199px) {
@@ -45,7 +45,7 @@
 
     width: var(--size);
     height: var(--size);
-    background: url("/game-admin/images/dragon-tiger/tiger.png") no-repeat;
+    background: url("../../images/tiger.png") no-repeat;
     background-size: contain;
 
     @media screen and (max-width: 1199px) {
@@ -68,7 +68,7 @@
   .bg {
     width: 86px;
     height: 50px;
-    background: url("/game-admin/images/dragon-tiger/tie.png") no-repeat;
+    background: url("../../images/tie.png") no-repeat;
     background-size: contain;
 
     // @media screen and (max-width: 1199px) {

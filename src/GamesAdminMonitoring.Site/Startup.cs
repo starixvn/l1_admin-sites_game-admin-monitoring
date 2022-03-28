@@ -85,10 +85,11 @@ namespace GamesAdminMonitoring.Site
             app.UseAuthentication();
             app.UseAuthorization();
 
+            var appSettings = new AppSettings(Configuration);
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();
-                context.Request.PathBase = env.IsDevelopment() ? string.Empty : "/monitoring";
+                context.Request.PathBase = appSettings.SubPath;
                 await next();
             });
 
