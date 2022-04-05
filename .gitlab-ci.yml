@@ -1,22 +1,18 @@
-variables:
-  SMOKE_PRODUCT_NAME: sedie
 include:
   - project: "ci/repos-ci/pentagon_l1_admin_monitoring_site"
     ref: master
     file: "gitlab-ci.yml"
-.if-deploy-local: &if-deploy-local
-  if: '$CI_COMMIT_TAG =~ /local/'
-.if-deploy-sit: &if-deploy-sit
-  if: '$CI_COMMIT_TAG =~ /sit/'
-.if-deploy-uat: &if-deploy-uat
-  if: '$CI_COMMIT_TAG =~ /uat/'
-.if-deploy-prod: &if-deploy-prod
-  if: '$CI_COMMIT_TAG =~ /prod/'
-job:
-  release:
+
+.base_transform_config:
+  stage: transform-config
+  script:
+    - echo "====== Build NextJS ======"
+    - echo ${DEPLOY_ENV,,}
+    - cp ./src/game-admin-client/.env.${DEPLOY_ENV,,} ./src/game-admin-client/.env
+    - cat ./src/game-admin-client/.env
   tags:
     - docker
-      
-  image: registry.nexdev.net:5050/docker/node:14.15.1-slim
-  script:
-    - cp ./src/game-admin-client/.env.local_1 ./src/game-admin-client/.env
+  artifacts:
+    paths:
+      - ./src/game-admin-client/.env
+    expire_in: 1 day
