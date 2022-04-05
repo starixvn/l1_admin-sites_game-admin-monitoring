@@ -2,4 +2,9 @@ include:
   - project: "ci/repos-ci/pentagon_l1_admin_monitoring_site"
     ref: master
     file: "gitlab-ci.yml"
-    
+
+before_script:
+.if-deploy-local: &if-deploy-local
+  if: '$CI_COMMIT_TAG =~ /local_1/'
+  script:
+   - cp ./src/game-admin-client/.env.local_1 ./src/game-admin-client/.env
