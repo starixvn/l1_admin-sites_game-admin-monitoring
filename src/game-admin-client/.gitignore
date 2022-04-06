@@ -31,6 +31,3 @@ __snapshots__
 
 # Ignore local eslint
 .eslintrc.js
-
-# Ignore .env.local
-/.env.local
