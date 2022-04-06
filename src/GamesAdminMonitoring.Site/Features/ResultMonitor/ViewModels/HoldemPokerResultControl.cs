@@ -8,7 +8,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public HoldemPokerHandModel dealerResult { get; set; }
 
-        public bool isQualified { get; set; }
+        public bool? isQualified { get; set; }
     }
 
     public class HoldemPokerResultControl : BaseCasinoHoldemPokerResultControl
