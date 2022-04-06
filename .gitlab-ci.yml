@@ -5,13 +5,15 @@ include:
 
 .base_transform_config:
   stage: transform-config
+  tags:
+    - docker
+
   script:
     - echo "====== Build NextJS ======"
     - echo ${DEPLOY_ENV,,}
     - cp ./src/game-admin-client/.env.${DEPLOY_ENV,,} ./src/game-admin-client/.env
     - cat ./src/game-admin-client/.env
-  tags:
-    - docker
+  
   artifacts:
     paths:
       - ./src/game-admin-client/.env
