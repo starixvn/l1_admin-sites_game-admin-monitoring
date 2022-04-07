@@ -17,10 +17,11 @@ export default function Dice(props: DiceProps) {
   const BauCuaDice = ["nai", "bau", "ga", "ca", "cua", "tom"];
 
   const getDiceIconURL = (value, type) => {
-    let rootURL = `/game-admin/images/dice/${DiceType[
+    const rootPath = process.env['NEXT_PUBLIC_ROOT_URL'];
+    let rootURL = `${rootPath}/game-admin/images/dice/${DiceType[
       type
     ].toLocaleLowerCase()}/dice-{0}.png`;
-    const unknowDiceURL = "/game-admin/images/dice/dice-unknow.png";
+    const unknowDiceURL = `${rootPath}/game-admin/images/dice/dice-unknow.png`;
 
     if (value == undefined || type == undefined || value == -1) {
       return unknowDiceURL;

@@ -38,11 +38,7 @@
         },
         reset: function (e) {
             e.preventDefault();
-            cards = [];
-            index = 0;
-            $('.gray').removeClass('gray').removeAttr("disabled");
-            $('.btn-submit').addClass('disabled').attr("disabled");
-            $("#nickname").val('');
+            location.reload();
         },
         submit: function (e) {
             e.preventDefault();
@@ -53,6 +49,7 @@
             }
 
             var data = {
+                gameConfigName: $("#GameName").val(),
                 roundName: nickame,
                 player: cards.slice(0, 2),
                 dealer: cards.slice(2, 4),
