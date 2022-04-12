@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
+    //[Authorize(Roles = Role.AdminValue)]
     public class ResultMonitorController : Controller
     {
         private readonly IMediator mediator;
