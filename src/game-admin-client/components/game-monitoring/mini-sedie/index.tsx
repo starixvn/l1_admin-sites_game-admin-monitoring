@@ -13,6 +13,8 @@ import MiniSedieModel, {
   MiniSedieBetList,
 } from "../../common/model/MiniSedieModel";
 import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import _ from "lodash";
+
 export default class MiniSedie extends BaseMonitoring<MiniSedieModel> {
   constructor(props) {
     super(props);
@@ -97,33 +99,41 @@ export default class MiniSedie extends BaseMonitoring<MiniSedieModel> {
     const newResult = result.map((diceInfo, index) => {
       if (index === currentDiceNumber || diceInfo.value === -1) {
         diceInfo.value = value;
-        gameResult[`red${index + 1}`] = !!value;
       }
 
+      gameResult[`red${index + 1}`] = !!diceInfo.value;
       return diceInfo;
     });
 
     this.setState({
       result: newResult,
       isOpenControlResultModal: false,
+      nextRoundResult: gameResult,
     });
-
-    if (this.state.gameState == GameState.waiting) {
-      this.setState({
-        isHandleNextRoundResult: true,
-        nextRoundResult: gameResult,
-      });
-    }
 
     this.props.sendMessage({
       set_result: {
         result: gameResult,
-        roundId:
-          this.state.gameState == GameState.running
-            ? this.state.roundNumber
-            : this.state.roundNumber + 1,
+        roundId: this.state.roundNumber + 1,
       },
     });
+  }
+
+  finishHandler({ finish }) {
+    super.finishHandler({ finish });
+    setTimeout(() => {
+      const nextRoundResult = this.state.nextRoundResult;
+      let result = this.defaultResult;
+      if (!_.isEmpty(nextRoundResult)) {
+        result = Object.values(nextRoundResult).map(
+          (dice) => new DiceModel(+dice, DiceType.XocXoc)
+        );
+      }
+      this.setState({
+        result,
+        nextRoundResult: {},
+      });
+    }, this.waitingTime * 1000);
   }
 
   renderGameControl() {

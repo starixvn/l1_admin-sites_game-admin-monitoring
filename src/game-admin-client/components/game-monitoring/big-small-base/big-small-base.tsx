@@ -18,6 +18,7 @@ import { types, gameMapping } from "../game-monitoring-config";
 import { GameState } from "../../shared/common/GameState";
 import Dice from "../../shared/dice/dice";
 import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import _ from "lodash";
 
 const optionChoice = ["big", "even"];
 const DiceValue = [1, 2, 3, 4, 5, 6];
@@ -154,33 +155,45 @@ export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
     const newResult = result.map((diceInfo, index) => {
       if (index === currentDiceNumber || diceInfo.value === -1) {
         diceInfo.value = value;
-        gameResult[`dice${index + 1}`] = value;
       }
 
+      gameResult[`dice${index + 1}`] = diceInfo.value;
       return diceInfo;
     });
 
     this.setState({
       result: newResult,
       isOpenControlResultModal: false,
+      nextRoundResult: this.type !== types.taixiu ? {} : gameResult,
     });
-
-    if (this.state.currentState == GameState.waiting) {
-      this.setState({
-        isHandleNextRoundResult: true,
-        nextRoundResult: gameResult,
-      });
-    }
 
     this.props.sendMessage({
       set_result: {
         result: gameResult,
         roundId:
-          this.state.currentState == GameState.running
+          this.state.gameState == GameState.running &&
+          this.type !== types.taixiu
             ? this.state.roundNumber
             : this.state.roundNumber + 1,
       },
     });
+  }
+
+  finishHandler({ finish }) {
+    super.finishHandler({ finish });
+    setTimeout(() => {
+      const nextRoundResult = this.state.nextRoundResult;
+      let result = this.defaultResult;
+      if (!_.isEmpty(nextRoundResult)) {
+        result = Object.values(nextRoundResult).map(
+          (dice) => new DiceModel(dice, DiceType.TaiXiu)
+        );
+      }
+      this.setState({
+        result,
+        nextRoundResult: {},
+      });
+    }, this.waitingTime * 1000);
   }
 
   renderGameControl() {
@@ -317,7 +330,7 @@ export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
       onChangePartnerFilter: this.onChangePartnerFilter,
       onChangeSystemFilter: this.onChangeSystemFilter,
       enableFilter: true,
-      disabled: this.state.currentState == GameState.disabled,
+      disabled: this.state.gameState == GameState.disabled,
       partners: this.props.partners,
     };
 

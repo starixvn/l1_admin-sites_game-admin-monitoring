@@ -15,7 +15,6 @@ export default class BigSmallBaseModel extends BaseMonitoringState {
   firstBetTypeUsers: number;
   secondBetTypeUsers: number;
   isHavingResult: boolean;
-  currentState: number;
   isOpenControlResultModal: boolean;
   currentDiceNumber: number;
   isHandleNextRoundResult: boolean;
