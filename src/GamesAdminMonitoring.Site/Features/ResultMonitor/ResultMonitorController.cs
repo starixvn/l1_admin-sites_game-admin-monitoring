@@ -3,14 +3,12 @@ using GamesAdminMonitoring.Site.Enumeration;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
-    [Authorize(Roles = Role.AdminValue)]
     public class ResultMonitorController : Controller
     {
         private readonly IMediator mediator;

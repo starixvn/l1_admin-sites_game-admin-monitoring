@@ -4,12 +4,14 @@ using GamesAdminMonitoring.Site._Shared;
 using GamesAdminMonitoring.Site._Shared.Configurations;
 using GamesAdminMonitoring.Site._Shared.Middlewares;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace GamesAdminMonitoring.Site
 {
@@ -34,7 +36,13 @@ namespace GamesAdminMonitoring.Site
             services.AddServices(appSettings);
             services.AddHealthChecks();
 
-            services.AddAuthentication(Configuration);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                   options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                   options.LoginPath = "/Home/Error";
+                   options.AccessDeniedPath = "/Home/Error";
+               });
 
             services.AddMvc(o => o.Conventions.Add(new FeatureConvention()))
                   .AddRazorOptions(options =>

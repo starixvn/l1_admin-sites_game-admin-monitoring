@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
 {
-    public class SetHiLoResultRequest : IRequest<IEnumerable<PokerCard>>
+    public class SetHiLoResultRequest : IRequest<IEnumerable<HiloCard>>
     {
         public SetHiLoResultRequest(string nickname, IEnumerable<string> result)
         {

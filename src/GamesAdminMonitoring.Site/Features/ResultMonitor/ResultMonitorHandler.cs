@@ -12,7 +12,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<VerifyTokenRequest, VerifyTokenViewModel>,
         IRequestHandler<SetSlotResultRequest, SettlementBoardViewModel>,
         IRequestHandler<SetHoldemPokerResultRequest, HoldemPokerResultControl>,
-        IRequestHandler<SetHiLoResultRequest, IEnumerable<PokerCard>>,
+        IRequestHandler<SetHiLoResultRequest, IEnumerable<HiloCard>>,
         IRequestHandler<GameSettingsRequest, GameSettingsViewModel>
     {
         private readonly IResultMonitorService service;
@@ -33,7 +33,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         public async Task<HoldemPokerResultControl> Handle(SetHoldemPokerResultRequest request, CancellationToken cancellationToken)
             => await service.SetHoldemPokerResult(request);
 
-        public async Task<IEnumerable<PokerCard>> Handle(SetHiLoResultRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<HiloCard>> Handle(SetHiLoResultRequest request, CancellationToken cancellationToken)
             => await service.SetHiLoResult(request);
 
         public Task<GameSettingsViewModel> Handle(GameSettingsRequest request, CancellationToken cancellationToken)
