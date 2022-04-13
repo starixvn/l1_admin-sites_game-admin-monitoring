@@ -336,7 +336,7 @@ export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
 
     return (
       <div className={styles["bigsmallturbo"]}>
-        {/* {!this.props.isProduction && this.renderGameControl()} */}
+        {!this.props.isProduction && this.renderGameControl()}
         <GameTemplate {...gameTemplateProps} />
       </div>
     );
