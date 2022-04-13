@@ -14,5 +14,9 @@
   {
     "outputFile": "wwwroot/scss/pages/holdem-poker-result.css",
     "inputFile": "wwwroot/scss/pages/holdem-poker-result.scss"
+  },
+  {
+    "outputFile": "wwwroot/scss/pages/login.css",
+    "inputFile": "wwwroot/scss/pages/login.scss"
   }
 ]

@@ -1,10 +1,10 @@
-﻿using GamesAdminMonitoring.Site._Shared.Configurations;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using GamesAdminMonitoring.Site._Shared.Configurations;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using MediatR;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GamesAdmin.Site.Features.ResultMonitor
 {
@@ -17,6 +17,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
+        private const string ProEnv = "pro";
 
         public ResultMonitorHandler(IResultMonitorService service, IAppSettings appSettings)
         {
@@ -25,7 +26,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         }
 
         public async Task<VerifyTokenViewModel> Handle(VerifyTokenRequest request, CancellationToken cancellationToken)
-            => new VerifyTokenViewModel(await service.VerifyToken(request.Token), request.GameConfigName);
+            => new VerifyTokenViewModel(!appSettings.Env.ToLower().Equals(ProEnv) && await service.VerifyToken(request.Token), request.GameConfigName);
 
         public async Task<SettlementBoardViewModel> Handle(SetSlotResultRequest request, CancellationToken cancellationToken)
             => new SettlementBoardViewModel(request.GameConfigName, await service.SetSlotResult(request));
