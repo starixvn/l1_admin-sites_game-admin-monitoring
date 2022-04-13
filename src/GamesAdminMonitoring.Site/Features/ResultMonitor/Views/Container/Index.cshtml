@@ -1,19 +1,13 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
-@using Newtonsoft.Json;
-@using Newtonsoft.Json.Serialization;
 
 @model GameSettingsViewModel
 
 @{
     var url = $"{Url.Content("~/")}game-admin/monitor.html?game={Model.GameName}&v={DateTime.Now.Ticks}";
-    //var serializerSettings = new JsonSerializerSettings();
-    //serializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new LowercaseNamingStrategy() };
 }
 
 @section Scripts {
     <script>
-        @*localStorage.setItem("gameServers", '@(Html.Raw(JsonConvert.SerializeObject(Model.GameServers)))');
-        localStorage.setItem("token", "@Model.Token");*@
         window.location = "@url";
     </script>
 }

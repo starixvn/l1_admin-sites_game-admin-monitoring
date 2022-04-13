@@ -2,8 +2,11 @@ namespace GamesAdminMonitoring.Site.Models
 {
     public class ErrorViewModel
     {
-        public string RequestId { get; set; }
+        public ErrorViewModel(string message)
+        {
+            Message = message;
+        }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public string Message { get; }
     }
 }

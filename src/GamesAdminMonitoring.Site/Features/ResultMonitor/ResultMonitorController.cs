@@ -1,11 +1,12 @@
-﻿using GamesAdminMonitoring.Site._Shared.Configurations;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using GamesAdminMonitoring.Site._Shared.Configurations;
 using GamesAdminMonitoring.Site.Enumeration;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+using GamesAdminMonitoring.Site.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
@@ -13,6 +14,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
     {
         private readonly IMediator mediator;
         private readonly IAppSettings appSettings;
+        private readonly string CannotSetResultOnPro = "Can not set result on Pro";
 
         public ResultMonitorController(IMediator mediator, IAppSettings appSettings)
         {
@@ -94,7 +96,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 return View("SlotGames/Index", new SlotResultViewModel(gameConfigName));
             }
 
-            return RedirectToAction("Error", "Home");
+            return RedirectToRestrictedPage();
         }
 
         [HttpPost]
@@ -119,7 +121,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 return View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
             }
 
-            return RedirectToAction("Error", "Home");
+            return RedirectToRestrictedPage();
         }
 
         [HttpPost]
@@ -136,14 +138,12 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 return View("HiLo/Index", new HiLoResultViewModel());
             }
 
-            return RedirectToAction("Error", "Home");
+            return RedirectToRestrictedPage();
         }
 
         [HttpPost]
         public async Task<IActionResult> SetHiLoResult(HiLoResultViewModel viewModel)
-        {
-            return PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
-        }
+            => PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
 
         private void AddMiniKenoCookie()
         {
@@ -156,5 +156,8 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 HttpContext.Response.Cookies.Append($"{c}-server-endpoint-route", appSettings.GameServers.MiniKeno.SocketRoute);
             }
         }
+
+        private IActionResult RedirectToRestrictedPage()
+            => View("Features/_Shared/Error.cshtml", new ErrorViewModel(CannotSetResultOnPro));
     }
 }
