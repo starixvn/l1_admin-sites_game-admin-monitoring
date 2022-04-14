@@ -26,7 +26,14 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         }
 
         public async Task<VerifyTokenViewModel> Handle(VerifyTokenRequest request, CancellationToken cancellationToken)
-            => new VerifyTokenViewModel(!appSettings.Env.ToLower().Equals(ProEnv) && await service.VerifyToken(request.Token), request.GameConfigName);
+        {
+            if (appSettings.Env.ToLower().Equals(ProEnv))
+            {
+                return new VerifyTokenViewModel(VerifyTokenMessage.CannotSetResultOnPro, request.GameConfigName);
+            }
+
+            return new VerifyTokenViewModel(await service.VerifyToken(request.Token) ? VerifyTokenMessage.ValidToken : VerifyTokenMessage.InvalidToken, request.GameConfigName);
+        }
 
         public async Task<SettlementBoardViewModel> Handle(SetSlotResultRequest request, CancellationToken cancellationToken)
             => new SettlementBoardViewModel(request.GameConfigName, await service.SetSlotResult(request));

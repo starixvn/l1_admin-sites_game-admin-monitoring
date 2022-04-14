@@ -1,18 +1,18 @@
-﻿using GamesAdmin.Core.Models.SlotGame;
+﻿using System.Linq;
+using GamesAdmin.Core.Models.SlotGame;
 using GamesAdminMonitoring.Site.Extensions;
-using System.Linq;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
     public class SettlementBoardViewModel
     {
-        public SettlementBoardViewModel(string name, SettlementBoard board)
+        public SettlementBoardViewModel(string gameName, SettlementBoard board)
         {
-            Name = name;
+            GameName = gameName;
             Board = board;
         }
 
-        public string Name { get; }
+        public string GameName { get; }
 
         public SettlementBoard Board { get; }
 
