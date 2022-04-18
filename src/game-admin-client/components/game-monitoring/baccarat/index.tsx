@@ -237,10 +237,7 @@ export default class Baccarat extends BaseMonitoring<BaccaratModel> {
           banker: result.banker,
           player: result.player,
         },
-        roundId:
-          this.state.gameState == GameState.running
-            ? this.state.roundNumber
-            : this.state.roundNumber + 1,
+        roundId: this.state.roundNumber + 1,
       },
     };
 
@@ -271,10 +268,7 @@ export default class Baccarat extends BaseMonitoring<BaccaratModel> {
           banker: result.bankerCards,
           player: result.playerCards,
         },
-        roundId:
-          this.state.gameState == GameState.running
-            ? this.state.roundNumber
-            : this.state.roundNumber + 1,
+        roundId: this.state.roundNumber + 1,
       },
     };
 
