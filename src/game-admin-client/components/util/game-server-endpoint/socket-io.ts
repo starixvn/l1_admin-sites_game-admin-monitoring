@@ -1,18 +1,34 @@
-import { io, Socket } from "socket.io-client";
+import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
 import logger from "../logger";
 import Websocket from "./websocket";
+import * as MsgpackParser from "socket.io-msgpack-parser";
 
 export default class SocketIO extends Websocket {
   private socketIO: Socket;
+  private enabledMsgpack: boolean;
+
+  constructor(
+    endpoint: string,
+    route: string = "",
+    enabledMsgpack: boolean = false
+  ) {
+    super(endpoint, route);
+    this.enabledMsgpack = enabledMsgpack;
+  }
 
   connect() {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       if (!this.isConnected) {
-        this.socketIO = io(this.endpoint, {
+        const socketOptions: Partial<ManagerOptions & SocketOptions> = {
           transports: ["websocket"],
           upgrade: false,
           path: this.endpointRoute,
-        });
+        };
+        if (this.enabledMsgpack) {
+          socketOptions.parser = MsgpackParser;
+        }
+        this.socketIO = io(this.endpoint, socketOptions);
+
         this.socketIO.on("connect", () => {
           this.isConnected = true;
           this.socketIO.on("message", this.onReceiveMessage.bind(this));

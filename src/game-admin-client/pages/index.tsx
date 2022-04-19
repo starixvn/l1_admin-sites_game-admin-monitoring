@@ -80,10 +80,12 @@ export class Home extends React.Component<Props, State> {
 
   initSocket(gameId: number) {
     const socketInfo = this.getSocketInfo(gameId);
+    const enabledMsgpack = this.isEnabledMsgpack(gameId);
     const socket = NewSocketGameIds.includes(gameId)
       ? new SocketIO(
           `${this.protocol}://${socketInfo.endpoint}`,
-          socketInfo.route
+          socketInfo.route,
+          enabledMsgpack
         )
       : new GameWsEndpoint(`${this.protocol}://${socketInfo.endpoint}/admin`);
 
@@ -417,6 +419,15 @@ export class Home extends React.Component<Props, State> {
             }
           : this.getGameSocketCookie(gameId);
     }
+  }
+
+  isEnabledMsgpack(gameId) {
+    const stringEnabledMsgpackGameIds =
+      process.env.NEXT_PUBLIC_ENABLE_MSGPACK_GAMEIDS;
+    const enabledMsgpackGameIds = stringEnabledMsgpackGameIds
+      .split(",")
+      .map((id) => +id);
+    return enabledMsgpackGameIds.includes(gameId);
   }
 
   getGameSocketCookie(gameId) {

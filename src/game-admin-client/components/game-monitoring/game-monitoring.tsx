@@ -59,11 +59,11 @@ const getInfoByGameKey = (key: string) => {
 const gameMapper = {
   1: {
     component: BigSmall,
-    ...getInfoByGameKey("taixiu"),
+    ...getInfoByGameKey("BigSmall"),
   },
   2: {
     component: ShakeThePlate,
-    ...getInfoByGameKey("XocXoc"),
+    ...getInfoByGameKey("SeDie"),
   },
   3: {
     component: FishPrawnCrab,
