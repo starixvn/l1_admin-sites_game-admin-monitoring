@@ -92,7 +92,6 @@
     <AdditionalFiles Include="..\..\.sonarlint\l1-game-admin\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <None Include="Features\_Shared\Whoami.cshtml" />
     <None Include="Features\ResultMonitor\Views\HoldemPoker\Index.cshtml" />
-    <None Include="Features\ResultMonitor\Views\HoldemPoker\_ResultMonitor.cshtml" />
     <None Include="Features\ResultMonitor\Views\Container\Index.cshtml" />
     <None Include="wwwroot\lib\select2\dist\js\i18n\af.js" />
     <None Include="wwwroot\lib\select2\dist\js\i18n\ar.js" />

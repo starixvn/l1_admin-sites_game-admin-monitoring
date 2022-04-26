@@ -1,11 +1,11 @@
-﻿using GamesAdmin.Core.Models.SlotGame;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using GamesAdmin.Core.Models.SlotGame;
 using GamesAdminMonitoring.Site.Features._Shared;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace GamesAdmin.Site.Features.ResultMonitor
 {
@@ -48,7 +48,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
             => await api.VerifyAdminMonitoringToken(token);
 
         public async Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request)
-        => await api.SetSlotResult(request);
+            => await api.SetSlotResult(request);
 
         public async Task<HoldemPokerResultControl> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
             => await api.SetHoldemPokerResult(request);

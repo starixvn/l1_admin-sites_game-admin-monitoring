@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
-using GamesAdminMonitoring.Site.Enumeration;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using GamesAdminMonitoring.Site.Models;
@@ -14,7 +13,6 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
     {
         private readonly IMediator mediator;
         private readonly IAppSettings appSettings;
-        private readonly string CannotSetResultOnPro = "Can not set result on Pro";
 
         public ResultMonitorController(IMediator mediator, IAppSettings appSettings)
         {
@@ -91,37 +89,22 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            if (model.IsValid)
-            {
-                return View("SlotGames/Index", new SlotResultViewModel(gameConfigName));
-            }
-
-            return RedirectToRestrictedPage();
+            return model.IsValid ? View("SlotGames/Index", new SlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
         public async Task<IActionResult> SetSlotResult([Bind] SlotResultViewModel viewModel)
-        {
-            var viewName = viewModel.GameName == Game.HeroesSlotValue ?
-                "_HeroesSlotResultMonitor" : "_ResultMonitor";
-
-            return PartialView($"SlotGames/{viewName}", await mediator.Send(new SetSlotResultRequest(
+            => PartialView("SlotGames/_ResultMonitor", await mediator.Send(new SetSlotResultRequest(
                 viewModel.GameName,
                 viewModel.Nickname,
                 viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray())));
-        }
 
         [HttpGet]
         public async Task<IActionResult> HoldemPokderResult(string token, string gameConfigName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            if (model.IsValid)
-            {
-                return View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName));
-            }
-
-            return RedirectToRestrictedPage();
+            return model.IsValid ? View("HoldemPoker/Index", new HoldemPokerResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
@@ -133,12 +116,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         {
             var model = await mediator.Send(new VerifyTokenRequest(token));
 
-            if (model.IsValid)
-            {
-                return View("HiLo/Index", new HiLoResultViewModel());
-            }
-
-            return RedirectToRestrictedPage();
+            return model.IsValid ? View("HiLo/Index", new HiLoResultViewModel()) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
@@ -157,7 +135,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             }
         }
 
-        private IActionResult RedirectToRestrictedPage()
-            => View("Features/_Shared/Error.cshtml", new ErrorViewModel(CannotSetResultOnPro));
+        private IActionResult RedirectToRestrictedPage(string message)
+            => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));
     }
 }
