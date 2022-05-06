@@ -123,6 +123,18 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public async Task<IActionResult> SetHiLoResult(HiLoResultViewModel viewModel)
             => PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
 
+        [HttpGet]
+        public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCascadingSlotResult(SetHoldemPokerResultRequest request)
+            => PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+
         private void AddMiniKenoCookie()
         {
             var cookies = new[] { "keno-max", "keno-max2", "keno-mini", "keno-mini2", "keno-east", "keno-west", "keno-south", "keno-north" };
