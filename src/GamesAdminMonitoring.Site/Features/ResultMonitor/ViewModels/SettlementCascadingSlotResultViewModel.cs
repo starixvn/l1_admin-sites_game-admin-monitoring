@@ -27,8 +27,48 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public IEnumerable<Icon> Icons { get; set; }
 
-        public IEnumerable<string[,]> ResultMatrixs { get; }
+        public IEnumerable<ResultMaxtrix> ResultMatrixs { get; }
 
         public bool IsValid { get; }
+    }
+
+    public class ResultMaxtrix
+    {
+        public ResultMaxtrix(
+            string name,
+            string[,] value,
+            IEnumerable<WinningSymbol> winningSymbols,
+            int multipliers,
+            int scatters)
+        {
+            Name = name;
+            Value = value;
+            WinningSymbols = winningSymbols;
+            Multipliers = multipliers;
+            Scatters = scatters;
+        }
+
+        public string Name { get; }
+
+        public string[,] Value { get; }
+
+        public IEnumerable<WinningSymbol> WinningSymbols { get; }
+
+        public int Multipliers { get; }
+
+        public int Scatters { get; }
+    }
+
+    public class WinningSymbol
+    {
+        public WinningSymbol(int symbol, int numberOfSymbol)
+        {
+            Symbol = symbol;
+            NumberOfSymbol = numberOfSymbol;
+        }
+
+        public int Symbol { get; }
+
+        public int NumberOfSymbol { get; }
     }
 }

@@ -14,15 +14,19 @@
             e.preventDefault();
 
             var rawResults = [];
-            $(".result-raw").each(function (index) {
-                var rawResult = $(this).val();
+            $(".result-temp").each(function (index) {
+                var rawResult = $(this).find(".result-raw").val();
                 if (rawResult !== '') {
-                    rawResults.push(rawResult);
+                    rawResults.push(
+                        {
+                            Name: $(this).find(".attempt").text(),
+                            Value: rawResult
+                        });
                 }
             });
 
-            var nickame = $("#nickname").val();
-            if (nickame === "") {
+            var nickame = $("#Nickname").val();
+            if (nickame === undefined) {
                 $('.error').removeClass('hidden');
                 return;
             }

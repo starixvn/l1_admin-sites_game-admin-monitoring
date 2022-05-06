@@ -10,7 +10,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
         private bool isValid;
 
         public string GameConfigName { get; set; }
-        public string[] RawResults { get; set; }
+        public RawResult[] RawResults { get; set; }
 
         public bool IsValid
         {
@@ -20,19 +20,19 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
             }
         }
 
-        public IEnumerable<string[,]> ResultMatrixs
+        public IEnumerable<ResultMaxtrix> ResultMatrixs
         {
             get
             {
-                var resultMatrixs = new List<string[,]>();
+                var resultMatrixs = new List<ResultMaxtrix>();
                 foreach (var rawResult in RawResults)
                 {
-                    string[] splittedStrings = rawResult.Split(",");
+                    string[] splittedStrings = rawResult.Value.Split(",");
 
                     if (!splittedStrings.Length.Equals(30))
                     {
                         isValid = false;
-                        return Enumerable.Empty<string[,]>();
+                        return Enumerable.Empty<ResultMaxtrix>();
                     }
 
                     int index = 0;
@@ -48,12 +48,21 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
                         }
                     }
 
-                    resultMatrixs.Add(RotateMatrix(resultMatrix));
+                    var winningSymbols = new List<WinningSymbol> { new WinningSymbol(3, 8), new WinningSymbol(5, 9) };
+                    resultMatrixs.Add(new ResultMaxtrix(rawResult.Name, resultMatrix, winningSymbols, 1, 2));
                 }
 
                 isValid = true;
                 return resultMatrixs;
             }
+        }
+
+
+        public class RawResult
+        {
+            public string Name { get; set; }
+
+            public string Value { get; set; }
         }
 
         static string[,] RotateMatrix(string[,] oldMatrix)
