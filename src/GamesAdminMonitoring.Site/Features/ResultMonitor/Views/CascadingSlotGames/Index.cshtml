@@ -18,23 +18,13 @@
             <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname">
         </div>
         <div id="result-container">
-            @*@for (decimal index = 0; index < 10; index++)
-                {
-                    <div>
-                        <label>Item-@index</label>
-                        <div style="display: inline-block">
-                            @Html.DropDownList($"Item-{index}", Enumerable.Range(1, 30).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
-                        </div>
-                    </div>
-
-                }*@
         </div>
         <div class="col-auto mt-5">
             <button type="button" class="btn-submit" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
         </div>
 
         <div class="col-auto mt-5">
-            <button type="submit" class="btn-submit">Submit</button>
+            <button type="submit" class="btn-submit" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
             <div id="spinner" class="spinner-border" style="display: none">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -44,7 +34,7 @@
 
 <section id="attempts">
     <template>
-        <div style="border: 1px solid gray; padding: 5px; ">
+        <div style="border: 1px solid gray; padding: 5px; margin-top: 10px;" class="result-temp">
             <span class="attempt"></span>
             <div>
                 @for (decimal index = 0; index < 10; index++)
@@ -52,7 +42,7 @@
                     <div>
                         <label>Item-@index</label>
                         <div style="display: inline-block">
-                            @Html.DropDownList($"Item-{index}", Enumerable.Range(1, 30).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+                            @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 30).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
                         </div>
                     </div>
 

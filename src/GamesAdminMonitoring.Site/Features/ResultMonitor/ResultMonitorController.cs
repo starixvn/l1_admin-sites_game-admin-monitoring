@@ -128,12 +128,12 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+            return model.IsValid ? View("CascadingSlotGames/Index-Mode1", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SetCascadingSlotResult(SetHoldemPokerResultRequest request)
-            => PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+        public async Task<IActionResult> SetCascadingSlotResult(SetCascadingSlotResultRequest request)
+            => PartialView("CascadingSlotGames/_ResultMonitor-Mode1", await mediator.Send(request));
 
         private void AddMiniKenoCookie()
         {

@@ -42,5 +42,11 @@
     "inputFiles": [
       "wwwroot/js/cascading-slot-game-result.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/cascading-slot-game-result-mode1.min.js",
+    "inputFiles": [
+      "wwwroot/js/cascading-slot-game-result-mode1.js"
+    ]
   }
 ]

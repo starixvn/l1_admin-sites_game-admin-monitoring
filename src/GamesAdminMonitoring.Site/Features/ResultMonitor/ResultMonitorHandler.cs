@@ -13,7 +13,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<SetSlotResultRequest, SettlementBoardViewModel>,
         IRequestHandler<SetHoldemPokerResultRequest, HoldemPokerResultControl>,
         IRequestHandler<SetHiLoResultRequest, IEnumerable<HiloCard>>,
-        IRequestHandler<GameSettingsRequest, GameSettingsViewModel>
+        IRequestHandler<GameSettingsRequest, GameSettingsViewModel>,
+        IRequestHandler<SetCascadingSlotResultRequest, SettlementCascadingSlotResultViewModel>
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
@@ -46,5 +47,10 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public Task<GameSettingsViewModel> Handle(GameSettingsRequest request, CancellationToken cancellationToken)
             => Task.FromResult(new GameSettingsViewModel(request.Token, request.GameName, appSettings.GameServers));
+
+        public async Task<SettlementCascadingSlotResultViewModel> Handle(SetCascadingSlotResultRequest request, CancellationToken cancellationToken)
+        {
+            return new SettlementCascadingSlotResultViewModel(request);
+        }
     }
 }

@@ -4,6 +4,17 @@ using GamesAdminMonitoring.Site.Enumeration;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
+    public static class Extensions
+    {
+        public static IEnumerable<IEnumerable<T>> Split<T>(this T[] arr, int size)
+        {
+            for (var i = 0; i < arr.Length / size + 1; i++)
+            {
+                yield return arr.Skip(i * size).Take(size);
+            }
+        }
+    }
+
     public class CascadingSlotResultViewModel
     {
         public CascadingSlotResultViewModel()
@@ -14,24 +25,26 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
             GameName = name;
 
-            decimal index = 10;
-            var icons = new List<Icon>();
-            while (index > 0)
-            {
-                icons.Add(
-                    new Icon
-                    {
-                        Name = $"Item-${index}",
-                        Quantity = 1
-                    });
+            string rawResult = "0,0,0,5,7,8,5,0,2,0,0,7,3,0,3,8,5,9,7,7,8,0,5,0,6,0,4,4,2,0";
+            string[] splittedStrings = rawResult.Split(",");
 
-                index--;
+            int index = 0;
+            int rows = 5, columns = 6;
+            string[,] resultMatrix = new string[rows, columns];
+
+            for (int x = 0; x < rows; x++)
+            {
+                for (int y = 0; y < columns; y++)
+                {
+                    resultMatrix[x, y] = splittedStrings[index];
+                    index++;
+                }
             }
 
-            Icons = icons;
+            ResultMatrix = resultMatrix;
         }
 
-        public string GameName { get; set; }
+        public string GameName { get; }
 
         public string DisplayGameName => Enumeration.Enumeration.FromValue<Game>(GameName).DisplayName;
 
@@ -39,7 +52,9 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public IEnumerable<CascadingSlotGameResult> Results { get; set; }
 
-        public IEnumerable<Icon> Icons { get; private set; }
+        public IEnumerable<Icon> Icons { get; set; }
+
+        public string[,] ResultMatrix { get; set; }
     }
 
     public class CascadingSlotGameResult

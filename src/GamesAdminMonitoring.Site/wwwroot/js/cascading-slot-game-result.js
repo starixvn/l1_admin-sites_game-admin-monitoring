@@ -12,6 +12,13 @@
         },
         submit: function (e) {
             e.preventDefault();
+
+            var results = [];
+            $(".result-raw").each(function (index) {
+                results.push($(this).val());
+            });
+
+            console.log(results);
         }
     };
 })();
