@@ -1,0 +1,38 @@
+﻿.form .form-row {
+  align-items: flex-start !important; }
+
+.form .hidden {
+  display: none; }
+
+.form .error {
+  border: 1px solid;
+  margin-left: 1rem;
+  margin-top: 10px;
+  padding: 0.5rem;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  color: #D8000C;
+  background-color: #FFBABA;
+  border-radius: 0.5rem; }
+
+.form .result-temp {
+  display: block;
+  margin-bottom: 10px; }
+  .form .result-temp .tumble-title {
+    width: 100px;
+    display: inline-block; }
+  .form .result-temp .tumble-content {
+    width: 500px;
+    display: inline-block; }
+    .form .result-temp .tumble-content .result-raw {
+      width: 80%; }
+
+.report-container .board-row {
+  display: block;
+  text-align: center; }
+  .report-container .board-row .board-column {
+    display: inline-block;
+    padding: 5px; }
+    .report-container .board-row .board-column .symbol {
+      width: 50px;
+      height: 50px; }

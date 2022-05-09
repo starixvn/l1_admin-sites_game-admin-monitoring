@@ -3,7 +3,14 @@
     var userNumberElementTemplate = document.querySelector('template');
     var index = 0;
     return {
+        onInputNickname: function (event) {
+            event.preventDefault();
+            if (event.currentTarget.value !== "") {
+                $('.error').addClass('hidden');
+            }
+        },
         addTumble: function () {
+            $('#result-container').find('.add-tumble').remove();
             var elementClone = userNumberElementTemplate.content.cloneNode(true);
             elementClone.querySelector('span').textContent = index === 0 ? 'Base Spin' : 'Tumbling ' + index;
 
@@ -26,7 +33,7 @@
             });
 
             var nickame = $("#Nickname").val();
-            if (nickame === undefined) {
+            if (nickame === undefined || nickame === '') {
                 $('.error').removeClass('hidden');
                 return;
             }

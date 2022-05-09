@@ -6,7 +6,7 @@
 }
 
 @section Styles {
-    <link href="~/css/big-small-reports.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/cascading-slot-result.min.css" rel="stylesheet" asp-append-version="true" />
 }
 <form class="form filter" data-ajax="true" data-ajax-method="POST" asp-action="SetSlotResult" data-ajax-mode="replace" data-ajax-update="#set-result"
       data-ajax-loading="#spinner"
@@ -15,14 +15,12 @@
         <input type="hidden" asp-for="GameName" />
         <div class="col-auto">
             <label asp-for="Nickname" class="control-label"></label>
-            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname">
+            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)">
+            <div class="error hidden">Please input nickname !</div>
         </div>
-        <div id="result-container" style="border: 1px gray solid; padding: 5px;">
-        </div>
-        <div class="col-auto mt-5">
-            <button type="button" class="btn-submit" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
-        </div>
-
+        <fieldset class="col-auto" id="result-container">
+            <legend>Set Result</legend>
+        </fieldset>
         <div class="col-auto mt-5">
             <button type="submit" class="btn-submit" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
             <div id="spinner" class="spinner-border" style="display: none">
@@ -34,13 +32,13 @@
 
 <section id="attempts">
     <template>
-        <div style="margin-top: 10px;" class="result-temp">
-            <span class="attempt"></span>
-            <div style="display: inline-block">
+        <div class="result-temp">
+            <div class="tumble-title"><span class="attempt"></span></div>
+            <div class="tumble-content">
                 <input type="text" class="result-raw">
+                <button type="button" class="btn btn-primary add-tumble" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
             </div>
         </div>
-
     </template>
 </section>
 

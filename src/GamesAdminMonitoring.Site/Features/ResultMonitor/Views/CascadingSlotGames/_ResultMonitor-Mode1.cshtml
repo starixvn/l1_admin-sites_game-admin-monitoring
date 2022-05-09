@@ -27,19 +27,19 @@ else
             {
                 var symbols = matrix.WinningSymbols.ToList();
                 var rowspans = symbols.Count();
-                for (int i = 0; i < rowspans; i++)
+                for (int index = 0; index < rowspans; index++)
                 {
-                    if (i == 0)
+                    if (index == 0)
                     {
                         <tr>
                             <td rowspan="@rowspans">
                                 @matrix.Name
                             </td>
                             <td>
-                                @(symbols[i].NumberOfSymbol == 0 ? "-" : symbols[i].Symbol.ToString())
+                                @(symbols[index].NumberOfSymbol == 0 ? "-" : symbols[index].Symbol.ToString())
                             </td>
                             <td>
-                                @(symbols[i].NumberOfSymbol == 0 ? "-" : symbols[i].NumberOfSymbol.ToString())
+                                @(symbols[index].NumberOfSymbol == 0 ? "-" : symbols[index].NumberOfSymbol.ToString())
                             </td>
                             <td rowspan="@rowspans">
                                 @matrix.Multipliers
@@ -48,25 +48,22 @@ else
                                 @matrix.Scatters
                             </td>
                             <td rowspan="@rowspans">
-                                <table class="table-paylines">
-                                    <tbody>
-                                        @{
-                                            var rows = matrix.Value.GetLength(0);
-                                            var columns = matrix.Value.GetLength(1);
-                                            @for (int x = 0; x < rows; x++)
-                                            {
-                                                <tr>
-                                                    @for (int y = 0; y < columns; y++)
-                                                    {
-                                                        <td><img class="symbol" style="width:50px; height: 50px;" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(matrix.Value[x,y]) + 1 ).png" /></td>
-                                                    }
-                                                </tr>
+                                <div class="table-paylines">
+                                    @{
+                                        var rows = matrix.Value.GetLength(0);
+                                        var columns = matrix.Value.GetLength(1);
+                                        @for (int x = 0; x < rows; x++)
+                                        {
+                                            <div class="board-row">
+                                                @for (int y = 0; y < columns; y++)
+                                                {
+                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(matrix.Value[x,y]) + 1).png" /></div>
+                                                }
+                                            </div>
 
-                                            }
                                         }
-
-                                    </tbody>
-                                </table>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     }
@@ -75,10 +72,10 @@ else
                         <tr>
 
                             <td>
-                                @symbols[i].Symbol
+                                @symbols[index].Symbol
                             </td>
                             <td>
-                                @symbols[i].NumberOfSymbol
+                                @symbols[index].NumberOfSymbol
                             </td>
                         </tr>
                     }

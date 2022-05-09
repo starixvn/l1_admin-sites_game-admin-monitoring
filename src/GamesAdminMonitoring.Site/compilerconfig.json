@@ -18,5 +18,9 @@
   {
     "outputFile": "wwwroot/scss/pages/login.css",
     "inputFile": "wwwroot/scss/pages/login.scss"
+  },
+  {
+    "outputFile": "wwwroot/scss/pages/cascading-slot-result.css",
+    "inputFile": "wwwroot/scss/pages/cascading-slot-result.scss"
   }
 ]
