@@ -50,7 +50,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<SettlementCascadingSlotResultViewModel> Handle(SetCascadingSlotResultRequest request, CancellationToken cancellationToken)
         {
-            return new SettlementCascadingSlotResultViewModel(request);
+            return new SettlementCascadingSlotResultViewModel(request.GameConfigName, request.ResultMatrixs, request.IsValid);
         }
     }
 }

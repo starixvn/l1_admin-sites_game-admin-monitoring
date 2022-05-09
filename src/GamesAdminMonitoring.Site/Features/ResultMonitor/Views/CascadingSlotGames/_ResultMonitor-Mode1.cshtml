@@ -36,10 +36,10 @@ else
                                 @matrix.Name
                             </td>
                             <td>
-                                @symbols[i].Symbol
+                                @(symbols[i].NumberOfSymbol == 0 ? "-" : symbols[i].Symbol.ToString())
                             </td>
                             <td>
-                                @symbols[i].NumberOfSymbol
+                                @(symbols[i].NumberOfSymbol == 0 ? "-" : symbols[i].NumberOfSymbol.ToString())
                             </td>
                             <td rowspan="@rowspans">
                                 @matrix.Multipliers
@@ -51,12 +51,14 @@ else
                                 <table class="table-paylines">
                                     <tbody>
                                         @{
-                                            @for (int j = 0; j < matrix.Value.GetLength(0); j++)
+                                            var rows = matrix.Value.GetLength(0);
+                                            var columns = matrix.Value.GetLength(1);
+                                            @for (int x = 0; x < rows; x++)
                                             {
                                                 <tr>
-                                                    @for (int a = 0; a < matrix.Value.GetLength(1); a++)
+                                                    @for (int y = 0; y < columns; y++)
                                                     {
-                                                        <td><img class="symbol" style="width:50px; height: 50px;" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(matrix.Value[j, a]) + 1 ).png" /></td>
+                                                        <td><img class="symbol" style="width:50px; height: 50px;" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(matrix.Value[x,y]) + 1 ).png" /></td>
                                                     }
                                                 </tr>
 

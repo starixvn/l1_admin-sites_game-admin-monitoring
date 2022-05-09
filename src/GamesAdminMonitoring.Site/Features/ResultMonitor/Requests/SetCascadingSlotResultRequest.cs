@@ -36,7 +36,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
                     }
 
                     int index = 0;
-                    int rows = 6, columns = 5;
+                    int rows = 5, columns = 6;
                     string[,] resultMatrix = new string[rows, columns];
 
                     for (int x = 0; x < rows; x++)
@@ -57,29 +57,11 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
             }
         }
 
-
         public class RawResult
         {
             public string Name { get; set; }
 
             public string Value { get; set; }
-        }
-
-        static string[,] RotateMatrix(string[,] oldMatrix)
-        {
-            string[,] newMatrix = new string[oldMatrix.GetLength(1), oldMatrix.GetLength(0)];
-            int newColumn, newRow = 0;
-            for (int oldColumn = 0; oldColumn < oldMatrix.GetLength(1); oldColumn++)
-            {
-                newColumn = 0;
-                for (int oldRow = 0; oldRow < oldMatrix.GetLength(0); oldRow++)
-                {
-                    newMatrix[newRow, newColumn] = oldMatrix[oldRow, oldColumn];
-                    newColumn++;
-                }
-                newRow++;
-            }
-            return newMatrix;
         }
     }
 }

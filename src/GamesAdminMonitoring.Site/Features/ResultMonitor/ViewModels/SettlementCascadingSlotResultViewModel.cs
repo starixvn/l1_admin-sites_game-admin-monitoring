@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using GamesAdminMonitoring.Site.Enumeration;
-using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
@@ -10,11 +9,14 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
         }
 
-        public SettlementCascadingSlotResultViewModel(SetCascadingSlotResultRequest request)
+        public SettlementCascadingSlotResultViewModel(
+            string gameConfigName,
+            IEnumerable<ResultMaxtrix> resultMatrixs,
+            bool isValid)
         {
-            GameName = request.GameConfigName;
-            ResultMatrixs = request.ResultMatrixs;
-            IsValid = request.IsValid;
+            GameName = gameConfigName;
+            ResultMatrixs = resultMatrixs;
+            IsValid = isValid;
         }
 
         public string GameName { get; }
@@ -54,9 +56,9 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public IEnumerable<WinningSymbol> WinningSymbols { get; }
 
-        public int Multipliers { get; }
+        public int Multipliers { get; } = 2;
 
-        public int Scatters { get; }
+        public int Scatters { get; } = 3;
     }
 
     public class WinningSymbol
