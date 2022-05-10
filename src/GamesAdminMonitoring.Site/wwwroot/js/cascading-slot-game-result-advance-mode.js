@@ -61,11 +61,6 @@
                         for (var i = numberOfSymbol; i > 0; i--) {
                             numbers.push(itemNo);
                         }
-
-                        return {
-                            name: $(this).attr('data-no'),
-                            value: $(this).val()
-                        };
                     });
 
                     for (var i = 30 - count; i > 0; i--) {

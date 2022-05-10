@@ -124,16 +124,24 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             => PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
 
         [HttpGet]
-        public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName)
+        public async Task<IActionResult> CascadingSlotResultEasyMode(string token, string gameConfigName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+            return model.IsValid ? View("CascadingSlotGames/Index-EasyMode", new CascadingSlotResultViewModel(gameConfigName, token)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CascadingSlotResultAdvanceMode(string token, string gameConfigName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("CascadingSlotGames/Index-AdvanceMode", new CascadingSlotResultViewModel(gameConfigName, token)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
         public async Task<IActionResult> SetCascadingSlotResult(SetCascadingSlotResultRequest request)
-            => PartialView("CascadingSlotGames/_ResultMonitor-Mode1", await mediator.Send(request));
+            => PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
 
         private void AddMiniKenoCookie()
         {

@@ -38,15 +38,15 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/cascading-slot-game-result.min.js",
+    "outputFileName": "wwwroot/js/cascading-slot-game-result-easy-mode.min.js",
     "inputFiles": [
-      "wwwroot/js/cascading-slot-game-result.js"
+      "wwwroot/js/cascading-slot-game-result-easy-mode.js"
     ]
   },
   {
-    "outputFileName": "wwwroot/js/cascading-slot-game-result-mode1.min.js",
+    "outputFileName": "wwwroot/js/cascading-slot-game-result-advance-mode.min.js",
     "inputFiles": [
-      "wwwroot/js/cascading-slot-game-result-mode1.js"
+      "wwwroot/js/cascading-slot-game-result-advance-mode.js"
     ]
   },
   {
