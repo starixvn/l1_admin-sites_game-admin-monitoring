@@ -6,16 +6,15 @@
 }
 
 @section Styles {
-    <link href="~/css/big-small-reports.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/cascading-slot-result.min.css" rel="stylesheet" asp-append-version="true" />
 }
-<form class="form filter" data-ajax="true" data-ajax-method="POST" asp-action="SetSlotResult" data-ajax-mode="replace" data-ajax-update="#set-result"
-      data-ajax-loading="#spinner"
-      method="POST">
+<form class="form filter">
     <div class="form-row align-items-center">
         <input type="hidden" asp-for="GameName" />
         <div class="col-auto">
             <label asp-for="Nickname" class="control-label"></label>
-            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname">
+            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)">
+            <div class="error hidden">Please input nickname !</div>
         </div>
         <div id="result-container">
         </div>
@@ -34,15 +33,15 @@
 
 <section id="attempts">
     <template>
-        <div style="border: 1px solid gray; padding: 5px; margin-top: 10px;" class="result-temp">
-            <span class="attempt"></span>
-            <div>
-                @for (decimal index = 0; index < 10; index++)
+        <div style="padding: 5px; margin-top: 10px;" class="result-temp">
+            <span class="attempt" style="display: inline-block; vertical-align:top;"></span>
+            <div style="border: 1px solid gray;display: inline-block; padding: 5px;">
+                @for (decimal index = 0; index <= 10; index++)
                 {
-                    <div>
-                        <label>Item-@index</label>
+                    <div style="display: inline-block; margin-left:50px;">
+                        <div class="board-column" style="display: inline-block"><img style="width: 50px; height:50px;" class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index + 1).png" /></div>
                         <div style="display: inline-block">
-                            @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 30).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+                            @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 31).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { data_no = index })
                         </div>
                     </div>
 

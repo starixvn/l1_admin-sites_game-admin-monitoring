@@ -8,9 +8,7 @@
 @section Styles {
     <link href="~/css/cascading-slot-result.min.css" rel="stylesheet" asp-append-version="true" />
 }
-<form class="form filter" data-ajax="true" data-ajax-method="POST" asp-action="SetSlotResult" data-ajax-mode="replace" data-ajax-update="#set-result"
-      data-ajax-loading="#spinner"
-      method="POST">
+<form class="form filter">
     <div class="form-row align-items-center">
         <input type="hidden" asp-for="GameName" />
         <div class="col-auto">
