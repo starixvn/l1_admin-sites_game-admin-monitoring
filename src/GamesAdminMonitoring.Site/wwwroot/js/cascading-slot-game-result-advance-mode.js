@@ -37,6 +37,37 @@
 
             return array;
         },
+        importTemplateResults: function (e) {
+            e.preventDefault();
+            var nickame = $("#Nickname").val();
+            if (nickame === undefined || nickame === '') {
+                $('.error').removeClass('hidden');
+                return;
+            }
+
+            var formData = new FormData();
+            var excelFiles = document.getElementById('file').files;
+            for (var i = 0; i < excelFiles.length; i++) {
+                formData.append('file', excelFiles[i]);
+                formData.append('gameConfigName', $("#GameName").val());
+                formData.append('nickame', nickame);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "ImportTemplateResults",
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'html',
+                success: function (response) {
+                    $('#set-result').html(response);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        },
         submit: function (e) {
             try {
                 e.preventDefault();

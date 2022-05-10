@@ -21,28 +21,42 @@
     </ul>
 </div>
 
-<form class="form filter">
+<div class="form filter">
     <div class="form-row align-items-center">
         <input type="hidden" asp-for="GameName" />
         <div class="col-auto">
-            <label asp-for="Nickname" class="control-label"></label>
+            <label asp-for="Nickname" class="control-label nickname-label"></label>
+        </div>
+        <div class="col-auto">
             <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)">
             <div class="error hidden">Please input nickname !</div>
         </div>
-        <div id="result-container">
+        <div class="col-auto">
+            @using (Html.BeginForm("Excel", "ResultMonitor", FormMethod.Post))
+            {
+                <input type="submit" class="btn-primary" value="Export Template" />
+            }
         </div>
-        <div class="col-auto mt-5">
-            <button type="button" class="btn-submit" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
+        <div class="col-auto">
+            <input class="hidden" type="file" id="file" name="file" accept=".xls,.xlsx" onchange="cascadingSlotGameResult.importTemplateResults(event)" />
+            <label class="btn-primary" for="file">Import Template & Set Result </label>
         </div>
+    </div>
+    <div class="form-row align-items-center" id="result-container">
+    </div>
 
-        <div class="col-auto mt-5">
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <button type="button" class="btn-primary" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
+        </div>
+        <div class="col-auto">
             <button type="submit" class="btn-submit" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
             <div id="spinner" class="spinner-border" style="display: none">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
     </div>
-</form>
+</div>
 
 <section id="attempts">
     <template>

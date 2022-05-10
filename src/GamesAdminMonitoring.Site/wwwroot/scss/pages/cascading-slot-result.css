@@ -15,6 +15,24 @@
   background-color: #FFBABA;
   border-radius: 0.5rem; }
 
+.form .btn-primary {
+  min-width: 9rem;
+  height: 3.6rem;
+  padding: 0.75rem 1.3rem 0.6rem;
+  border-radius: 0.5rem;
+  box-shadow: none !important;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 1.3rem;
+  outline: none;
+  text-align: center; }
+
+.form .nickname-label {
+  height: 3.6rem;
+  display: flex;
+  align-items: center;
+  font-weight: bold; }
+
 .form .result-temp {
   display: block;
   margin-bottom: 10px; }
