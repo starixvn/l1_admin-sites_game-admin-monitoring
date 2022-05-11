@@ -9,7 +9,7 @@
     <link href="~/css/cascading-slot-result.min.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<div>
+<div id="navbar">
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
             <a class="nav-link" role="tab" aria-controls="EasyMode"
@@ -28,7 +28,7 @@
             <label asp-for="Nickname" class="control-label nickname-label"></label>
         </div>
         <div class="col-auto">
-            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)">
+            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResultBase.onInputNickname(event)">
             <div class="error hidden">Please input nickname !</div>
         </div>
         <div class="col-auto">
@@ -47,7 +47,7 @@
 
     <div class="form-row align-items-center">
         <div class="col-auto">
-            <button type="button" class="btn-primary" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
+            <button type="button" class="btn-primary" onclick="cascadingSlotGameResultBase.addTumble()">Add Tumble</button>
         </div>
         <div class="col-auto">
             <button type="submit" class="btn-submit" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
@@ -60,13 +60,13 @@
 
 <section id="attempts">
     <template>
-        <div style="padding: 5px; margin-top: 10px;" class="result-temp">
-            <span class="attempt" style="display: inline-block; vertical-align:top;"></span>
-            <div style="border: 1px solid gray;display: inline-block; padding: 5px;">
+        <div class="advance-mode">
+            <span class="attempt"></span>
+            <div class="result-container">
                 @for (decimal index = 0; index <= 10; index++)
                 {
-                    <div style="display: inline-block; margin-left:50px;">
-                        <div class="board-column" style="display: inline-block"><img style="width: 50px; height:50px;" class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index + 1).png" /></div>
+                    <div class="board-row">
+                        <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index + 1).png" /></div>
                         <div style="display: inline-block">
                             @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 31).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { data_no = index })
                         </div>
@@ -84,9 +84,10 @@
 
 @section Scripts {
     <environment include="Development">
-        <script src="~/js/cascading-slot-game-result-advance-mode.js" asp-append-version="true"></script>
+        <script src="~/js/cascading-slot-game-result/cascading-slot-game-result-advance-mode.js" asp-append-version="true"></script>
+        <script src="~/js/cascading-slot-game-result/cascading-slot-game-result.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/js/cascading-slot-game-result-advance-mode.min.js" asp-append-version="true"></script>
+        <script src="~/js/cascading-slot-game-result/cascading-slot-game-result-advance-mode.min.js" asp-append-version="true"></script>
     </environment>
 }

@@ -1,21 +1,5 @@
 ﻿var cascadingSlotGameResult = (function () {
-    var userNumberElements = document.querySelector('#result-container');
-    var userNumberElementTemplate = document.querySelector('template');
-    var index = 0;
     return {
-        onInputNickname: function (event) {
-            event.preventDefault();
-            if (event.currentTarget.value !== "") {
-                $('.error').addClass('hidden');
-            }
-        },
-        addTumble: function () {
-            var elementClone = userNumberElementTemplate.content.cloneNode(true);
-            elementClone.querySelector('span').textContent = index === 0 ? 'Base Spin' : 'Tumbling ' + index;
-
-            userNumberElements.appendChild(elementClone);
-            index++;
-        },
         generateRandom: function (min, max, exclude) {
             let random;
             while (!random) {
@@ -79,7 +63,7 @@
                 var rawResults = [];
                 var $this = this;
 
-                $(".result-temp").each(function () {
+                $(".advance-mode").each(function () {
                     var numbers = [];
                     var count = 0;
                     var excludeNumbers = [];
@@ -146,7 +130,3 @@
         }
     };
 })();
-
-$(document).ready(function () {
-    cascadingSlotGameResult.addTumble();
-}) 

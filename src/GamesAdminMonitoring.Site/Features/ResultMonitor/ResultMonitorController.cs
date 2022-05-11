@@ -152,7 +152,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public IActionResult Excel()
         {
             using var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add("Users");
+            var worksheet = workbook.Worksheets.Add("Results");
             var currentRow = 1;
             worksheet.Cell(currentRow, 1).Value = "Name";
             worksheet.Cell(currentRow, 2).Value = "Result";
