@@ -45,6 +45,7 @@
                 return;
             }
 
+            $('#preloader').removeClass('hidden');
             var formData = new FormData();
             var excelFiles = document.getElementById('file').files;
             for (var i = 0; i < excelFiles.length; i++) {
@@ -65,6 +66,9 @@
                 },
                 error: function (err) {
                     console.log(err)
+                },
+                complete: function () {
+                    $('#preloader').addClass('hidden');
                 }
             })
         },
@@ -114,6 +118,8 @@
                     return;
                 }
 
+                $('#preloader').removeClass('hidden');
+
                 var data = {
                     roundName: nickame,
                     rawResults: rawResults,
@@ -127,6 +133,9 @@
                     dataType: 'html',
                     success: function (response) {
                         $('#set-result').html(response);
+                    },
+                    complete: function () {
+                        $('#preloader').addClass('hidden');
                     }
                 });
             }

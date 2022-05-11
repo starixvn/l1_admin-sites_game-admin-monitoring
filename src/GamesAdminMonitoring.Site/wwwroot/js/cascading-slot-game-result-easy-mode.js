@@ -38,6 +38,7 @@
                 return;
             }
 
+            $('#preloader').removeClass('hidden');
             var data = {
                 roundName: nickame,
                 rawResults: rawResults,
@@ -51,6 +52,9 @@
                 dataType: 'html',
                 success: function (response) {
                     $('#set-result').html(response);
+                },
+                complete: function () {
+                    $('#preloader').addClass('hidden');
                 }
             });
         }
