@@ -22,7 +22,7 @@
 
 
 $(document).ready(function () {
-    cascadingSlotGameResultBase.addTumble();
+    cascadingSlotGameResult.addTumble();
 
     var navbarElm = $('#navbar');
     var containerElm = $('.inner-content');

@@ -28,7 +28,7 @@
             <label asp-for="Nickname" class="control-label nickname-label"></label>
         </div>
         <div class="col-auto">
-            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResultBase.onInputNickname(event)">
+            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)" />
             <div class="error hidden">Please input nickname !</div>
         </div>
         <div class="col-auto">
@@ -47,7 +47,7 @@
 
     <div class="form-row align-items-center">
         <div class="col-auto">
-            <button type="button" class="btn-primary" onclick="cascadingSlotGameResultBase.addTumble()">Add Tumble</button>
+            <button id="add-tumble" disabled type="button" class="btn-primary disabled" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
         </div>
         <div class="col-auto">
             <button type="submit" class="btn-submit" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
@@ -63,13 +63,45 @@
         <div class="advance-mode">
             <span class="attempt"></span>
             <div class="result-container">
+                <div class="required-icons" style="font-weight:bold; color:darkred;"></div>
+                <div class="total-icons"></div>
+                <div class="message error hidden">Not Equal 30 icons.</div>
                 @for (decimal index = 0; index <= 10; index++)
                 {
                     <div class="board-row">
                         <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index + 1).png" /></div>
                         <div style="display: inline-block">
-                            @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 31).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { data_no = index })
+                            @if (index == 10)
+                            {
+                                <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.addMultiplier(event)">
+                                    @for (decimal j = 0; j <= 30; j++)
+                                    {
+                                        <option value="@j">
+                                            @j
+                                        </option>
+
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.sumIcons(event)">
+                                    @for (decimal j = 0; j <= 30; j++)
+                                    {
+                                        <option value="@j">
+                                            @j
+                                        </option>
+
+                                    }
+                                </select>
+                            }
+
+                            @*  @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 31).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { data_no = index })*@
                         </div>
+                        @*@if (index == 10)
+                            {
+                                <input type="text" class="form-control" id="number-multiplier" onkeyup="cascadingSlotGameResultBase.onInputNickname(event)" />
+                            }*@
                     </div>
 
                 }

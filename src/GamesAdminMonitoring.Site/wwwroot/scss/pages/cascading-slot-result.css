@@ -12,17 +12,16 @@
   background-color: #FFBABA;
   border-radius: 0.5rem; }
 
-.form .btn-primary {
-  min-width: 9rem;
-  height: 3.6rem;
-  padding: 0.75rem 1.3rem 0.6rem;
-  border-radius: 0.5rem;
-  box-shadow: none !important;
-  border-width: 1px;
-  border-style: solid;
-  font-size: 1.3rem;
-  outline: none;
-  text-align: center; }
+.form .successfully {
+  border: 1px solid;
+  margin-left: 1rem;
+  margin-top: 10px;
+  padding: 0.5rem;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  color: forestgreen;
+  background-color: lightgreen;
+  border-radius: 0.5rem; }
 
 .form .nickname-label {
   height: 3.6rem;
@@ -52,6 +51,25 @@
       width: 50px;
       height: 50px; }
 
+.btn-primary {
+  min-width: 9rem;
+  height: 3.6rem;
+  padding: 0.75rem 1.3rem 0.6rem;
+  border-radius: 0.5rem;
+  box-shadow: none !important;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 1.3rem;
+  outline: none;
+  text-align: center; }
+  .btn-primary.disabled {
+    background-color: darkgray !important;
+    border-color: lightgray !important; }
+
+.btn-submit.disabled {
+  background-color: darkgray !important;
+  border-color: lightgray !important; }
+
 .hidden {
   display: none; }
 
@@ -67,12 +85,16 @@
   font-weight: bold;
   font-size: 15px; }
 
+select {
+  width: 50px; }
+
 .advance-mode {
   padding: 5px;
   margin-top: 10px; }
   .advance-mode .attempt {
     display: inline-block;
-    vertical-align: top; }
+    vertical-align: top;
+    font-weight: bold; }
   .advance-mode .result-container {
     border: 1px solid gray;
     display: inline-block; }
