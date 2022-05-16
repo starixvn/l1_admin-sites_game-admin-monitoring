@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
@@ -50,7 +51,61 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<SettlementCascadingSlotResultViewModel> Handle(SetCascadingSlotResultRequest request, CancellationToken cancellationToken)
         {
-            return new SettlementCascadingSlotResultViewModel(request.GameConfigName, request.ResultMatrixs, request.IsValid);
+            var model = new List<SettlementCascadingSlotResultApi>
+            {
+                new SettlementCascadingSlotResultApi
+                {
+                    icons = new List<CascadingSlotIcon>
+                    {
+                        new CascadingSlotIcon
+                        {
+                            index= "9",
+                            count = 8,
+                            odds = 4
+                        },
+                         new CascadingSlotIcon
+                        {
+                            index= "8",
+                            count = 8,
+                            odds = 5
+                        },
+                    },
+                    board = "4,5,9,3,9,10,9,9,9,9,5,3,1,4,10,9,5,9,2,3,2,5,7,9,2,1,1,6,3,7",
+                    multipliers =  new  List<int>{ 1 },
+                    freeSpinCount = 2
+                },
+                 new SettlementCascadingSlotResultApi
+                {
+                    icons = Enumerable.Empty<CascadingSlotIcon>(),
+                    board = "4,5,9,3,9,10,9,9,9,9,5,3,1,4,10,9,5,9,2,3,2,5,7,9,2,1,1,6,3,7",
+                    multipliers =  new  List<int>{ 1,2},
+                    freeSpinCount = 3
+                },
+                new SettlementCascadingSlotResultApi
+                {
+                    icons = new List<CascadingSlotIcon>
+                    {
+                        new CascadingSlotIcon
+                        {
+                            index= "9",
+                            count = 8,
+                            odds = 4
+                        },
+                         new CascadingSlotIcon
+                        {
+                            index= "8",
+                            count = 9,
+                            odds = 5
+                        },
+                    },
+                    board = "4,5,9,3,9,10,9,9,9,9,5,3,1,4,10,9,5,9,2,3,2,5,7,9,2,1,1,6,3,7",
+                    multipliers =  new  List<int>{ 1,2,3},
+                    freeSpinCount = 3
+                }
+            };
+
+            return new SettlementCascadingSlotResultViewModel(request.gameConfigName, model, request.IsValid);
+            //return new SettlementCascadingSlotResultViewModel(request.GameConfigName, request.ResultMatrixs, request.IsValid);
         }
     }
 }

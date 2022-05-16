@@ -145,49 +145,56 @@
                 console.log(JSON.stringify(tumbleResults, null, 2));
 
                 var rawResults = {
-                    name: '',
+                    nickname: '',
                     result: {
-                        base: {
+                        baseSpin: {
                             board: [],
                             multiplier: []
                         },
                         tumbles: []
-                    }
+                    },
+                    gameConfigName: $("#GameName").val()
                 };
 
                 $.each(tumbleResults, function (index, value) {
+                    var multiplier = [];
+                    $('#' + index + '.result-container').find('.input-multiplier').each(function () {
+                        multiplier.push(parseInt($(this).val()));
+                    });
+
                     if (index === 0) {
-                        rawResults.result.base.board = $this.createBaseSpinBoard(Object.values(tumbleResults[0].Value));
+                        rawResults.result.baseSpin.board = $this.createBaseSpinBoard(Object.values(tumbleResults[0].Value));
+                        rawResults.result.baseSpin.multiplier = multiplier;
                     }
                     else {
                         rawResults.result.tumbles.push({
                             newSymbols: Object.values(tumbleResults[index].AddedIcons),
-                            multiplier: []
+                            multiplier
                         });
                     }
                 });
 
-                var data = {
-                    roundName: nickame,
-                    rawResults: rawResults,
-                    gameConfigName: $("#GameName").val(),
-                };
+                //var data = {
+                //    roundName: nickame,
+                //    rawResults: rawResults, 
+                //    gameConfigName: $("#GameName").val(),
+                //};
 
-                console.log(JSON.stringify(data, null, 2));
+                //console.log(JSON.stringify(data, null, 2));
 
-                return;
-                //$.ajax({
-                //    type: "POST",
-                //    url: "SetCascadingSlotResult",
-                //    data: data,
-                //    dataType: 'html',
-                //    success: function (response) {
-                //        $('#set-result').html(response);
-                //    },
-                //    complete: function () {
-                //        $('#preloader').addClass('hidden');
-                //    }
-                //});
+                //return;
+                $.ajax({
+                    type: "POST",
+                    url: "SetCascadingSlotResult",
+                    data: { data: JSON.stringify(rawResults) },
+                    dataType: 'html',
+                    success: function (response) {
+                        $('#set-result').html(response);
+                    },
+                    complete: function () {
+                        $('#preloader').addClass('hidden');
+                    }
+                });
             }
             catch (err) {
                 console.log(err);
@@ -217,13 +224,14 @@
                 numbers.push($this.generateRandom(0, 10, excludeNumbers));
             }
 
-            return this.shuffle(numbers).join(',');
+            return this.shuffle(numbers);
         },
         addMultiplier: function (e) {
+            this.sumIcons(e);
             var numberOfMuliplier = parseInt($(e.currentTarget).val());
             $(e.currentTarget).parent().parent().find('.div-multipler').remove();
             for (var i = 0; i < numberOfMuliplier; i++) {
-                $(e.currentTarget).parent().parent().append('<div class="div-multipler" style="display: inline-block; max-width:20px; margin-left: 5px;"> <input type="text" style="display: inline-block; max-width:20px" class="input-multiplier" /></div>');
+                $(e.currentTarget).parent().parent().append('<div class="div-multipler" style="display: inline-block; max-width:50px; margin-left: 5px;"> <input type="number" style="display: inline-block; max-width:50px" class="input-multiplier" /></div>');
             }
         },
         addTumble: function () {
@@ -259,7 +267,7 @@
                 var previousTumble = Object.values(tumbleResults[index - 1].Value);
 
                 for (var i = 0; i <= 10; i++) {
-                    var presetIcon = previousTumble[i] > 7 ? 0 : previousTumble[i];
+                    var presetIcon = previousTumble[i] > 7 || i === 10 ? 0 : previousTumble[i];
 
                     var presetIconId = 'Item-' + i;
                     icons[presetIconId] = presetIcon;

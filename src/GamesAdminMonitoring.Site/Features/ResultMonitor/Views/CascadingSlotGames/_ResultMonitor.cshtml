@@ -1,5 +1,9 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 @model SettlementCascadingSlotResultViewModel
+@{
+    var results = Model.Results.ToList();
+    var rows = results.Count();
+}
 
 @if (!Model.IsValid)
 {
@@ -23,44 +27,46 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var matrix in Model.ResultMatrixs)
+            @for (int rowIndex = 0; rowIndex < rows; rowIndex++)
             {
-                var symbols = matrix.WinningSymbols.ToList();
-                var rowspans = symbols.Count();
-                for (int index = 0; index < rowspans; index++)
+                var tumble = results[rowIndex];
+                var symbols = tumble.icons.ToList();
+                var numberOfWinningIcon = symbols.Count();
+                var rowspans = numberOfWinningIcon > 1 ? numberOfWinningIcon : 1;
+
+                for (int subRowIndex = 0; subRowIndex < rowspans; subRowIndex++)
                 {
-                    if (index == 0)
+                    if (subRowIndex == 0)
                     {
                         <tr>
                             <td rowspan="@rowspans">
-                                @matrix.Name
+                                @(rowIndex == 0 ? "Base Spin" : $"Tumble {rowIndex}")
                             </td>
                             <td>
-                                @(symbols[index].NumberOfSymbol == 0 ? "-" : symbols[index].Symbol.ToString())
+                                @(numberOfWinningIcon == 0 ? "-" : symbols[subRowIndex].index.ToString())
                             </td>
                             <td>
-                                @(symbols[index].NumberOfSymbol == 0 ? "-" : symbols[index].NumberOfSymbol.ToString())
+                                @(numberOfWinningIcon == 0 ? "-" : symbols[subRowIndex].count.ToString())
                             </td>
                             <td rowspan="@rowspans">
-                                @matrix.Multipliers
+                                @tumble.multipliers.Count()
                             </td>
                             <td rowspan="@rowspans">
-                                @matrix.Scatters
+                                @tumble.freeSpinCount
                             </td>
                             <td rowspan="@rowspans">
                                 <div class="table-paylines">
                                     @{
-                                        var rows = matrix.Value.GetLength(0);
-                                        var columns = matrix.Value.GetLength(1);
-                                        @for (int x = 0; x < rows; x++)
+                                        var boardRows = tumble.Matrix.GetLength(0);
+                                        var boardColumns = tumble.Matrix.GetLength(1);
+                                        @for (int x = 0; x < boardRows; x++)
                                         {
                                             <div class="board-row">
-                                                @for (int y = 0; y < columns; y++)
+                                                @for (int y = 0; y < boardColumns; y++)
                                                 {
-                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(matrix.Value[x,y]) + 1).png" /></div>
+                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(tumble.Matrix[x,y]) + 1).png" /></div>
                                                 }
                                             </div>
-
                                         }
                                     }
                                 </div>
@@ -72,10 +78,10 @@ else
                         <tr>
 
                             <td>
-                                @symbols[index].Symbol
+                                @symbols[subRowIndex].index
                             </td>
                             <td>
-                                @symbols[index].NumberOfSymbol
+                                @symbols[subRowIndex].count
                             </td>
                         </tr>
                     }
@@ -84,5 +90,3 @@ else
         </tbody>
     </table>
 }
-
-

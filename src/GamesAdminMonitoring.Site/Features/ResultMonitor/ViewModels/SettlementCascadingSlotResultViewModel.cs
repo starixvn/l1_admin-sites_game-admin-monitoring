@@ -5,17 +5,13 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
     public class SettlementCascadingSlotResultViewModel
     {
-        public SettlementCascadingSlotResultViewModel()
-        {
-        }
-
         public SettlementCascadingSlotResultViewModel(
             string gameConfigName,
-            IEnumerable<ResultMaxtrix> resultMatrixs,
+            IEnumerable<SettlementCascadingSlotResultApi> results,
             bool isValid)
         {
             GameName = gameConfigName;
-            ResultMatrixs = resultMatrixs;
+            Results = results;
             IsValid = isValid;
         }
 
@@ -25,52 +21,8 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public string Nickname { get; set; }
 
-        public IEnumerable<CascadingSlotGameResult> Results { get; set; }
-
-        public IEnumerable<Icon> Icons { get; set; }
-
-        public IEnumerable<ResultMaxtrix> ResultMatrixs { get; }
+        public IEnumerable<SettlementCascadingSlotResultApi> Results { get; set; }
 
         public bool IsValid { get; }
-    }
-
-    public class ResultMaxtrix
-    {
-        public ResultMaxtrix(
-            string name,
-            string[,] value,
-            IEnumerable<WinningSymbol> winningSymbols,
-            int multipliers,
-            int scatters)
-        {
-            Name = name;
-            Value = value;
-            WinningSymbols = winningSymbols;
-            Multipliers = multipliers;
-            Scatters = scatters;
-        }
-
-        public string Name { get; }
-
-        public string[,] Value { get; }
-
-        public IEnumerable<WinningSymbol> WinningSymbols { get; }
-
-        public int Multipliers { get; } = 2;
-
-        public int Scatters { get; } = 3;
-    }
-
-    public class WinningSymbol
-    {
-        public WinningSymbol(int symbol, int numberOfSymbol)
-        {
-            Symbol = symbol;
-            NumberOfSymbol = numberOfSymbol;
-        }
-
-        public int Symbol { get; }
-
-        public int NumberOfSymbol { get; }
     }
 }

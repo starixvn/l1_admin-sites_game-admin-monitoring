@@ -10,7 +10,7 @@ using GamesAdminMonitoring.Site.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static GamesAdminMonitoring.Site.Features.ResultMonitor.Requests.SetCascadingSlotResultRequest;
+using Newtonsoft.Json;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
@@ -145,8 +145,12 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpPost]
-        public async Task<IActionResult> SetCascadingSlotResult(SetCascadingSlotResultRequest request)
-            => PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+        public async Task<IActionResult> SetCascadingSlotResult(string data)
+        {
+            var request = JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(data);
+
+            return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+        }
 
         [HttpPost]
         public IActionResult Excel()
@@ -181,36 +185,36 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
                 "ResultTemplate.xlsx");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ImportTemplateResults(IFormFile file, string gameConfigName, string nickname)
-        {
-            if (file == null || file.Length == 0)
-                return Content("File Not Selected");
+        //[HttpPost]
+        //public async Task<IActionResult> ImportTemplateResults(IFormFile file, string gameConfigName, string nickname)
+        //{
+        //    if (file == null || file.Length == 0)
+        //        return Content("File Not Selected");
 
-            string fileExtension = Path.GetExtension(file.FileName);
-            if (fileExtension != ".xls" && fileExtension != ".xlsx")
-                return Content("File Not Selected");
+        //    string fileExtension = Path.GetExtension(file.FileName);
+        //    if (fileExtension != ".xls" && fileExtension != ".xlsx")
+        //        return Content("File Not Selected");
 
-            using var workbook = new XLWorkbook(file.OpenReadStream());
-            var DataList = new List<RawResult>();
+        //    using var workbook = new XLWorkbook(file.OpenReadStream());
+        //    var DataList = new List<RawResult>();
 
-            IXLWorksheet worksheet = workbook.Worksheet(1);
-            var index = 0;
-            foreach (IXLRow row in worksheet.RowsUsed())
-            {
-                if (index > 0)
-                {
-                    DataList.Add(new RawResult
-                    {
-                        Name = row.FirstCellUsed().Value.ToString(),
-                        Value = row.LastCellUsed().Value.ToString(),
-                    });
-                }
-                index++;
-            }
+        //    IXLWorksheet worksheet = workbook.Worksheet(1);
+        //    var index = 0;
+        //    foreach (IXLRow row in worksheet.RowsUsed())
+        //    {
+        //        if (index > 0)
+        //        {
+        //            DataList.Add(new RawResult
+        //            {
+        //                Name = row.FirstCellUsed().Value.ToString(),
+        //                Value = row.LastCellUsed().Value.ToString(),
+        //            });
+        //        }
+        //        index++;
+        //    }
 
-            return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(new SetCascadingSlotResultRequest { GameConfigName = gameConfigName, RawResults = DataList.ToArray() }));
-        }
+        //    return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(new SetCascadingSlotResultRequest { GameConfigName = gameConfigName, RawResults = DataList.ToArray() }));
+        //}
 
         private void AddMiniKenoCookie()
         {
