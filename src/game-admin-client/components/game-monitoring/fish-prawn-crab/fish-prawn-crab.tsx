@@ -107,10 +107,7 @@ export default class FishPrawnCrab extends BaseMonitoring<FishPrawnCrabModel> {
     this.props.sendMessage({
       set_result: {
         result: gameResult,
-        roundId:
-          this.state.gameState == GameState.running
-            ? this.state.roundNumber
-            : this.state.roundNumber + 1,
+        roundId: this.state.roundNumber + 1,
       },
     });
   }

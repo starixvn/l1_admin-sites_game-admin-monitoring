@@ -1,32 +1,39 @@
-import React from 'react';
-import styles from './baccarat-result-updater.module.scss'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row } from 'reactstrap';
-import { generateResult } from './generate-baccarat-result';
+import React from "react";
+import styles from "./baccarat-result-updater.module.scss";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+} from "reactstrap";
+import { generateResult } from "./generate-baccarat-result";
 
 type Props = {
-  modal: boolean,
-  toggle: Function,
-  submit: Function
-  isMini?: boolean
+  modal: boolean;
+  toggle: Function;
+  submit: Function;
+  isMini?: boolean;
 };
 
 type State = {
-  modal: boolean,
-  errors: string,
-  types: Array<OptionType>
+  modal: boolean;
+  errors: string;
+  types: Array<OptionType>;
 };
 
 type OptionType = {
-  name: string,
-  displayName: string,
-  value: boolean
-}
+  name: string;
+  displayName: string;
+  value: boolean;
+};
 
 const TYPES = {
   group1: ["player", "banker", "tie"],
   group2: ["big", "small"],
   group3: ["playerPair"],
-  group4: ["bankerPair"]
+  group4: ["bankerPair"],
 };
 
 const TYPES_MAP = {
@@ -36,7 +43,7 @@ const TYPES_MAP = {
   playerPair: 3,
   bankerPair: 4,
   big: 5,
-  small: 6
+  small: 6,
 };
 
 const CHOICES = [
@@ -46,15 +53,18 @@ const CHOICES = [
   { name: "small", displayName: "small" },
   { name: "tie", displayName: "Tie" },
   { name: "playerPair", displayName: "Player Pair" },
-  { name: "bankerPair", displayName: "Banker Pair" }
+  { name: "bankerPair", displayName: "Banker Pair" },
 ];
 
 const CHOICE_GROUPS = [
   ["player", "banker", "tie"],
-  ["big", "small"]
+  ["big", "small"],
 ];
 
-export default class BaccaratResultUpdater extends React.Component<Props, State> {
+export default class BaccaratResultUpdater extends React.Component<
+  Props,
+  State
+> {
   constructor(props: any) {
     super(props);
 
@@ -62,9 +72,13 @@ export default class BaccaratResultUpdater extends React.Component<Props, State>
       modal: false,
       errors: "",
       types: CHOICES.map((choice) => {
-        return { name: choice.name, displayName: choice.displayName, value: false }
-      })
-    }
+        return {
+          name: choice.name,
+          displayName: choice.displayName,
+          value: false,
+        };
+      }),
+    };
 
     this.toggle = this.toggle.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -77,8 +91,8 @@ export default class BaccaratResultUpdater extends React.Component<Props, State>
 
   submit() {
     const choices = this.getCheckedTypes();
-    if (Object.values(choices).filter(x => x == true).length < 1) {
-      this.setState({ errors: "You must choose values." })
+    if (Object.values(choices).filter((x) => x == true).length < 1) {
+      this.setState({ errors: "You must choose values." });
     } else {
       const result = generateResult(choices);
       this.props.submit(result);
@@ -91,32 +105,65 @@ export default class BaccaratResultUpdater extends React.Component<Props, State>
 
     this.setState({
       types: types,
-      errors: ""
-    })
+      errors: "",
+    });
   }
 
   getCheckedTypes() {
     const result = this.state.types.reduce((result, type: OptionType) => {
-
-      result[type.name] = type.value
+      result[type.name] = type.value;
       return result;
-    }, {})
+    }, {});
 
     return result;
   }
 
   updateCheck(dependingTypes: any[], typeName: string, typeValue: boolean) {
     const types = this.state.types;
-    dependingTypes.forEach(dt => {
-      let type = types.find(o => o.name === dt);
+    dependingTypes.forEach((dt) => {
+      let type = types.find((o) => o.name === dt);
       if (dt !== typeName) {
         type.value = false;
       } else {
         type.value = typeValue;
       }
     });
+    this.updateRelatedChoice(typeName, typeValue);
 
     return types;
+  }
+
+  updateRelatedChoice(typeName: string, typeValue: boolean) {
+    const types = this.state.types;
+    if (typeValue) {
+      const group1 = types.filter((type) =>
+        CHOICE_GROUPS[0].includes(type.name)
+      );
+      const group2 = types.filter((type) =>
+        CHOICE_GROUPS[1].includes(type.name)
+      );
+      if (!group1.find((type) => type.value)) {
+        group1[0].value = typeValue;
+      }
+      if (!group2.find((type) => type.value)) {
+        group2[0].value = typeValue;
+      }
+    } else {
+      if (CHOICE_GROUPS[0].includes(typeName)) {
+        types
+          .filter((type) => !CHOICE_GROUPS[0].includes(type.name))
+          .forEach((type) => {
+            type.value = typeValue;
+          });
+      }
+      if (CHOICE_GROUPS[1].includes(typeName)) {
+        types
+          .filter((type) => !CHOICE_GROUPS[1].includes(type.name))
+          .forEach((type) => {
+            type.value = typeValue;
+          });
+      }
+    }
   }
 
   findDependingTypes(typeName) {
@@ -125,7 +172,7 @@ export default class BaccaratResultUpdater extends React.Component<Props, State>
     Object.keys(TYPES).forEach(function (key) {
       const group: string[] = TYPES[key];
       if (group.indexOf(typeName) >= 0) {
-        dependingTypes.push(...group)
+        dependingTypes.push(...group);
       }
     });
 
@@ -133,29 +180,50 @@ export default class BaccaratResultUpdater extends React.Component<Props, State>
   }
 
   renderType(type: OptionType, index) {
-    return <div className={styles['check-block']} key={index}>
-      <div>{type.displayName}</div>
-      <div><input type="checkbox" checked={type.value} onChange={(e) => this.handleCheck(type, e)} /></div>
-    </div>
+    return (
+      <div className={styles["check-block"]} key={index}>
+        <div>{type.displayName}</div>
+        <div>
+          <input
+            type="checkbox"
+            checked={type.value}
+            onChange={(e) => this.handleCheck(type, e)}
+          />
+        </div>
+      </div>
+    );
   }
 
   render() {
     return (
       <div>
-        <Modal isOpen={this.props.modal} toggle={this.toggle} className={styles['result-updater']}>
-          <ModalHeader className={styles['custom-modal-header']} toggle={this.toggle}></ModalHeader>
-          <ModalBody className={styles['modal-content']}>
-            <Row className={styles['row']}>
-              {
-                this.state.types.map((type, index) => this.renderType(type, index))
-              }
+        <Modal
+          isOpen={this.props.modal}
+          toggle={this.toggle}
+          className={styles["result-updater"]}
+        >
+          <ModalHeader
+            className={styles["custom-modal-header"]}
+            toggle={this.toggle}
+          ></ModalHeader>
+          <ModalBody className={styles["modal-content"]}>
+            <Row className={styles["row"]}>
+              {this.state.types.map((type, index) =>
+                this.renderType(type, index)
+              )}
             </Row>
-            <Row className={styles['errors']}>
+            <Row className={styles["errors"]}>
               <div>{this.state.errors}</div>
             </Row>
           </ModalBody>
-          <ModalFooter className={styles['custom-modal-footer']}>
-            <Button color="primary" onClick={this.submit} className={styles['custom-button']}>Submit</Button>
+          <ModalFooter className={styles["custom-modal-footer"]}>
+            <Button
+              color="primary"
+              onClick={this.submit}
+              className={styles["custom-button"]}
+            >
+              Submit
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

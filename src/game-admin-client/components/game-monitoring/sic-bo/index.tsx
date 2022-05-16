@@ -143,7 +143,7 @@ export default class SicBo extends BaseMonitoring<SicBoModel> {
 
     this.props.sendMessage({
       set_result: {
-        roundId: this.state.roundNumber,
+        roundId: this.state.roundNumber + 1,
         result: newResult,
       },
     });
