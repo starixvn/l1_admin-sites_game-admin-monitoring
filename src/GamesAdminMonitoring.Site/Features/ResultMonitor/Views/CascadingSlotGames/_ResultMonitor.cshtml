@@ -2,7 +2,7 @@
 @model SettlementCascadingSlotResultViewModel
 @{
     var results = Model.Results.ToList();
-    var rows = results.Count();
+    var rows = results.Count;
 }
 
 @if (!Model.IsValid)
@@ -31,7 +31,7 @@ else
             {
                 var tumble = results[rowIndex];
                 var symbols = tumble.icons.ToList();
-                var numberOfWinningIcon = symbols.Count();
+                var numberOfWinningIcon = symbols.Count;
                 var rowspans = numberOfWinningIcon > 1 ? numberOfWinningIcon : 1;
 
                 for (int subRowIndex = 0; subRowIndex < rowspans; subRowIndex++)

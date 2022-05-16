@@ -73,18 +73,6 @@
 .hidden {
   display: none; }
 
-.fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999; }
-
-#navbar {
-  background: #f5f5f5;
-  font-weight: bold;
-  font-size: 15px; }
-
 select {
   width: 50px; }
 

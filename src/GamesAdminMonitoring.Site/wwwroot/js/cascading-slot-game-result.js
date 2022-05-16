@@ -7,6 +7,18 @@
     var isValidTumble = false;
 
     var tumbleResults = [];
+
+    var rawResults = {
+        nickname: '',
+        result: {
+            baseSpin: {
+                board: [],
+                multiplier: []
+            },
+            tumbles: []
+        },
+        gameConfigName: $("#GameName").val()
+    };
     return {
         onInputNickname: function (event) {
             event.preventDefault();
@@ -135,54 +147,29 @@
                 //});
 
                 var nickame = $("#Nickname").val();
-                //if (nickame === undefined || nickame === '') {
-                //    $('.error').removeClass('hidden');
-                //    return;
-                //}
+                if (nickame === undefined || nickame === '') {
+                    $('.error').removeClass('hidden');
+                    return;
+                }
 
-                //$('#preloader').removeClass('hidden');
+                $('#preloader').removeClass('hidden');
+
+
+
+                //$.each(tumbleResults, function (index, value) {
+                //    if (index === 0) {
+                //        rawResults.result.baseSpin.board = $this.createBaseSpinBoard(Object.values(tumbleResults[0].Value));
+                //    }
+                //    else {
+                //        rawResults.result.tumbles.push({
+                //            newSymbols: Object.values(tumbleResults[index].AddedIcons)
+                //        });
+                //    }
+                //});
 
                 console.log(JSON.stringify(tumbleResults, null, 2));
+                console.log(JSON.stringify(rawResults, null, 2));
 
-                var rawResults = {
-                    nickname: '',
-                    result: {
-                        baseSpin: {
-                            board: [],
-                            multiplier: []
-                        },
-                        tumbles: []
-                    },
-                    gameConfigName: $("#GameName").val()
-                };
-
-                $.each(tumbleResults, function (index, value) {
-                    var multiplier = [];
-                    $('#' + index + '.result-container').find('.input-multiplier').each(function () {
-                        multiplier.push(parseInt($(this).val()));
-                    });
-
-                    if (index === 0) {
-                        rawResults.result.baseSpin.board = $this.createBaseSpinBoard(Object.values(tumbleResults[0].Value));
-                        rawResults.result.baseSpin.multiplier = multiplier;
-                    }
-                    else {
-                        rawResults.result.tumbles.push({
-                            newSymbols: Object.values(tumbleResults[index].AddedIcons),
-                            multiplier
-                        });
-                    }
-                });
-
-                //var data = {
-                //    roundName: nickame,
-                //    rawResults: rawResults, 
-                //    gameConfigName: $("#GameName").val(),
-                //};
-
-                //console.log(JSON.stringify(data, null, 2));
-
-                //return;
                 $.ajax({
                     type: "POST",
                     url: "SetCascadingSlotResult",
@@ -202,11 +189,12 @@
 
         },
         createBaseSpinBoard: function (matrix) {
+            var length = matrix.reduce((accumulator, curr) => accumulator + curr)
             var numbers = [];
             var count = 0;
             var excludeNumbers = [];
 
-            $.each(matrix, function (index, value) {
+            $.each(matrix, function (index) {
                 var itemNo = index;
                 var numberOfSymbol = matrix[index];
 
@@ -220,18 +208,36 @@
                 }
             });
 
-            for (var i = 30 - count; i > 0; i--) {
-                numbers.push($this.generateRandom(0, 10, excludeNumbers));
+            for (var i = length - count; i > 0; i--) {
+                numbers.push(this.generateRandom(0, 10, excludeNumbers));
             }
 
             return this.shuffle(numbers);
         },
+        inputMultiplier: function (e, tumbleNo) {
+            e.preventDefault();
+            $.each(tumbleResults, function (index, value) {
+                var multiplier = [];
+                $('#' + tumbleNo + '.result-container').find('.input-multiplier').each(function () {
+                    multiplier.push(parseInt($(this).val()));
+                });
+
+                if (index === tumbleNo) {
+                    rawResults.result.baseSpin.multiplier = multiplier;
+                }
+                else {
+                    rawResults.result.tumbles.multiplier = multiplier;
+                }
+            });
+        },
         addMultiplier: function (e) {
+            e.preventDefault();
             this.sumIcons(e);
             var numberOfMuliplier = parseInt($(e.currentTarget).val());
             $(e.currentTarget).parent().parent().find('.div-multipler').remove();
+            var tumbleNo = $(e.currentTarget).parent().parent().parent().attr("id");
             for (var i = 0; i < numberOfMuliplier; i++) {
-                $(e.currentTarget).parent().parent().append('<div class="div-multipler" style="display: inline-block; max-width:50px; margin-left: 5px;"> <input type="number" style="display: inline-block; max-width:50px" class="input-multiplier" /></div>');
+                $(e.currentTarget).parent().parent().append('<div class="div-multipler" style="display: inline-block; max-width:50px; margin-left: 5px;"> <input type="number" onchange="cascadingSlotGameResult.inputMultiplier(event,' + tumbleNo + ')" style="display: inline-block; max-width:50px" class="input-multiplier" /></div>');
             }
         },
         addTumble: function () {
@@ -302,6 +308,7 @@
             tumbleResults.push(
                 {
                     Name: tumbleName,
+                    Id: index,
                     RequiredIcons: requiredIcons,
                     Value: icons,
                     OriginIcons: JSON.parse(JSON.stringify(icons)),
@@ -311,36 +318,52 @@
                     ExplodedIcons: 0
                 });
 
+            if (index === 0) {
+                rawResults.result.baseSpin = {
+                    board: [],
+                    multiplier: []
+                }
+            }
+            else {
+                rawResults.result.tumbles.push({
+                    newSymbols: [],
+                    multiplier: []
+                });
+            }
+
             index++;
         },
         sumIcons: function (e) {
             var numberOfSymbol = parseInt($(e.currentTarget).val());
             var id = $(e.currentTarget).attr("id");
-            var advanceModeElm = $(e.currentTarget).parent().parent().parent()
-            var name = advanceModeElm.parent().find('.attempt').text();
+            var advanceModeElm = $(e.currentTarget).parent().parent().parent();
+            var tumbleIndex = parseInt(advanceModeElm.parent().find('.result-container').attr("id"));
 
-            var advanceModeId = advanceModeElm.attr("id");
+            var $this = this;
             tumbleResults.find(function (tumble) {
-                if (tumble.Name === name) {
+                if (tumble.Id === tumbleIndex) {
                     tumble.Value[id] = numberOfSymbol;
                     tumble.ExplodedIcons = 0;
                     tumble.IsValid = false;
 
                     var totalIcons = 0;
-                    $.each(Object.values(tumbleResults[advanceModeId].Value), function (index, value) {
+                    $.each(Object.values(tumbleResults[tumbleIndex].Value), function (index, value) {
                         if (value > 7) {
                             tumble.ExplodedIcons += value;
                         }
+
                         totalIcons += value;
 
                         var presetIconId = 'Item-' + index;
-                        if (parseInt(advanceModeId) === 0) {
-                            tumble.AddedIcons[presetIconId] = tumble.Value[presetIconId];
-                        }
-                        else {
-                            tumble.AddedIcons[presetIconId] = tumble.Value[presetIconId] - tumble.OriginIcons[presetIconId];
-                        }
+                        tumble.AddedIcons[presetIconId] = tumbleIndex === 0 ? tumble.Value[presetIconId] : tumble.Value[presetIconId] - tumble.OriginIcons[presetIconId];
                     });
+
+                    if (tumbleIndex === 0) {
+                        rawResults.result.baseSpin.board = $this.createBaseSpinBoard(Object.values(tumbleResults[0].Value));
+                    }
+                    else {
+                        rawResults.result.tumbles[tumbleIndex - 1].newSymbols = $this.createBaseSpinBoard(Object.values(tumbleResults[tumbleIndex].AddedIcons));
+                    }
 
                     advanceModeElm.find('.message').text('Total Icons: ' + totalIcons);
                     if (totalIcons === tumble.RequiredIcons) {
@@ -389,3 +412,7 @@
         }
     };
 })();
+
+$(document).ready(function () {
+    cascadingSlotGameResult.addTumble();
+}) 
