@@ -51,14 +51,14 @@
         <div class="advance-mode">
             <span class="attempt"></span>
             <div class="result-container">
-                <div class="required-icons" style="font-weight:bold; color:darkred;"></div>
+                <div class="required-icons"></div>
                 <div class="total-icons"></div>
-                <div class="message error hidden">Not Equal 30 icons.</div>
+                <div class="message error hidden"></div>
                 @for (decimal index = 0; index <= 10; index++)
                 {
                     <div class="board-row">
                         <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index + 1).png" /></div>
-                        <div style="display: inline-block">
+                        <div class="board-number-multipler">
                             @if (index == 10)
                             {
                                 <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.addMultiplier(event)">
@@ -83,13 +83,7 @@
                                     }
                                 </select>
                             }
-
-                            @*  @Html.DropDownList($"Item-{index}", Enumerable.Range(0, 31).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { data_no = index })*@
                         </div>
-                        @*@if (index == 10)
-                            {
-                                <input type="text" class="form-control" id="number-multiplier" onkeyup="cascadingSlotGameResultBase.onInputNickname(event)" />
-                            }*@
                     </div>
 
                 }
