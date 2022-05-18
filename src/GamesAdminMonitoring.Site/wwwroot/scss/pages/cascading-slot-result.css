@@ -31,10 +31,12 @@
 
 .form .div-multipler {
   display: inline-block;
-  max-width: 50px;
+  max-width: 150px;
   margin-left: 5px; }
+  .form .div-multipler label {
+    display: inline-block; }
   .form .div-multipler .input-multiplier {
-    width: 100%; }
+    width: 50px; }
 
 .form .required-icons {
   font-weight: bold;

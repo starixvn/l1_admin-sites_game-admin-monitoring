@@ -1,12 +1,13 @@
-﻿var cascadingSlotGameResult = (function () {
-    var rowId = 0;
+let cascadingSlotGameResult = (function () {
+    let globalBoardIndex = 0;
+    const multiplerSymbolIndex = 10;
+    const requiredBoardSymbols = 30;
+    const multiplierDefaultValue = 1;
+    const notedMessage = "Total symbols: ";
 
-    var isValidNickname = false;
-    var isValidTumble = false;
+    let rawResults = [];
 
-    var rawResults = [];
-
-    var postData = {
+    let postData = {
         nickname: '',
         result: {
             baseSpin: {
@@ -22,29 +23,17 @@
             event.preventDefault();
             if (event.currentTarget.value !== "") {
                 $('.error').addClass('hidden');
-                isValidNickname = true;
 
-                //if (isValidTumble) {
-                //    $('.btn-submit').removeClass('disabled');
-                //    $('.btn-submit').removeAttr('disabled');
-                //}
-                //else {
-                //    $('.btn-submit').addClass('disabled');
-                //    $('.btn-submit').attr('disabled', true);
-
-                //}
                 return;
             }
-
-            isValidNickname = false;
-            //$('.btn-submit').addClass('disabled');
-            //$('.btn-submit').attr('disabled', true);
         },
         generateRandom: function (min, max, exclude) {
             let random;
             while (!random) {
                 const x = Math.floor(Math.random() * (max - min + 1)) + min;
-                if (exclude.indexOf(x) === -1) random = x;
+                if (exclude.indexOf(x) === -1) {
+                    random = x;
+                }
             }
             return random;
         },
@@ -62,62 +51,90 @@
             return array;
         },
         createBoard: function (matrix) {
-            var numbers = [];
-            var count = 0;
-            var excludeNumbers = [];
+            let numbers = [];
+            let count = 0;
+            let excludeNumbers = [];
 
             $.each(matrix, function (index) {
-                var numberOfSymbol = matrix[index];
+                let numberOfSymbol = matrix[index];
 
                 count += numberOfSymbol;
                 if (numberOfSymbol > 0) {
                     excludeNumbers.push(index);
                 }
 
-                for (var i = numberOfSymbol; i > 0; i--) {
+                for (let i = numberOfSymbol; i > 0; i--) {
                     numbers.push(index);
                 }
             });
 
-            var length = matrix.reduce((accumulator, curr) => accumulator + curr);
-            for (var i = length - count; i > 0; i--) {
-                numbers.push(this.generateRandom(0, 10, excludeNumbers));
+            const length = matrix.reduce((accumulator, curr) => accumulator + curr);
+            for (let i = length - count; i > 0; i--) {
+                numbers.push(this.generateRandom(0, multiplerSymbolIndex, excludeNumbers));
             }
 
             return this.shuffle(numbers);
         },
-        inputMultiplier: function (event, tumbleNo) {
-            event.preventDefault();
-            var multiplier = [];
-            $('#' + tumbleNo + '.advance-mode .div-multipler:not(.pre-multipler) .input-multiplier').each(function () {
-                multiplier.push(parseInt($(this).val()));
-            });
-
-            if (tumbleNo === 0) {
+        assignMultiplierToPostData: function (boardIndex, multiplier) {
+            if (this.isBaseSpin(boardIndex)) {
                 postData.result.baseSpin.multiplier = multiplier;
             }
             else {
-                postData.result.tumbles[tumbleNo - 1].multiplier = multiplier;
+                postData.result.tumbles[boardIndex - 1].multiplier = multiplier;
             }
+        },
+        inputMultiplier: function (event, boardIndex) {
+            event.preventDefault();
+            let multiplier = [];
+            $('#' + boardIndex + '.advance-mode .div-multipler:not(.pre-multipler) .input-multiplier').each(function () {
+                let multiplierValue = parseInt($(this).val());
+                if (isNaN(multiplierValue)) {
+                    multiplierValue = multiplierDefaultValue;
+                    $(this).val(multiplierDefaultValue);
+                }
+
+                const max = parseInt($(this).attr('max'));
+                const min = parseInt($(this).attr('min'));
+                if (multiplierValue > max) {
+                    $(this).val(max);
+                    multiplierValue = max;
+                }
+                else if (multiplierValue < min) {
+                    $(this).val(min);
+                    multiplierValue = min;
+                }
+
+                multiplier.push(multiplierValue);
+            });
+
+            this.assignMultiplierToPostData(boardIndex, multiplier);
+
         },
         addMultiplier: function (e) {
             e.preventDefault();
             this.changeNumberOfSymbol(e);
-            var multiplierElm = $(e.currentTarget);
+            const multiplierElm = $(e.currentTarget);
 
             multiplierElm.closest('.advance-mode').find('.div-multipler:not(.pre-multipler)').remove();
 
-            var numberOfMuliplier = parseInt(multiplierElm.val());
-            var tumbleNo = parseInt(multiplierElm.closest('.advance-mode').attr("id"));
-            var actualNumberOfMuliplier = this.calculateNumberOfMultiplier(numberOfMuliplier, tumbleNo);
+            const numberOfMuliplier = parseInt(multiplierElm.val());
+            const boardIndex = parseInt(multiplierElm.closest('.advance-mode').attr("id"));
+            const actualNumberOfMuliplier = this.calculateNumberOfMultiplier(numberOfMuliplier, boardIndex);
 
-            for (var i = 0; i < actualNumberOfMuliplier; i++) {
-                const inputMultiplierHtml = '<div class="div-multipler"> <input type="number" min="1" max="500" onchange="cascadingSlotGameResult.inputMultiplier(event,' + tumbleNo + ')" class="input-multiplier" /></div>';
+            const previousMultiplierLength = this.getPreviousTotalMultipliers(globalBoardIndex).length;
+
+            let multiplierTmp = [];
+
+            for (let i = 0; i < actualNumberOfMuliplier; i++) {
+                multiplierTmp.push(multiplierDefaultValue);
+                const inputMultiplierHtml = '<div class="div-multipler"> <label>Multiplier ' + (previousMultiplierLength + i) + '</label> <input value="' + multiplierDefaultValue + '" type="number" min="1" max="500" onchange="cascadingSlotGameResult.inputMultiplier(event,' + boardIndex + ')" class="input-multiplier" /></div>';
                 multiplierElm.closest('.board-row').append(inputMultiplierHtml);
             }
+
+            this.assignMultiplierToPostData(boardIndex, multiplierTmp);
         },
         calculateNumberOfMultiplier: function (numberOfMuliplier, tumbleNo) {
-            var actualNumberOfMuliplier = 0
+            let actualNumberOfMuliplier = 0;
 
             switch (tumbleNo) {
                 case 0:
@@ -168,69 +185,18 @@
             $('#add-tumble').addClass('disabled');
             $('#add-tumble').attr('disabled', true);
         },
-        initialIcons: function () {
-            var icons = {};
-            for (var i = 0; i <= 10; i++) {
-                icons["Item-" + i] = 0;
+        initialSymbols: function () {
+            let symbols = {};
+            for (let i = 0; i <= multiplerSymbolIndex; i++) {
+                symbols["Item-" + i] = 0;
             }
-            return icons;
+            return symbols;
         },
-        addTumble: function () {
-            var resultContainer = document.querySelector('#result-container');
-            var template = document.querySelector('template');
-
-            this.disableAddTumbleButton();
-
-            var elementClone = template.content.cloneNode(true);
-            var tumbleName = rowId === 0 ? 'Base Spin' : 'Tumbling ' + rowId;
-            elementClone.querySelector('span').textContent = tumbleName;
-            $(elementClone).find('.advance-mode').attr("id", rowId);
-            $(elementClone).find(':selected').attr("data-tumble-no", rowId);
-
-            var $this = this;
-            const requiredIcons = 30;
-            var icons = this.initialIcons();
-
-            if (rowId > 0) {
-                var previousTumble = Object.values(rawResults[rowId - 1].Value);
-
-                for (var i = 0; i <= 10; i++) {
-                    var presetIcon = previousTumble[i] < 8 || i === 10 ? previousTumble[i] : 0;
-
-                    var presetIconId = 'Item-' + i;
-                    icons[presetIconId] = presetIcon;
-                    $(elementClone).find('#' + presetIconId).val(presetIcon);
-
-                    $(elementClone).find('#' + presetIconId).find("option:lt(" + presetIcon + ")").remove();
-
-                    if (i === 10) {
-                        $this.getPreviousTotalMultipliers(rowId).forEach(function (tumble) {
-                            const readonlyMultiplierHtml = '<div class="div-multipler pre-multipler"> <input type="number" readonly disabled class="input-multiplier" value="' + tumble + '" /></div>';
-                            $(elementClone).find('#' + presetIconId).closest('.board-number-multipler').append(readonlyMultiplierHtml);
-                        });
-                    }
-                }
-            }
-
-            $(elementClone).find('.required-icons').text('Required Icons: ' + requiredIcons);
-            $(elementClone).find('.message').text('Total Icons: ' + Object.values(icons).reduce((accumulator, curr) => accumulator + curr));
-            $(elementClone).find('.message').removeClass('successfully hidden').addClass('error');
-            resultContainer.appendChild(elementClone);
-
-            rawResults.push(
-                {
-                    Name: tumbleName,
-                    Id: rowId,
-                    RequiredIcons: requiredIcons,
-                    Value: icons,
-                    OriginIcons: JSON.parse(JSON.stringify(icons)),
-                    AddedIcons: JSON.parse(JSON.stringify(icons)),
-                    MultiPlier: [],
-                    IsExploded: false,
-                    ExplodedIcons: 0
-                });
-
-            if (rowId === 0) {
+        isBaseSpin: function (boardIndex) {
+            return boardIndex === 0;
+        },
+        assignPostData: function () {
+            if (this.isBaseSpin(globalBoardIndex)) {
                 postData.result.baseSpin = {
                     board: [],
                     multiplier: []
@@ -242,15 +208,79 @@
                     multiplier: []
                 });
             }
+        },
+        addRawDataToGlobalResult: function (symbols, tumbleName) {
+            rawResults.push(
+                {
+                    Name: tumbleName,
+                    Id: globalBoardIndex,
+                    Value: symbols,
+                    OriginSymbols: JSON.parse(JSON.stringify(symbols)),
+                    AddedSymbols: JSON.parse(JSON.stringify(symbols)),
+                    IsExploded: false,
+                    ExplodedIcons: 0
+                });
+            globalBoardIndex++;
+        },
+        isMultiplierSymbol: function (id) {
+            return id === multiplerSymbolIndex;
+        },
+        appendMultiplierInputHtml: function (symbolId, elementClone) {
+            this.getPreviousTotalMultipliers(globalBoardIndex).forEach(function (boardIndex, index) {
+                const readonlyMultiplierHtml = '<div class="div-multipler pre-multipler"><label>Multiplier ' + index + '</label> <input type="number" readonly disabled class="input-multiplier" value="' + boardIndex + '" /></div>';
+                $(elementClone).find(symbolId).closest('.board-number-multipler').append(readonlyMultiplierHtml);
+            });
+        },
+        adjustSymbolDropDownlist: function (elementClone, symbols) {
+            const previousTumble = Object.values(rawResults[globalBoardIndex - 1].Value);
 
-            rowId++;
+            for (let i = 0; i <= multiplerSymbolIndex; i++) {
+                const isMultipler = this.isMultiplierSymbol(i);
+                const symbolName = 'Item-' + i;
+                const symbolId = '#' + symbolName;
+
+                const numberOfSymbol = previousTumble[i] < 8 || isMultipler ? previousTumble[i] : 0;
+                symbols[symbolName] = numberOfSymbol;
+
+                $(elementClone).find(symbolId).val(numberOfSymbol);
+                $(elementClone).find(symbolId).find("option:lt(" + numberOfSymbol + ")").remove();
+
+                if (isMultipler) {
+                    this.appendMultiplierInputHtml(symbolId, elementClone);
+                }
+            }
+        },
+        addTumble: function () {
+            const resultContainer = document.querySelector('#result-container');
+            const template = document.querySelector('template');
+
+            this.disableAddTumbleButton();
+
+            let elementClone = template.content.cloneNode(true);
+            const tumbleName = globalBoardIndex === 0 ? 'Base Spin' : 'Tumbling ' + globalBoardIndex;
+            elementClone.querySelector('span').textContent = tumbleName;
+            $(elementClone).find('.advance-mode').attr("id", globalBoardIndex);
+            $(elementClone).find(':selected').attr("data-tumble-no", globalBoardIndex);
+
+            let symbols = this.initialSymbols();
+
+            if (!this.isBaseSpin(globalBoardIndex)) {
+                this.adjustSymbolDropDownlist(elementClone, symbols);
+            }
+
+            $(elementClone).find('.message').text(notedMessage + Object.values(symbols).reduce((accumulator, curr) => accumulator + curr));
+            $(elementClone).find('.message').removeClass('successfully hidden').addClass('error');
+            resultContainer.appendChild(elementClone);
+
+            this.addRawDataToGlobalResult(symbols, tumbleName);
+            this.assignPostData();
         },
         adjustDataWhenWrongInput: function (boardIndex) {
             rawResults = rawResults.filter(function (value, index) {
                 return index <= boardIndex;
             });
 
-            if (boardIndex === 0) {
+            if (this.isBaseSpin(boardIndex)) {
                 postData.result.tumbles = [];
             }
             else {
@@ -263,7 +293,6 @@
             $('.advance-mode').each(function (index, element) {
                 if (parseInt($(element).attr("id")) > boardIndex) {
                     $(element).remove();
-
                 }
             });
         },
@@ -271,9 +300,9 @@
             this.adjustHtmlWhenWrongInput(boardIndex);
             this.adjustDataWhenWrongInput(boardIndex);
         },
-        displayMessgeOnBoard: function (advanceModeElm, tumble, totalIcons, boardIndex) {
-            advanceModeElm.find('.message').text('Total Icons: ' + totalIcons);
-            if (totalIcons === tumble.RequiredIcons) {
+        displayMessgeOnBoard: function (advanceModeElm, totalSymbol, boardIndex) {
+            advanceModeElm.find('.message').text(notedMessage + totalSymbol);
+            if (totalSymbol === requiredBoardSymbols) {
                 advanceModeElm.find('.message').removeClass('error hidden').addClass('successfully');
             }
             else {
@@ -282,83 +311,70 @@
             }
         },
         monitorAddTumbleButton: function () {
-            var disabledAddTumble = rawResults.filter(function (tumble) {
+            const disabledAddTumbleButton = rawResults.filter(function (tumble) {
                 return !tumble.IsExploded;
             }).length > 0;
 
-            if (disabledAddTumble) {
+            if (disabledAddTumbleButton) {
                 $('#add-tumble').addClass('disabled');
                 $('#add-tumble').attr('disabled', true);
-
-                //$('.btn-submit').addClass('disabled');
-                //$('.btn-submit').attr('disabled', true);
             }
             else {
                 $('#add-tumble').removeClass('disabled');
                 $('#add-tumble').removeAttr('disabled');
-
-                //if (isValidNickname) {
-                //    $('.btn-submit').removeClass('disabled');
-                //    $('.btn-submit').removeAttr('disabled');
-                //}
-                //else {
-                //    $('.btn-submit').addClass('disabled');
-                //    $('.btn-submit').attr('disabled', true);
-
-                //}
             }
         },
         changeNumberOfSymbol: function (e) {
-            var numberOfSymbol = parseInt($(e.currentTarget).val());
-            var id = $(e.currentTarget).attr("id");
-            var advanceModeElm = $(e.currentTarget).closest('.advance-mode');
-            var boardIndex = parseInt(advanceModeElm.attr("id"));
+            const symbolDropDownElm = $(e.currentTarget);
+            const numberOfSymbol = parseInt(symbolDropDownElm.val());
+            const symbolId = symbolDropDownElm.attr("id");
+            let advanceModeElm = symbolDropDownElm.closest('.advance-mode');
+            const boardIndex = parseInt(advanceModeElm.attr("id"));
 
-            var $this = this;
-            rawResults.find(function (tumble) {
-                if (tumble.Id === boardIndex) {
-                    tumble.Value[id] = numberOfSymbol;
-                    tumble.ExplodedIcons = 0;
-                    tumble.IsExploded = false;
+            const $this = this;
+            rawResults.find(function (result) {
+                if (result.Id === boardIndex) {
+                    result.Value[symbolId] = numberOfSymbol;
+                    result.ExplodedIcons = 0;
+                    result.IsExploded = false;
 
-                    var totalIcons = 0;
+                    let totalSymbol = 0;
                     $.each(Object.values(rawResults[boardIndex].Value), function (index, value) {
+                        totalSymbol += value;
                         if (value > 7) {
-                            tumble.ExplodedIcons += value;
+                            result.ExplodedIcons += value;
                         }
 
-                        totalIcons += value;
-
-                        var presetIconId = 'Item-' + index;
-                        tumble.AddedIcons[presetIconId] = boardIndex === 0 ? tumble.Value[presetIconId] : tumble.Value[presetIconId] - tumble.OriginIcons[presetIconId];
+                        const presetSymbolId = 'Item-' + index;
+                        result.AddedSymbols[presetSymbolId] = boardIndex === 0 ? result.Value[presetSymbolId] : result.Value[presetSymbolId] - result.OriginSymbols[presetSymbolId];
                     });
 
-                    if (boardIndex === 0) {
+                    if ($this.isBaseSpin(boardIndex)) {
                         postData.result.baseSpin.board = $this.createBoard(Object.values(rawResults[0].Value));
                     }
                     else {
-                        postData.result.tumbles[boardIndex - 1].newSymbols = $this.createBoard(Object.values(rawResults[boardIndex].AddedIcons));
+                        postData.result.tumbles[boardIndex - 1].newSymbols = $this.createBoard(Object.values(rawResults[boardIndex].AddedSymbols));
                     }
 
-                    tumble.IsExploded = totalIcons === tumble.RequiredIcons && tumble.ExplodedIcons > 7;
+                    result.IsExploded = totalSymbol === requiredBoardSymbols && result.ExplodedIcons > 7;
 
-                    $this.displayMessgeOnBoard(advanceModeElm, tumble, totalIcons, boardIndex);
+                    $this.displayMessgeOnBoard(advanceModeElm, totalSymbol, boardIndex);
                     $this.monitorAddTumbleButton();
                 }
             });
         },
         importTemplateResults: function (e) {
             e.preventDefault();
-            var nickame = $("#Nickname").val();
+            const nickame = $("#Nickname").val();
             if (nickame === undefined || nickame === '') {
                 $('.error').removeClass('hidden');
                 return;
             }
 
             $('#preloader').removeClass('hidden');
-            var formData = new FormData();
-            var excelFiles = document.getElementById('file').files;
-            for (var i = 0; i < excelFiles.length; i++) {
+            let formData = new FormData();
+            const excelFiles = document.getElementById('file').files;
+            for (let i = 0; i < excelFiles.length; i++) {
                 formData.append('file', excelFiles[i]);
                 formData.append('gameConfigName', $("#GameName").val());
                 formData.append('nickame', nickame);
@@ -386,7 +402,7 @@
             try {
                 e.preventDefault();
 
-                var nickame = $("#Nickname").val();
+                const nickame = $("#Nickname").val();
                 if (nickame === undefined || nickame === '') {
                     $('.error').removeClass('hidden');
                     return;
@@ -419,4 +435,4 @@
 
 $(document).ready(function () {
     cascadingSlotGameResult.addTumble();
-}) 
+})

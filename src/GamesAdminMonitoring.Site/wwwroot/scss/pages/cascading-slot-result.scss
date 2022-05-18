@@ -37,11 +37,15 @@
 
     .div-multipler {
         display: inline-block;
-        max-width: 50px;
+        max-width: 150px;
         margin-left: 5px;
 
+        label {
+            display: inline-block;
+        }
+
         .input-multiplier {
-            width: 100%;
+            width: 50px;
         }
     }
 
