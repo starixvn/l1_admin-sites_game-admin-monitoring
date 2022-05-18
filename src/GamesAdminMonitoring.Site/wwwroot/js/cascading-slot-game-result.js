@@ -4,9 +4,9 @@
     var isValidNickname = false;
     var isValidTumble = false;
 
-    var tumbleResults = [];
+    var rawResults = [];
 
-    var rawResults = {
+    var postData = {
         nickname: '',
         result: {
             baseSpin: {
@@ -94,15 +94,15 @@
             });
 
             if (tumbleNo === 0) {
-                rawResults.result.baseSpin.multiplier = multiplier;
+                postData.result.baseSpin.multiplier = multiplier;
             }
             else {
-                rawResults.result.tumbles[tumbleNo - 1].multiplier = multiplier;
+                postData.result.tumbles[tumbleNo - 1].multiplier = multiplier;
             }
         },
         addMultiplier: function (e) {
             e.preventDefault();
-            this.sumIcons(e);
+            this.changeNumberOfSymbol(e);
             var multiplierElm = $(e.currentTarget);
 
             multiplierElm.closest('.advance-mode').find('.div-multipler:not(.pre-multipler)').remove();
@@ -124,12 +124,12 @@
                     actualNumberOfMuliplier = numberOfMuliplier;
                     break;
                 case 1:
-                    actualNumberOfMuliplier = numberOfMuliplier - rawResults.result.baseSpin.multiplier.length;
+                    actualNumberOfMuliplier = numberOfMuliplier - postData.result.baseSpin.multiplier.length;
                     break;
                 default:
                     var totalMultiplierInTumbles = 0;
                     var tumbleNoCount = 0;
-                    rawResults.result.tumbles.forEach(function (tumble) {
+                    postData.result.tumbles.forEach(function (tumble) {
                         if (tumbleNoCount < tumbleNo) {
                             totalMultiplierInTumbles += tumble.multiplier.length;
                         }
@@ -137,7 +137,7 @@
                         tumbleNoCount++;
                     });
 
-                    actualNumberOfMuliplier = numberOfMuliplier - rawResults.result.baseSpin.multiplier.length - totalMultiplierInTumbles;
+                    actualNumberOfMuliplier = numberOfMuliplier - postData.result.baseSpin.multiplier.length - totalMultiplierInTumbles;
                     break;
             }
 
@@ -149,11 +149,11 @@
                 case 0:
                     return [];
                 case 1:
-                    return rawResults.result.baseSpin.multiplier;
+                    return postData.result.baseSpin.multiplier;
                 default:
                     var tumbleNoCount = 0;
-                    var totalMultipliers = JSON.parse(JSON.stringify(rawResults.result.baseSpin.multiplier));
-                    rawResults.result.tumbles.forEach(function (tumble) {
+                    var totalMultipliers = JSON.parse(JSON.stringify(postData.result.baseSpin.multiplier));
+                    postData.result.tumbles.forEach(function (tumble) {
                         if (tumbleNoCount < tumbleNo) {
                             totalMultipliers = totalMultipliers.concat(tumble.multiplier);
                         }
@@ -192,10 +192,10 @@
             var icons = this.initialIcons();
 
             if (rowId > 0) {
-                var previousTumble = Object.values(tumbleResults[rowId - 1].Value);
+                var previousTumble = Object.values(rawResults[rowId - 1].Value);
 
                 for (var i = 0; i <= 10; i++) {
-                    var presetIcon = previousTumble[i] < 7 || i === 10 ? previousTumble[i] : 0;
+                    var presetIcon = previousTumble[i] < 8 || i === 10 ? previousTumble[i] : 0;
 
                     var presetIconId = 'Item-' + i;
                     icons[presetIconId] = presetIcon;
@@ -217,7 +217,7 @@
             $(elementClone).find('.message').removeClass('successfully hidden').addClass('error');
             resultContainer.appendChild(elementClone);
 
-            tumbleResults.push(
+            rawResults.push(
                 {
                     Name: tumbleName,
                     Id: rowId,
@@ -226,18 +226,18 @@
                     OriginIcons: JSON.parse(JSON.stringify(icons)),
                     AddedIcons: JSON.parse(JSON.stringify(icons)),
                     MultiPlier: [],
-                    IsValid: false,
+                    IsExploded: false,
                     ExplodedIcons: 0
                 });
 
             if (rowId === 0) {
-                rawResults.result.baseSpin = {
+                postData.result.baseSpin = {
                     board: [],
                     multiplier: []
                 }
             }
             else {
-                rawResults.result.tumbles.push({
+                postData.result.tumbles.push({
                     newSymbols: [],
                     multiplier: []
                 });
@@ -245,87 +245,107 @@
 
             rowId++;
         },
-        sumIcons: function (e) {
+        adjustDataWhenWrongInput: function (boardIndex) {
+            rawResults = rawResults.filter(function (value, index) {
+                return index <= boardIndex;
+            });
+
+            if (boardIndex === 0) {
+                postData.result.tumbles = [];
+            }
+            else {
+                postData.result.tumbles = postData.result.tumbles.filter(function (value, index) {
+                    return index < boardIndex;
+                });
+            }
+        },
+        adjustHtmlWhenWrongInput: function (boardIndex) {
+            $('.advance-mode').each(function (index, element) {
+                if (parseInt($(element).attr("id")) > boardIndex) {
+                    $(element).remove();
+
+                }
+            });
+        },
+        adjustWhenWrongInput: function (boardIndex) {
+            this.adjustHtmlWhenWrongInput(boardIndex);
+            this.adjustDataWhenWrongInput(boardIndex);
+        },
+        displayMessgeOnBoard: function (advanceModeElm, tumble, totalIcons, boardIndex) {
+            advanceModeElm.find('.message').text('Total Icons: ' + totalIcons);
+            if (totalIcons === tumble.RequiredIcons) {
+                advanceModeElm.find('.message').removeClass('error hidden').addClass('successfully');
+            }
+            else {
+                advanceModeElm.find('.message').removeClass('successfully hidden').addClass('error');
+                this.adjustWhenWrongInput(boardIndex);
+            }
+        },
+        monitorAddTumbleButton: function () {
+            var disabledAddTumble = rawResults.filter(function (tumble) {
+                return !tumble.IsExploded;
+            }).length > 0;
+
+            if (disabledAddTumble) {
+                $('#add-tumble').addClass('disabled');
+                $('#add-tumble').attr('disabled', true);
+
+                //$('.btn-submit').addClass('disabled');
+                //$('.btn-submit').attr('disabled', true);
+            }
+            else {
+                $('#add-tumble').removeClass('disabled');
+                $('#add-tumble').removeAttr('disabled');
+
+                //if (isValidNickname) {
+                //    $('.btn-submit').removeClass('disabled');
+                //    $('.btn-submit').removeAttr('disabled');
+                //}
+                //else {
+                //    $('.btn-submit').addClass('disabled');
+                //    $('.btn-submit').attr('disabled', true);
+
+                //}
+            }
+        },
+        changeNumberOfSymbol: function (e) {
             var numberOfSymbol = parseInt($(e.currentTarget).val());
             var id = $(e.currentTarget).attr("id");
             var advanceModeElm = $(e.currentTarget).closest('.advance-mode');
-            var tumbleIndex = parseInt(advanceModeElm.attr("id"));
+            var boardIndex = parseInt(advanceModeElm.attr("id"));
 
-            var tumble = tumbleResults.find(function (tumble) {
-                return tumble.Id === tumbleIndex;
-            });
+            var $this = this;
+            rawResults.find(function (tumble) {
+                if (tumble.Id === boardIndex) {
+                    tumble.Value[id] = numberOfSymbol;
+                    tumble.ExplodedIcons = 0;
+                    tumble.IsExploded = false;
 
-            if (tumble) {
-                tumble.Value[id] = numberOfSymbol;
-                tumble.ExplodedIcons = 0;
-                tumble.IsValid = false;
+                    var totalIcons = 0;
+                    $.each(Object.values(rawResults[boardIndex].Value), function (index, value) {
+                        if (value > 7) {
+                            tumble.ExplodedIcons += value;
+                        }
 
-                var totalIcons = 0;
-                $.each(Object.values(tumbleResults[tumbleIndex].Value), function (index, value) {
-                    if (value > 7) {
-                        tumble.ExplodedIcons += value;
+                        totalIcons += value;
+
+                        var presetIconId = 'Item-' + index;
+                        tumble.AddedIcons[presetIconId] = boardIndex === 0 ? tumble.Value[presetIconId] : tumble.Value[presetIconId] - tumble.OriginIcons[presetIconId];
+                    });
+
+                    if (boardIndex === 0) {
+                        postData.result.baseSpin.board = $this.createBoard(Object.values(rawResults[0].Value));
+                    }
+                    else {
+                        postData.result.tumbles[boardIndex - 1].newSymbols = $this.createBoard(Object.values(rawResults[boardIndex].AddedIcons));
                     }
 
-                    totalIcons += value;
+                    tumble.IsExploded = totalIcons === tumble.RequiredIcons && tumble.ExplodedIcons > 7;
 
-                    var presetIconId = 'Item-' + index;
-                    tumble.AddedIcons[presetIconId] = tumbleIndex === 0 ? tumble.Value[presetIconId] : tumble.Value[presetIconId] - tumble.OriginIcons[presetIconId];
-                });
-
-                if (tumbleIndex === 0) {
-                    rawResults.result.baseSpin.board = this.createBoard(Object.values(tumbleResults[0].Value));
+                    $this.displayMessgeOnBoard(advanceModeElm, tumble, totalIcons, boardIndex);
+                    $this.monitorAddTumbleButton();
                 }
-                else {
-                    rawResults.result.tumbles[tumbleIndex - 1].newSymbols = this.createBoard(Object.values(tumbleResults[tumbleIndex].AddedIcons));
-                }
-
-                advanceModeElm.find('.message').text('Total Icons: ' + totalIcons);
-                if (totalIcons === tumble.RequiredIcons) {
-                    advanceModeElm.find('.message').removeClass('error hidden').addClass('successfully');
-                }
-                else {
-                    advanceModeElm.find('.message').removeClass('successfully hidden').addClass('error');
-                    //$('.advance-mode').each(function (index, element) {
-                    //    if (parseInt($(element).attr("id")) > tumbleIndex) {
-                    //        $(element).addClass('hidden');
-                    //    }
-                    //})
-                }
-
-                tumble.IsValid = totalIcons === tumble.RequiredIcons && tumble.ExplodedIcons > 7;
-
-                var disabledAddTumble = tumbleResults.filter(function (tumble) {
-                    return !tumble.IsValid;
-                }).length > 0;
-
-                if (disabledAddTumble) {
-                    $('#add-tumble').addClass('disabled');
-                    $('#add-tumble').attr('disabled', true);
-
-                    //$('.btn-submit').addClass('disabled');
-                    //$('.btn-submit').attr('disabled', true);
-                }
-                else {
-                    $('#add-tumble').removeClass('disabled');
-                    $('#add-tumble').removeAttr('disabled');
-
-                    //if (isValidNickname) {
-                    //    $('.btn-submit').removeClass('disabled');
-                    //    $('.btn-submit').removeAttr('disabled');
-                    //}
-                    //else {
-                    //    $('.btn-submit').addClass('disabled');
-                    //    $('.btn-submit').attr('disabled', true);
-
-                    //}
-                }
-            }
-
-            //tumbleResults.find(function (tumble) {
-
-            //});
-
-            //console.log(JSON.stringify(tumbleResults, null, 2));
+            });
         },
         importTemplateResults: function (e) {
             e.preventDefault();
@@ -374,13 +394,13 @@
 
                 $('#preloader').removeClass('hidden');
 
-                console.log(JSON.stringify(tumbleResults, null, 2));
                 console.log(JSON.stringify(rawResults, null, 2));
+                console.log(JSON.stringify(postData, null, 2));
 
                 $.ajax({
                     type: "POST",
                     url: "SetCascadingSlotResult",
-                    data: { data: JSON.stringify(rawResults) },
+                    data: { data: JSON.stringify(postData) },
                     dataType: 'html',
                     success: function (response) {
                         $('#set-result').html(response);

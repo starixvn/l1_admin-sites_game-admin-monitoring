@@ -73,7 +73,7 @@
                             }
                             else
                             {
-                                <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.sumIcons(event)">
+                                <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.changeNumberOfSymbol(event)">
                                     @for (decimal j = 0; j <= 30; j++)
                                     {
                                         <option value="@j">
