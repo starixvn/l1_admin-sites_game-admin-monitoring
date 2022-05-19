@@ -20,14 +20,15 @@
             <div class="error hidden">Please input nickname !</div>
         </div>
         <div class="col-auto">
-            @using (Html.BeginForm("Excel", "ResultMonitor", FormMethod.Post))
+            @using (Html.BeginForm("ExportResultJsonFile", "ResultMonitor", FormMethod.Post, new { name = "export-json", id = "export-json" }))
             {
-                <input type="submit" class="btn-primary" value="Export Template" />
+                <input type="hidden" id="jsonData" name="jsonData" />
+                <input id="export-json-button" type="submit" disabled class="btn-primary disabled" value="Export Json Result" onclick="cascadingSlotGameResult.exportResultJsonFile(event)" />
             }
         </div>
         <div class="col-auto">
-            <input class="hidden" type="file" id="file" name="file" accept=".xls,.xlsx" onchange="cascadingSlotGameResult.importTemplateResults(event)" />
-            <label class="btn-primary" for="file">Import Template & Set Result </label>
+            <input class="hidden" type="file" id="file" name="file" accept=".json" onchange="cascadingSlotGameResult.importTemplateResults(event)" />
+            <label class="btn-primary" for="file">Import & Set Result </label>
         </div>
     </div>
     <div class="form-row align-items-center" id="result-container">
@@ -38,7 +39,7 @@
             <button id="add-tumble" disabled type="button" class="btn-primary disabled" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
         </div>
         <div class="col-auto">
-            <button type="submit" class="btn-submit" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
+            <button id="submit" type="submit" disabled class="btn-submit disabled" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
         </div>
     </div>
     <div id="preloader" class="hidden">
@@ -56,7 +57,7 @@
                 @for (decimal index = 0; index <= 10; index++)
                 {
                     <div class="board-row">
-                        <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index + 1).png" /></div>
+                        <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index ).png" /></div>
                         <div class="board-number-multipler">
                             @if (index == 10)
                             {

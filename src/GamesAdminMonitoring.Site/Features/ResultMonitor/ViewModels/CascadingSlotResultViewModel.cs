@@ -10,10 +10,9 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
         }
 
-        public CascadingSlotResultViewModel(string name, string token)
+        public CascadingSlotResultViewModel(string name)
         {
             GameName = name;
-            Token = token;
         }
 
         public string GameName { get; }

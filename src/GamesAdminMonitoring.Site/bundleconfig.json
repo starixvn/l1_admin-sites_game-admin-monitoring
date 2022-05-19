@@ -38,7 +38,7 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/cascading-slot-game-result.js",
+    "outputFileName": "wwwroot/js/cascading-slot-game-result.min.js",
     "inputFiles": [
       "wwwroot/js/cascading-slot-game-result.js"
     ]

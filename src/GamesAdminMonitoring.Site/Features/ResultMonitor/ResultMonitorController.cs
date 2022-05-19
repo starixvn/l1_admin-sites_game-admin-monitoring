@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
 using GamesAdminMonitoring.Site._Shared.Configurations;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
@@ -131,9 +129,10 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         [HttpGet]
         public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName)
         {
-            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+            return View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName));
+            //var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName, token)) : RedirectToRestrictedPage(model.Message);
+            //return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
@@ -145,68 +144,30 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpPost]
-        public IActionResult Excel()
+        public IActionResult ExportResultJsonFile(string jsonData)
         {
-            using var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add("Results");
-            var currentRow = 1;
-            worksheet.Cell(currentRow, 1).Value = "Name";
-            worksheet.Cell(currentRow, 2).Value = "Result";
-
-            var results = new List<RawResult>
-                {
-                    new RawResult{Name ="Base Spin", Value ="0,0,0,5,7,8,5,0,2,0,0,7,3,0,3,8,5,9,7,7,8,0,5,0,6,0,4,4,2,0" },
-                    new RawResult{Name ="Tumbling 1", Value ="1,1,1,5,7,8,5,0,2,0,0,7,3,0,3,8,5,9,7,7,8,0,5,0,6,0,4,4,2,0" },
-                };
-
-            foreach (var result in results)
-            {
-                currentRow++;
-                worksheet.Cell(currentRow, 1).Value = result.Name;
-                worksheet.Cell(currentRow, 2).Value = result.Value;
-            }
-
-            worksheet.Columns().AdjustToContents();
-            using var stream = new MemoryStream();
-            workbook.SaveAs(stream);
-            var content = stream.ToArray();
+            JsonSerializerSettings options = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
 
             return File(
-                content,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "ResultTemplate.xlsx");
+                SerializeToUtf8Bytes(JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(jsonData), options),
+                "text/plain",
+                "ResultTemplate.json");
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> ImportTemplateResults(IFormFile file, string gameConfigName, string nickname)
-        //{
-        //    if (file == null || file.Length == 0)
-        //        return Content("File Not Selected");
+        [HttpPost]
+        public async Task<IActionResult> ImportTemplateResults(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return PartialView(
+                    "CascadingSlotGames/_ResultMonitor",
+                    new SettlementCascadingSlotResultViewModel(string.Empty, Enumerable.Empty<SettlementCascadingSlotResultApi>(), false));
+            }
 
-        //    string fileExtension = Path.GetExtension(file.FileName);
-        //    if (fileExtension != ".xls" && fileExtension != ".xlsx")
-        //        return Content("File Not Selected");
-
-        //    using var workbook = new XLWorkbook(file.OpenReadStream());
-        //    var DataList = new List<RawResult>();
-
-        //    IXLWorksheet worksheet = workbook.Worksheet(1);
-        //    var index = 0;
-        //    foreach (IXLRow row in worksheet.RowsUsed())
-        //    {
-        //        if (index > 0)
-        //        {
-        //            DataList.Add(new RawResult
-        //            {
-        //                Name = row.FirstCellUsed().Value.ToString(),
-        //                Value = row.LastCellUsed().Value.ToString(),
-        //            });
-        //        }
-        //        index++;
-        //    }
-
-        //    return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(new SetCascadingSlotResultRequest { GameConfigName = gameConfigName, RawResults = DataList.ToArray() }));
-        //}
+            using var reader = new StreamReader(file.OpenReadStream());
+            var request = JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(await reader.ReadToEndAsync());
+            return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+        }
 
         private void AddMiniKenoCookie()
         {
@@ -222,5 +183,16 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 
         private IActionResult RedirectToRestrictedPage(string message)
             => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));
+
+        private static byte[] SerializeToUtf8Bytes(object obj, JsonSerializerSettings options)
+        {
+            using var stream = new MemoryStream();
+            using var streamWriter = new StreamWriter(stream);
+            using var jsonWriter = new JsonTextWriter(streamWriter);
+            JsonSerializer.CreateDefault(options).Serialize(jsonWriter, obj);
+            jsonWriter.Flush();
+            stream.Position = 0;
+            return stream.ToArray();
+        }
     }
 }
