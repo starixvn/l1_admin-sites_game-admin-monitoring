@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
@@ -151,7 +152,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             return File(
                 SerializeToUtf8Bytes(JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(jsonData), options),
                 "text/plain",
-                "ResultTemplate.json");
+                $"ResultTemplate-{DateTime.Now:yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK}.json");
         }
 
         [HttpPost]
