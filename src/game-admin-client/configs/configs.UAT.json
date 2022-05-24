@@ -6,6 +6,7 @@
     "I18nConfigPath": "/locales/i18n.config.json",
     "ConsoleLogLevel": "info",
     "SentryLogLevel": "info",
+    "SentryDns": "",
     "DefaultToken": "",
     "TaiXiuOrder": "tai,xiu",
     "ChanLeOrder": "chan,le",

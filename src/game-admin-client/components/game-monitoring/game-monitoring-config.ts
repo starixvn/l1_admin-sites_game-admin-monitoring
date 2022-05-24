@@ -1,3 +1,5 @@
+import configs from '../../configs.json';
+
 const loadOrderFromConfigString = (config: string) => {
   if (config) {
     return config.split(',');
@@ -13,9 +15,9 @@ export const types = {
 };
 
 export const gameMapping = {
-  taixiu: loadOrderFromConfigString(process.env.NEXT_PUBLIC_TAIXIU_ORDER) || ['tai', 'xiu'],
-  chanle: loadOrderFromConfigString(process.env.NEXT_PUBLIC_CHANLE_ORDER) || ['chan', 'le'],
-  clturbo: loadOrderFromConfigString(process.env.NEXT_PUBLIC_CHANLE_ORDER) || ['chan', 'le'],
+  taixiu: loadOrderFromConfigString(configs.TaiXiuOrder) || ['tai', 'xiu'],
+  chanle: loadOrderFromConfigString(configs.ChanLeOrder) || ['chan', 'le'],
+  clturbo: loadOrderFromConfigString(configs.ChanLeOrder) || ['chan', 'le'],
 };
 
 export const gameFlagMapping = {

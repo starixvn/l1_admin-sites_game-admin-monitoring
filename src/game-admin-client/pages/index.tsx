@@ -16,7 +16,7 @@ import GameWsEndpoint from "../components/util/game-server-endpoint/websocket";
 import MessageTransmitter, {
   MessageTransmitterType,
 } from "../components/util/message-transmitter";
-import config from "../configs.json";
+import configs from "../configs.json";
 
 type Props = {
   router: NextRouter;
@@ -41,13 +41,13 @@ export class Home extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.partners = config.Partners;
-    const token = config.Env.toLocaleUpperCase() === "DEV"
-        ? config.DefaultToken
+    this.partners = configs.Partners;
+    const token = configs.Env.toLocaleUpperCase() === "DEV"
+        ? configs.DefaultToken
         : Cookies.get("token");
 
     this.protocol = "wss";
-    this.isProduction = config.Env.toLocaleUpperCase() === "PRO";
+    this.isProduction = configs.Env.toLocaleUpperCase() === "PRO";
     this.messageTransmitter = MessageTransmitter();
 
     this.state = {
@@ -81,8 +81,8 @@ export class Home extends React.Component<Props, State> {
 
   getSocketInfo(gameId) {
     return {
-      endpoint: config.GameServers[`${gameId}`].Socket,
-      route: config.GameServers[`${gameId}`].SocketRoute
+      endpoint: configs.GameServers[`${gameId}`].Socket,
+      route: configs.GameServers[`${gameId}`].SocketRoute
     };
   }
  
