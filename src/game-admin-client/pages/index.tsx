@@ -16,7 +16,7 @@ import GameWsEndpoint from "../components/util/game-server-endpoint/websocket";
 import MessageTransmitter, {
   MessageTransmitterType,
 } from "../components/util/message-transmitter";
-import cookieKeys from "../components/game-monitoring/cookie-keys";
+import config from "../configs.json";
 
 type Props = {
   router: NextRouter;
@@ -31,21 +31,6 @@ type State = {
   socket: GameWsEndpoint;
 };
 
-const NewSocketGameIds = [
-  1, 2, 3, 4, 6, 7, 8, 9, 10, 21, 22, 24, 25, 26, 27, 28, 31, 35, 12, 13, 14,
-  15, 16, 17, 18, 19, 36, 37, 40, 41, 43,
-];
-
-const environmentPartners = {
-  LOCAL: ["ONEworks1", "SBO"],
-  "LOCAL-1": ["ONEworks1", "SBO"],
-  LOCAL_2: ["ONEworks1", "SBO"],
-  LOCAL_3: ["ONEworks1", "SBO"],
-  SIT: ["ONEworks1", "SBO"],
-  UAT: ["ONEworks1"],
-  PRO: ["ONEworks1"],
-};
-
 export class Home extends React.Component<Props, State> {
   public state: State;
   private messageTransmitter: MessageTransmitterType;
@@ -56,16 +41,13 @@ export class Home extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.partners = Cookies.get("env")
-      ? environmentPartners[Cookies.get("env").toLocaleUpperCase()]
-      : environmentPartners["LOCAL"];
-    const token =
-      process.env.NEXT_PUBLIC_ENV === "local"
-        ? process.env.NEXT_PUBLIC_TOKEN
+    this.partners = config.Partners;
+    const token = config.Env.toLocaleUpperCase() === "DEV"
+        ? config.DefaultToken
         : Cookies.get("token");
+
     this.protocol = "wss";
-    this.isProduction =
-      Cookies.get("env") && Cookies.get("env").toLocaleUpperCase() === "PRO";
+    this.isProduction = config.Env.toLocaleUpperCase() === "PRO";
     this.messageTransmitter = MessageTransmitter();
 
     this.state = {
@@ -81,13 +63,11 @@ export class Home extends React.Component<Props, State> {
   initSocket(gameId: number) {
     const socketInfo = this.getSocketInfo(gameId);
     const enabledMsgpack = process.env.NEXT_PUBLIC_ENABLE_MSGPACK;
-    const socket = NewSocketGameIds.includes(gameId)
-      ? new SocketIO(
-          `${this.protocol}://${socketInfo.endpoint}`,
-          socketInfo.route,
-          enabledMsgpack
-        )
-      : new GameWsEndpoint(`${this.protocol}://${socketInfo.endpoint}/admin`);
+    const socket = new SocketIO(
+      `${this.protocol}://${socketInfo.endpoint}`,
+      socketInfo.route,
+      enabledMsgpack
+    );
 
     socket.onDisconnected(this.showWebSocketDisconnected.bind(this));
     socket.addOrReplaceObserver(
@@ -100,346 +80,12 @@ export class Home extends React.Component<Props, State> {
   }
 
   getSocketInfo(gameId) {
-    switch (gameId) {
-      case gameNameMapper.xocxoc:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_SEDIE_SERVER_ENDPOINT
-              : Cookies.get("sedie-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_SEDIE_SERVER_PROXY_ROUTE
-              : Cookies.get("sedie-server-endpoint-route"),
-        };
-      case gameNameMapper.vipsedie:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_SEDIE_SERVER_ENDPOINT
-              : Cookies.get("vip-sedie-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_SEDIE_SERVER_PROXY_ROUTE
-              : Cookies.get("vip-sedie-server-endpoint-route"),
-        };
-      case gameNameMapper.specialsedie:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_SPECIAL_SEDIE_SERVER_ENDPOINT
-              : Cookies.get("special-sedie-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_SPECIAL_SEDIE_SERVER_PROXY_ROUTE
-              : Cookies.get("special-sedie-server-endpoint-route"),
-        };
-      case gameNameMapper.vipfishprawncrab:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_FISH_PRAWN_CRAB_SERVER_ENDPOINT
-              : Cookies.get("vip-fish-prawn-crab-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_FISH_PRAWN_CRAB_SERVER_PROXY_ROUTE
-              : Cookies.get("vip-fish-prawn-crab-server-endpoint-route"),
-        };
-      case gameNameMapper.vipsediewar:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_SEDIE_WAR_SERVER_ENDPOINT
-              : Cookies.get("vip-sedie-war-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_SEDIE_WAR_SERVER_PROXY_ROUTE
-              : Cookies.get("vip-sedie-war-server-endpoint-route"),
-        };
-      case gameNameMapper.vipbaccarat:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_BACCARAT_SERVER_ENDPOINT
-              : Cookies.get("vip-baccarat-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_VIP_BACCARAT_SERVER_PROXY_ROUTE
-              : Cookies.get("vip-baccarat-server-endpoint-route"),
-        };
-      case gameNameMapper.sicbo:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_SIC_BO_SERVER_ENDPOINT
-              : Cookies.get("sic-bo-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_SIC_BO_SERVER_PROXY_ROUTE
-              : Cookies.get("sic-bo-server-endpoint-route"),
-        };
-      case gameNameMapper.lottery:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_LOTTERY_SERVER_ENDPOINT
-              : Cookies.get("lottery-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_LOTTERY_SERVER_PROXY_ROUTE
-              : Cookies.get("lottery-server-endpoint-route"),
-        };
-      case gameNameMapper.kenopromax:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENO_PRO_MAX_SERVER_ENDPOINT
-              : Cookies.get("keno-pro-max-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENO_PRO_MAX_SERVER_PROXY_ROUTE
-              : Cookies.get("keno-pro-max-server-endpoint-route"),
-        };
-      case gameNameMapper.minisedie:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_MINI_SEDIE_SERVER_ENDPOINT
-              : Cookies.get("mini-sedie-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_MINI_SEDIE_SERVER_PROXY_ROUTE
-              : Cookies.get("mini-sedie-server-endpoint-route"),
-        };
-      case gameNameMapper.baucua: {
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_FISH_PRAWN_CRAB_SERVER_ENDPOINT
-              : Cookies.get("fish-prawn-crab-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_FISH_PRAWN_CRAB_SERVER_PROXY_ROUTE
-              : Cookies.get("fish-prawn-crab-server-endpoint-route"),
-        };
-      }
-      case gameNameMapper.taixiu: {
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_BIG_SMALL_SERVER_ENDPOINT
-              : Cookies.get("big-small-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_BIG_SMALL_SERVER_PROXY_ROUTE
-              : Cookies.get("big-small-server-endpoint-route"),
-        };
-      }
-      case gameNameMapper.txturbo: {
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_TURBO_BIG_SMALL_SERVER_ENDPOINT
-              : Cookies.get("turbo-big-small-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_TURBO_BIG_SMALL_SERVER_PROXY_ROUTE
-              : Cookies.get("turbo-big-small-server-endpoint-route"),
-        };
-      }
-      case gameNameMapper.dragontiger: {
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_DRAGON_TIGER_SERVER_ENDPOINT
-              : Cookies.get("dragon-tiger-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_DRAGON_TIGER_SERVER_PROXY_ROUTE
-              : Cookies.get("dragon-tiger-server-endpoint-route"),
-        };
-      }
-      case gameNameMapper.oeturbo: {
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_TURBO_ODD_EVEN_SERVER_ENDPOINT
-              : Cookies.get("turbo-odd-even-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_TURBO_ODD_EVEN_SERVER_PROXY_ROUTE
-              : Cookies.get("turbo-odd-even-server-endpoint-route"),
-        };
-      }
-      case gameNameMapper.roulette:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_ROULETTE_SERVER_ENDPOINT
-              : Cookies.get("roulette-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_ROULETTE_SERVER_PROXY_ROUTE
-              : Cookies.get("roulette-server-endpoint-route"),
-        };
-      case gameNameMapper.baccarat:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_BACCARAT_SERVER_ENDPOINT
-              : Cookies.get("baccarat-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_BACCARAT_SERVER_PROXY_ROUTE
-              : Cookies.get("baccarat-server-endpoint-route"),
-        };
-      case gameNameMapper.threecards:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_THREE_CARDS_SERVER_ENDPOINT
-              : Cookies.get("three-cards-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_THREE_CARDS_SERVER_PROXY_ROUTE
-              : Cookies.get("three-cards-server-endpoint-route"),
-        };
-      case gameNameMapper.kenomatch1:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOMATCH1_SERVER_ENDPOINT
-              : Cookies.get("kenomatch1-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOMATCH1_SERVER_PROXY_ROUTE
-              : Cookies.get("kenomatch1-server-endpoint-route"),
-        };
-      case gameNameMapper.kenomatch2:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOMATCH2_SERVER_ENDPOINT
-              : Cookies.get("kenomatch2-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOMATCH2_SERVER_PROXY_ROUTE
-              : Cookies.get("kenomatch2-server-endpoint-route"),
-        };
-      case gameNameMapper.kenopower1:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOPOWER1_SERVER_ENDPOINT
-              : Cookies.get("kenopower1-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOPOWER1_SERVER_PROXY_ROUTE
-              : Cookies.get("kenopower1-server-endpoint-route"),
-        };
-      case gameNameMapper.kenopower2:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOPOWER2_SERVER_ENDPOINT
-              : Cookies.get("kenopower2-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_KENOPOWER2_SERVER_PROXY_ROUTE
-              : Cookies.get("kenopower2-server-endpoint-route"),
-        };
-      case gameNameMapper.kenomax:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_MAX_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_MAX_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenomax2:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_MAX2_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_MAX2_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenomini:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_MINI_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_MINI_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenomini2:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_MINI2_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_MINI2_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenoeast:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_EAST_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_EAST_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenowest:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_WEST_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_WEST_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenosouth:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_SOUTH_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_SOUTH_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.kenonorth:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_KENO_NORTH_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_KENO_NORTH_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      case gameNameMapper.bitcoinmaster:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_BITCOIN_MASTER_SERVER_ENDPOINT,
-              route: process.env.NEXT_PUBLIC_BITCOIN_MASTER_SERVER_PROXY_ROUTE,
-            }
-          : this.getGameSocketCookie(gameId);
-      default:
-        return process.env.NEXT_PUBLIC_ENV === "local"
-          ? {
-              endpoint: process.env.NEXT_PUBLIC_GAME_SERVER_ENDPOINT,
-              route: "",
-            }
-          : this.getGameSocketCookie(gameId);
-    }
-  }
-
-  getGameSocketCookie(gameId) {
-    const gameNames = Object.keys(gameNameMapper).filter(
-      (k) => gameNameMapper[k] === gameId
-    );
-
-    if (gameNames.length == 0) {
-      return {
-        endpoint: Cookies.get("game-server-endpoint"),
-        route: "",
-      };
-    }
-
-    const cookieKey = cookieKeys[gameNames[0]];
-
     return {
-      endpoint: Cookies.get(`${cookieKey}-server-endpoint`),
-      route: Cookies.get(`${cookieKey}-server-endpoint-route`),
+      endpoint: config.GameServers[`${gameId}`].Socket,
+      route: config.GameServers[`${gameId}`].SocketRoute
     };
   }
+ 
 
   async componentDidUpdate(prevProps) {
     const { query } = this.props.router;

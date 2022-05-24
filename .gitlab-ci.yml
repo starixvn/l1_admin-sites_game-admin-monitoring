@@ -11,10 +11,10 @@ include:
   script:
     - echo "====== Build NextJS ======"
     - echo $DEPLOY_ENV
-    - cp ./src/game-admin-client/.env.$DEPLOY_ENV ./src/game-admin-client/.env
-    - cat ./src/game-admin-client/.env
+    - cp ./src/game-admin-client/configs/configs.$DEPLOY_ENV.json ./src/game-admin-client/configs.json
+    - cat ./src/game-admin-client/configs.json
   
   artifacts:
     paths:
-      - ./src/game-admin-client/.env
+      - ./src/game-admin-client/configs.json
     expire_in: 1 day
