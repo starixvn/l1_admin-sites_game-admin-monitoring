@@ -30,6 +30,7 @@ class BaccaratModel extends BaseMonitoringState {
   isShowDeskOfCards: boolean;
   selectedCard: string;
   cardIndex: number;
+  currentBlockchainIndex: number;
 
   constructor() {
     super();
@@ -44,6 +45,7 @@ class BaccaratModel extends BaseMonitoringState {
     this.isShowDeskOfCards = false;
     this.selectedCard = "";
     this.cardIndex = -1;
+    this.currentBlockchainIndex = 0;
   }
 }
 

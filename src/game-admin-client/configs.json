@@ -143,7 +143,7 @@
             "SocketRoute": "/bitcoinmaster/socket.io"
         },
         "48": {
-            "Socket": "l1-proxy.lumigame.com/admin/blockchainbaccarat",
+            "Socket": "l1-proxy2.lumigame.com/admin/blockchainbaccarat",
             "SocketRoute": "/blockchainbaccarat/socket.io"
         }
     }

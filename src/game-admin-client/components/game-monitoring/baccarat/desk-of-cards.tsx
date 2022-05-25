@@ -27,9 +27,9 @@ export default function DeskOfCards(props: Props) {
         <ModalBody>
           {TYPES.map((type, index) => (
             <Row className={Styles["card-row"]} key={index}>
-              {CARDS.map((card, index) => (
+              {CARDS.map((card, cardIndex) => (
                 <div
-                  key={index}
+                  key={cardIndex}
                   className={Styles.card}
                   onClick={() => onPickCard(card, type)}
                 >

@@ -1,0 +1,40 @@
+.holder {
+  position: relative;
+
+  .card-index {
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    font-weight: bold;
+  }
+}
+
+.blockchain-baccrat-popup {
+  color: white;
+
+  .results,
+  .cut-card {
+    margin-bottom: 20px;
+    text-align: left;
+
+    input[type=text] {
+      width: 300px;
+    }
+
+    >div {
+      &:first-child {
+        margin-right: 10px;
+      }
+
+      &:last-child {
+        margin-left: 10px;
+      }
+
+      display: inline-block;
+    }
+  }
+}
+
+.empty-card {
+  margin-top: 80px;
+}
