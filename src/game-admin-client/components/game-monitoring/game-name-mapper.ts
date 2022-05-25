@@ -31,4 +31,5 @@ export default {
   kenomatch2: 37,
   kenopower1: 40,
   kenopower2: 41,
+  blockchainbaccarat: 48
 };

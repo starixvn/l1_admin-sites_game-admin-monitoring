@@ -24,6 +24,7 @@ import ThreeCards from "./three-cards";
 import BitcoinMaster from "./bitcoin-master";
 import { KenoMatch1, KenoMatch2 } from "./keno-match";
 import { KenoPower1, KenoPower2 } from "./keno-power";
+import BlockchainBaccarat from "./blockchain-baccarat";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -184,6 +185,10 @@ const gameMapper = {
   41: {
     component: KenoPower2,
     ...getInfoByGameKey("KenoPower2"),
+  },
+  48: {
+    component: BlockchainBaccarat,
+    ...getInfoByGameKey("BlockchainBaccarat"),
   },
 };
 
