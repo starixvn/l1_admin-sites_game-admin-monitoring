@@ -141,6 +141,10 @@
         "43": {
             "Socket": "l1uatproxy.sgamesuat.com/admin/bitcoinmaster",
             "SocketRoute": "/sit/bitcoinmaster/socket.io"
+        },
+        "48": {
+            "Socket": "l1uatproxy.sgamesuat.com/admin/blockchainbaccarat",
+            "SocketRoute": "/blockchainbaccarat/socket.io"
         }
     }
 }

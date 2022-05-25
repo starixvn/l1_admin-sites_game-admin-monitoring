@@ -141,6 +141,10 @@
         "43": {
             "Socket": "sc1-proxy.sportsfun.app/admin/bitcoinmaster",
             "SocketRoute": "/bitcoinmaster/socket.io"
+        },
+        "48": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/blockchainbaccarat",
+            "SocketRoute": "/blockchainbaccarat/socket.io"
         }
     }
 }

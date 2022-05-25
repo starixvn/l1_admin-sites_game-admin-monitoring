@@ -140,6 +140,10 @@
         "43": {
             "Socket": "proxy.sabagame.com/admin/bitcoinmaster",
             "SocketRoute": "/bitcoinmaster/socket.io"
+        },
+        "48": {
+            "Socket": "proxy.sabagame.com/admin/blockchainbaccarat",
+            "SocketRoute": "/blockchainbaccarat/socket.io"
         }
     }
 }
