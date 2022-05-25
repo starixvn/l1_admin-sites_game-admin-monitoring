@@ -1,0 +1,146 @@
+{
+    "Env": "AWS",
+    "Partners": [
+        "ONEworks1",
+        "SBO"
+    ],
+    "I18nConfigPath": "/locales/i18n.config.json",
+    "ConsoleLogLevel": "info",
+    "SentryLogLevel": "info",
+    "SentryDns": "",
+    "DefaultToken": "",
+    "TaiXiuOrder": "tai,xiu",
+    "ChanLeOrder": "chan,le",
+    "RootUrl": "https://sc1-proxy.sportsfun.app/monitoring",
+    "EnableMsgpackGameIds": "",
+    "GameServers": {
+        "0": {
+            "Socket": "sc1-proxy.sportsfun.app/main",
+            "SocketRoute": ""
+        },
+        "1": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/bigsmall",
+            "SocketRoute": "/bigsmall/socket.io"
+        },
+        "2": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/sedie",
+            "SocketRoute": "/sedie/socket.io"
+        },
+        "3": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/fishprawncrab",
+            "SocketRoute": "/fishprawncrab/socket.io"
+        },
+        "4": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/txturbo",
+            "SocketRoute": "/turbobigsmall/socket.io"
+        },
+        "6": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/oeturbo",
+            "SocketRoute": "/turbooddeven/socket.io"
+        },
+        "7": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/dragontiger",
+            "SocketRoute": "/dragontiger/socket.io"
+        },
+        "8": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenopromax",
+            "SocketRoute": "/kenopromax/socket.io"
+        },
+        "9": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/minisedie",
+            "SocketRoute": "/minisedie/socket.io"
+        },
+        "10": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/baccarat",
+            "SocketRoute": "/baccarat/socket.io"
+        },
+        "12": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenomax",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "13": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenomax2",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "14": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenomini",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "15": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenomini2",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "16": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenoeast",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "17": {
+            "Socket": "l1-proxy.lumigame.com/admin/kenowest",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "18": {
+            "Socket": "l1-proxy.lumigame.com/admin/kenosouth",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "19": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenonorth",
+            "SocketRoute": "/minikeno/socket.io"
+        },
+        "21": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/roulette",
+            "SocketRoute": "/roulette/socket.io"
+        },
+        "22": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/vipsedie",
+            "SocketRoute": "/vipsedie/socket.io"
+        },
+        "24": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/specialsedie",
+            "SocketRoute": "/specialsedie/socket.io"
+        },
+        "25": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/sicbo",
+            "SocketRoute": "/sicbo/socket.io"
+        },
+        "26": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/vipfishprawncrab",
+            "SocketRoute": "/vipfishprawncrab/socket.io"
+        },
+        "27": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/vipbaccarat",
+            "SocketRoute": "/vipbaccarat/socket.io"
+        },
+        "28": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/vipsediewar",
+            "SocketRoute": "/vipsediewar/socket.io"
+        },
+        "31": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/lottery",
+            "SocketRoute": "/lottery/socket.io"
+        },
+        "35": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/threecards",
+            "SocketRoute": "/threecards/socket.io"
+        },
+        "36": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenomatch1",
+            "SocketRoute": "/kenomatch/socket.io"
+        },
+        "37": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenomatch2",
+            "SocketRoute": "/kenomatch/socket.io"
+        },
+        "40": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenopower1",
+            "SocketRoute": "/kenopower/socket.io"
+        },
+        "41": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/kenopower2",
+            "SocketRoute": "/kenopower/socket.io"
+        },
+        "43": {
+            "Socket": "sc1-proxy.sportsfun.app/admin/bitcoinmaster",
+            "SocketRoute": "/bitcoinmaster/socket.io"
+        }
+    }
+}

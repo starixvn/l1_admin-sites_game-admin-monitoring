@@ -18,15 +18,15 @@
             "SocketRoute": ""
         },
         "1": {
-            "Socket": "l1uatproxy.sgamesuat.com/admin/taixiu",
+            "Socket": "l1uatproxy.sgamesuat.com/admin/bigsmall",
             "SocketRoute": "/uat/bigsmall/socket.io"
         },
         "2": {
-            "Socket": "l1uatproxy.sgamesuat.com/admin/xocxoc",
+            "Socket": "l1uatproxy.sgamesuat.com/admin/sedie",
             "SocketRoute": "/uat/sedie/socket.io"
         },
         "3": {
-            "Socket": "l1uatproxy.sgamesuat.com/admin/baucua",
+            "Socket": "l1uatproxy.sgamesuat.com/admin/fishprawncrab",
             "SocketRoute": "/uat/fishprawncrab/socket.io"
         },
         "4": {

@@ -42,12 +42,13 @@ export class Home extends React.Component<Props, State> {
     super(props);
 
     this.partners = configs.Partners;
-    const token = configs.Env.toLocaleUpperCase() === "DEV"
+    const env = configs.Env.toLocaleUpperCase();
+    const token = env === "DEV"
         ? configs.DefaultToken
         : Cookies.get("token");
 
     this.protocol = "wss";
-    this.isProduction = configs.Env.toLocaleUpperCase() === "PRO";
+    this.isProduction =env === "PRO";
     this.messageTransmitter = MessageTransmitter();
 
     this.state = {
