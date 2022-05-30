@@ -3,6 +3,7 @@
 @{
     var results = Model.Results.ToList();
     var rows = results.Count;
+    var mainRowIndex = 0;
 }
 
 @if (!Model.IsValid)
@@ -36,22 +37,29 @@ else
 
                 for (int subRowIndex = 0; subRowIndex < rowspans; subRowIndex++)
                 {
-                    if (subRowIndex == 0)
+                    if (subRowIndex == mainRowIndex)
                     {
                         <tr>
                             <td rowspan="@rowspans">
                                 @(rowIndex == 0 ? "Base Spin" : $"Tumble {rowIndex}")
                             </td>
-                            <td>
-                                @(numberOfWinningIcon == 0 ? "-" : symbols[subRowIndex].index.ToString())
+                            <td class="text-center">
+                                @if (numberOfWinningIcon == 0)
+                                {
+                                    <div>-</div>
+                                }
+                                else
+                                {
+                                    <img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(symbols[subRowIndex].index).png" />
+                                }
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @(numberOfWinningIcon == 0 ? "-" : symbols[subRowIndex].count.ToString())
                             </td>
-                            <td rowspan="@rowspans">
+                            <td rowspan="@rowspans" class="text-center">
                                 @tumble.multipliers.Count()
                             </td>
-                            <td rowspan="@rowspans">
+                            <td rowspan="@rowspans" class="text-center">
                                 @tumble.freeSpinCount
                             </td>
                             <td rowspan="@rowspans">
@@ -76,11 +84,10 @@ else
                     else
                     {
                         <tr>
-
-                            <td>
-                                @symbols[subRowIndex].index
+                            <td class="text-center">
+                                <img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(symbols[subRowIndex].index).png" />
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @symbols[subRowIndex].count
                             </td>
                         </tr>

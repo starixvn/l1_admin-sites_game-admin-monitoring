@@ -6,8 +6,7 @@
 
     .error {
         border: 1px solid;
-        margin-left: 1rem;
-        margin-top: 10px;
+        margin: 10px;
         padding: 0.5rem;
         background-repeat: no-repeat;
         background-position: 10px center;
@@ -18,8 +17,7 @@
 
     .successfully {
         border: 1px solid;
-        margin-left: 1rem;
-        margin-top: 10px;
+        margin: 10px;
         padding: 0.5rem;
         background-repeat: no-repeat;
         background-position: 10px center;
@@ -101,6 +99,10 @@
 
 .hidden {
     display: none;
+}
+
+.text-center {
+    text-align: center;
 }
 
 select {

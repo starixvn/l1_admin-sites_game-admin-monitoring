@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = $"{Model.DisplayGameName} Result Controller";
+    var requiredBoardSymbols = 30;
+    var multiplerSymbolIndex = 10;
 }
 
 @section Styles {
@@ -17,7 +19,7 @@
         </div>
         <div class="col-auto">
             <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)" />
-            <div class="error hidden">Please input nickname !</div>
+            <div class="error">Please input nickname !</div>
         </div>
         <div class="col-auto">
             @using (Html.BeginForm("ExportResultJsonFile", "ResultMonitor", FormMethod.Post, new { name = "export-json", id = "export-json" }))
@@ -54,35 +56,21 @@
             <div class="result-container">
                 <div class="total-icons"></div>
                 <div class="message error hidden"></div>
-                @for (decimal index = 0; index <= 10; index++)
+                @for (decimal index = 0; index <= multiplerSymbolIndex; index++)
                 {
+                    var onChangeFnc = index == multiplerSymbolIndex ? "cascadingSlotGameResult.addMultiplier(event)" : "cascadingSlotGameResult.changeNumberOfSymbol(event)";
                     <div class="board-row">
                         <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index ).png" /></div>
                         <div class="board-number-multipler">
-                            @if (index == 10)
-                            {
-                                <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.addMultiplier(event)">
-                                    @for (decimal j = 0; j <= 30; j++)
-                                    {
-                                        <option value="@j">
-                                            @j
-                                        </option>
+                            <select id="Item-@index" data-no="@index" onchange="@onChangeFnc">
+                                @for (decimal j = 0; j <= requiredBoardSymbols; j++)
+                                {
+                                    <option value="@j">
+                                        @j
+                                    </option>
 
-                                    }
-                                </select>
-                            }
-                            else
-                            {
-                                <select id="Item-@index" data-no="@index" onchange="cascadingSlotGameResult.changeNumberOfSymbol(event)">
-                                    @for (decimal j = 0; j <= 30; j++)
-                                    {
-                                        <option value="@j">
-                                            @j
-                                        </option>
-
-                                    }
-                                </select>
-                            }
+                                }
+                            </select>
                         </div>
                     </div>
 

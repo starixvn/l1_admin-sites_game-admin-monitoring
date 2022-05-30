@@ -21,8 +21,9 @@ const cascadingSlotGameResult = (function () {
             const nickname = event.currentTarget.value;
             postData.name = nickname;
 
+            const nicknameErrorElm = $(event.currentTarget).next();
             if (nickname !== "") {
-                this.hideElm($('.error'));
+                this.hideElm(nicknameErrorElm);
                 const disableSubmitButton = rawResults.find(function (result) {
                     return helper.calculateTotalSymbolInTumble(Object.values(result.Value)) !== constant.requiredBoardSymbols;
                 });
@@ -30,6 +31,7 @@ const cascadingSlotGameResult = (function () {
                 this.monitorSubmitAndExportButton(disableSubmitButton);
             }
             else {
+                this.displayElm(nicknameErrorElm);
                 this.monitorSubmitAndExportButton(true);
             }
 
