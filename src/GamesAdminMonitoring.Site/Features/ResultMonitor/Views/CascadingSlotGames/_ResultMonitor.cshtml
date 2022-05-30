@@ -64,7 +64,7 @@ else
                                             <div class="board-row">
                                                 @for (int y = 0; y < boardColumns; y++)
                                                 {
-                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(tumble.Matrix[x,y]) + 1).png" /></div>
+                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(tumble.Matrix[x,y])).png" /></div>
                                                 }
                                             </div>
                                         }

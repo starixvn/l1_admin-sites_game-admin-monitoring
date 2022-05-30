@@ -8,7 +8,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
     {
         public string gameConfigName { get; set; }
 
-        public string nickname { get; set; }
+        public string name { get; set; }
 
         public CascadingSlotResultRequest result { get; set; }
 
@@ -16,23 +16,14 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
         {
             get
             {
-                return result.baseSpin.board.Count == 30;
+                return result.@base.board.Count == 30;
             }
         }
     }
 
-
-    // TO DO : remove
-    public class RawResult
-    {
-        public string Name { get; set; }
-
-        public string Value { get; set; }
-    }
-
     public class CascadingSlotResultRequest
     {
-        public BaseSpinRequest baseSpin { get; set; }
+        public BaseSpinRequest @base { get; set; }
 
         public List<TumbleRequest> tumbles { get; set; }
     }

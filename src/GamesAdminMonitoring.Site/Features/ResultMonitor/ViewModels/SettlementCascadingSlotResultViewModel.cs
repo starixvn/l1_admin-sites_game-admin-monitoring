@@ -7,7 +7,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
     {
         public SettlementCascadingSlotResultViewModel(
             string gameConfigName,
-            IEnumerable<SettlementCascadingSlotResultApi> results,
+            IEnumerable<SettlementCascadingSlotResult> results,
             bool isValid)
         {
             GameName = gameConfigName;
@@ -21,7 +21,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public string Nickname { get; set; }
 
-        public IEnumerable<SettlementCascadingSlotResultApi> Results { get; set; }
+        public IEnumerable<SettlementCascadingSlotResult> Results { get; set; }
 
         public bool IsValid { get; }
     }

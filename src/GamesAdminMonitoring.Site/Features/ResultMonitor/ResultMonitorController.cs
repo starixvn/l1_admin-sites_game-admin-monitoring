@@ -130,10 +130,9 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         [HttpGet]
         public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName)
         {
-            return View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName));
-            //var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            //return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
@@ -162,7 +161,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             {
                 return PartialView(
                     "CascadingSlotGames/_ResultMonitor",
-                    new SettlementCascadingSlotResultViewModel(string.Empty, Enumerable.Empty<SettlementCascadingSlotResultApi>(), false));
+                    new SettlementCascadingSlotResultViewModel(string.Empty, Enumerable.Empty<SettlementCascadingSlotResult>(), false));
             }
 
             using var reader = new StreamReader(file.OpenReadStream());

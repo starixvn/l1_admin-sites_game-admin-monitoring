@@ -5,9 +5,9 @@ const cascadingSlotGameResult = (function () {
     const constant = cascadingSlotConstant;
 
     let postData = {
-        nickname: '',
+        name: '',
         result: {
-            baseSpin: {
+            base: {
                 board: [],
                 multipliers: []
             },
@@ -19,7 +19,7 @@ const cascadingSlotGameResult = (function () {
         onInputNickname: function (event) {
             event.preventDefault();
             const nickname = event.currentTarget.value;
-            postData.nickname = nickname;
+            postData.name = nickname;
 
             if (nickname !== "") {
                 this.hideElm($('.error'));
@@ -193,7 +193,7 @@ const cascadingSlotGameResult = (function () {
                 element.removeClass('disabled').removeAttr('disabled');
         },
         monitorSubmitAndExportButton: function (disabledButton) {
-            this.switchEnableDisableButton(disabledButton || postData.nickname === '', $('#submit, #export-json-button'));
+            this.switchEnableDisableButton(disabledButton || postData.name === '', $('#submit, #export-json-button'));
         },
         monitorAddTumbleButton: function () {
             const disabledAddTumbleButton = rawResults.filter(function (tumble) {
@@ -228,7 +228,7 @@ const cascadingSlotGameResult = (function () {
                     });
 
                     if (helper.isBaseSpin(boardIndex)) {
-                        postData.result.baseSpin.board = helper.createBoard(Object.values(rawResults[0].Value));
+                        postData.result.base.board = helper.createBoard(Object.values(rawResults[0].Value));
                     }
                     else {
                         postData.result.tumbles[boardIndex - 1].newSymbols = helper.createBoard(Object.values(rawResults[boardIndex].AddedSymbols));
@@ -250,7 +250,7 @@ const cascadingSlotGameResult = (function () {
         submit: function (e) {
             e.preventDefault();
 
-            if (postData.nickname === undefined || postData.nickname === '') {
+            if (postData.name === undefined || postData.name === '') {
                 this.displayElm($('.error'));
                 return;
             }
@@ -300,7 +300,7 @@ const cascadingSlotGameResult = (function () {
         },
         exportResultJsonFile: function (e) {
             e.preventDefault();
-            if (postData.nickname === undefined || postData.nickname === '') {
+            if (postData.name === undefined || postData.name === '') {
                 this.displayElm($('.error'));
                 return;
             }

@@ -75,7 +75,7 @@ const cascadingSlotGameResultHelper = {
                 actualNumberOfMuliplier = numberOfMuliplier;
                 break;
             case 1:
-                actualNumberOfMuliplier = numberOfMuliplier - postData.result.baseSpin.multipliers.length;
+                actualNumberOfMuliplier = numberOfMuliplier - postData.result.base.multipliers.length;
                 break;
             default:
                 var totalMultiplierInTumbles = 0;
@@ -88,7 +88,7 @@ const cascadingSlotGameResultHelper = {
                     tumbleNoCount++;
                 });
 
-                actualNumberOfMuliplier = numberOfMuliplier - postData.result.baseSpin.multipliers.length - totalMultiplierInTumbles;
+                actualNumberOfMuliplier = numberOfMuliplier - postData.result.base.multipliers.length - totalMultiplierInTumbles;
                 break;
         }
 
@@ -99,10 +99,10 @@ const cascadingSlotGameResultHelper = {
             case 0:
                 return [];
             case 1:
-                return postData.result.baseSpin.multipliers;
+                return postData.result.base.multipliers;
             default:
                 var tumbleNoCount = 0;
-                var totalMultipliers = this.copyObject(postData.result.baseSpin.multipliers);
+                var totalMultipliers = this.copyObject(postData.result.base.multipliers);
                 postData.result.tumbles.forEach(function (tumble) {
                     if (tumbleNoCount < tumbleNo) {
                         totalMultipliers = totalMultipliers.concat(tumble.multipliers);
@@ -116,7 +116,7 @@ const cascadingSlotGameResultHelper = {
     },
     assignMultiplierToPostData: function (postData, boardIndex, multipliers) {
         if (this.isBaseSpin(boardIndex)) {
-            postData.result.baseSpin.multipliers = multipliers;
+            postData.result.base.multipliers = multipliers;
         }
         else {
             postData.result.tumbles[boardIndex - 1].multipliers = multipliers;
@@ -126,7 +126,7 @@ const cascadingSlotGameResultHelper = {
     },
     assignPostData: function (postData, globalBoardIndex) {
         if (this.isBaseSpin(globalBoardIndex)) {
-            postData.result.baseSpin = {
+            postData.result.base = {
                 board: [],
                 multipliers: []
             }

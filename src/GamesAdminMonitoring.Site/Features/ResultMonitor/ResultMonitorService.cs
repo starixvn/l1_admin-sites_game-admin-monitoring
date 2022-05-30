@@ -22,6 +22,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/hilo/set_result")]
         Task<IEnumerable<HiloCard>> SetHiLoResult([FromBody] SetHiLoResultRequest request);
+
+        [Post("/game_server/cascadingslot/set_result")]
+        Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult([FromBody] SetCascadingSlotResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -33,6 +36,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<bool> VerifyToken(string token);
 
         Task<IEnumerable<HiloCard>> SetHiLoResult(SetHiLoResultRequest request);
+
+        Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult(SetCascadingSlotResultRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
@@ -55,5 +60,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public Task<IEnumerable<HiloCard>> SetHiLoResult(SetHiLoResultRequest request)
             => api.SetHiLoResult(request);
+
+        public Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult(SetCascadingSlotResultRequest request)
+            => api.SetCascadingSlotResult(request);
     }
 }

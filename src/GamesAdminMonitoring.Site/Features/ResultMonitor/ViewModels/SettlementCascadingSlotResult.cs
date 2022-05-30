@@ -2,11 +2,11 @@
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
-    public class SettlementCascadingSlotResultApi
+    public class SettlementCascadingSlotResult
     {
         public IEnumerable<CascadingSlotIcon> icons { get; set; }
 
-        public string board { get; set; }
+        public string[] board { get; set; }
 
         public IEnumerable<int> multipliers { get; set; }
 
@@ -16,9 +16,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
             get
             {
-                string[] splittedStrings = board.Split(",");
-
-                if (!splittedStrings.Length.Equals(30))
+                if (!board.Length.Equals(30))
                 {
                     return new string[0, 0];
                 }
@@ -31,7 +29,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
                 {
                     for (int y = 0; y < columns; y++)
                     {
-                        resultMatrix[x, y] = splittedStrings[index];
+                        resultMatrix[x, y] = board[index];
                         index++;
                     }
                 }
@@ -39,7 +37,6 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
                 return resultMatrix;
             }
         }
-
     }
 
     public class CascadingSlotIcon
