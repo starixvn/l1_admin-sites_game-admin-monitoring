@@ -12,7 +12,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
             GameName = gameConfigName;
             Results = results;
-            IsValid = isValid;
+            IsValid = isValid && results != null;
         }
 
         public string GameName { get; }

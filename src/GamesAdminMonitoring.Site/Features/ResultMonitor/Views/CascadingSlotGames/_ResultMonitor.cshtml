@@ -1,10 +1,5 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 @model SettlementCascadingSlotResultViewModel
-@{
-    var results = Model.Results.ToList();
-    var rows = results.Count;
-    var mainRowIndex = 0;
-}
 
 @if (!Model.IsValid)
 {
@@ -16,6 +11,9 @@
 }
 else
 {
+    var results = Model.Results.ToList();
+    var rows = results.Count;
+    var mainRowIndex = 0;
     <table class="table table-bordered table-four-guardians">
         <thead>
             <tr>
