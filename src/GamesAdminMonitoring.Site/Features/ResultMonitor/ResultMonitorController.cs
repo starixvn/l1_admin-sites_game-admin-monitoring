@@ -147,11 +147,12 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public IActionResult ExportResultJsonFile(string jsonData)
         {
             JsonSerializerSettings options = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
+            var request = JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(jsonData);
 
             return File(
-                SerializeToUtf8Bytes(JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(jsonData), options),
+                SerializeToUtf8Bytes(request, options),
                 "text/plain",
-                $"ResultTemplate-{DateTime.Now:yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK}.json");
+                $"{request.gameConfigName}-Result-Template-{DateTime.Now:yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK}.json");
         }
 
         [HttpPost]

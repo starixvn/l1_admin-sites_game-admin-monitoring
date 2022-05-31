@@ -148,7 +148,7 @@ const cascadingSlotGameResult = (function () {
             this.addRawDataToGlobalResult(symbols, tumbleName);
             postData = helper.assignPostData(postData, globalBoardIndex);
         },
-        removeDataWhenWrongInput: function (boardIndex) {
+        removeDataWhenWrongInputTotalSymbols: function (boardIndex) {
             rawResults = rawResults.filter(function (value, index) {
                 return index <= boardIndex;
             });
@@ -163,16 +163,16 @@ const cascadingSlotGameResult = (function () {
                 });
             }
         },
-        removeHtmlWhenWrongInput: function (boardIndex) {
+        removeHtmlWhenWrongInputTotalSymbols: function (boardIndex) {
             $('.advance-mode').each(function (index, element) {
                 if (parseInt($(element).attr("id")) > boardIndex) {
                     $(element).remove();
                 }
             });
         },
-        adjustWhenWrongInput: function (boardIndex) {
-            this.removeHtmlWhenWrongInput(boardIndex);
-            this.removeDataWhenWrongInput(boardIndex);
+        adjustWhenWrongInputTotalSymbols: function (boardIndex) {
+            this.removeHtmlWhenWrongInputTotalSymbols(boardIndex);
+            this.removeDataWhenWrongInputTotalSymbols(boardIndex);
         },
         displayMessgeOnBoard: function (advanceModeElm, totalSymbol, boardIndex) {
             advanceModeElm.find('.message').text(constant.notedMessage + totalSymbol);
@@ -183,7 +183,7 @@ const cascadingSlotGameResult = (function () {
             else {
                 advanceModeElm.find('.message').removeClass('successfully hidden').addClass('error');
                 this.monitorSubmitAndExportButton(true);
-                this.adjustWhenWrongInput(boardIndex);
+                this.adjustWhenWrongInputTotalSymbols(boardIndex);
             }
         },
         disableAddTumbleButton: function () {
@@ -252,11 +252,6 @@ const cascadingSlotGameResult = (function () {
         submit: function (e) {
             e.preventDefault();
 
-            if (postData.name === undefined || postData.name === '') {
-                this.displayElm($('.error'));
-                return;
-            }
-
             var $this = this;
             this.displayElm($('#preloader'));
             $.ajax({
@@ -297,15 +292,12 @@ const cascadingSlotGameResult = (function () {
                 },
                 complete: function () {
                     $this.hideElm($('#preloader'));
+                    $(":file").val(null);
                 }
             })
         },
         exportResultJsonFile: function (e) {
             e.preventDefault();
-            if (postData.name === undefined || postData.name === '') {
-                this.displayElm($('.error'));
-                return;
-            }
 
             $('#jsonData').val(JSON.stringify(postData));
             $('#export-json').submit();
