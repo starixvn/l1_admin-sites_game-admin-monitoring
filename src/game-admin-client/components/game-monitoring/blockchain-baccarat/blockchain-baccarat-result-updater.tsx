@@ -18,11 +18,16 @@ type Props = {
   submit: Function;
   sendMessage: Function;
   isMini?: boolean;
+  isProduction: boolean;
 };
 
 type State = {
   modal: boolean;
-  errors: string;
+  cutCardIndex: number;
+  cards: Array<BlockchainBaccaratCard>;
+  isValidCutCardIndex: boolean;
+  isValidResult: boolean;
+  isSubmitSuccessfully: boolean;
 };
 
 export type BlockchainBaccaratCard = {
@@ -33,29 +38,31 @@ export type BlockchainBaccaratCard = {
 
 const cardLabels = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const suits = [0, 1, 2, 3];
+const timeoutHideMessage = 1500;
+const minCutCard = 259, maxCutCard = 298, maxCardIndex = 416;
+const resources = {
+  submit: 'Submit',
+  cutCardMin: 'Cut-Card: =<',
+  cutCardMax: '=<',
+  result: 'Result:',
+  setResultSuccessfully: 'Set results successfully.'
+}
 
 export default class BlockchainBaccaratResultUpdater extends React.Component<
   Props,
   State
 > {
-  cutCardIndex: number;
-  minCutCard: number;
-  maxCutCard: number;
-  cards: Array<BlockchainBaccaratCard>;
-
-
   constructor(props: any) {
     super(props);
 
     this.state = {
       modal: false,
-      errors: ""
+      cutCardIndex: 0,
+      cards: [],
+      isValidCutCardIndex: false,
+      isValidResult: false,
+      isSubmitSuccessfully: false
     };
-
-    this.cutCardIndex = 0;
-    this.minCutCard = 259;
-    this.maxCutCard = 298;
-    this.cards = [];
 
     this.handleCutCardChange = this.handleCutCardChange.bind(this);
     this.handleResultChange = this.handleResultChange.bind(this);
@@ -65,19 +72,11 @@ export default class BlockchainBaccaratResultUpdater extends React.Component<
   }
 
   handleCutCardChange(event: React.SyntheticEvent<EventTarget>) {
-    const { minCutCard, maxCutCard } = this;
-    let cutCartelm = event.target as HTMLInputElement;
-    let cutIndex = parseInt(cutCartelm.value);
+    const cutCardIndexTmp = parseInt((event.target as HTMLInputElement).value);
 
-    if (isNaN(cutIndex) || cutIndex < minCutCard) {
-      this.cutCardIndex = minCutCard;
-      cutCartelm.value = minCutCard.toString();
-    }
-
-    if (cutIndex > maxCutCard) {
-      this.cutCardIndex = maxCutCard;
-      cutCartelm.value = maxCutCard.toString();
-    }
+    const inValid = isNaN(cutCardIndexTmp) || cutCardIndexTmp < minCutCard || cutCardIndexTmp > maxCutCard;
+    this.setState({ isValidCutCardIndex: !inValid });
+    this.setState({ cutCardIndex: cutCardIndexTmp });
   }
 
   handleResultChange(event: React.SyntheticEvent<EventTarget>) {
@@ -85,12 +84,17 @@ export default class BlockchainBaccaratResultUpdater extends React.Component<
     const cardsRaw = (event.target as HTMLInputElement).value.split(",");
 
     let count = 0;
+    let cardsTemp = []
     cardsRaw.forEach(item => {
-      if (count < 416) {
-        this.cards.push({ rank: cardLabels.indexOf(item), suit: chance.pickone(suits) });
+      if (!isNaN(parseInt(item))) {
+        cardsTemp.push({ rank: cardLabels.indexOf(item), suit: chance.pickone(suits) });
+        count++;
       }
-      count++;
+
+      this.setState({ isValidResult: count > 0 && count < maxCardIndex });
     });
+
+    this.setState({ cards: cardsTemp });
   }
 
   toggle() {
@@ -98,12 +102,21 @@ export default class BlockchainBaccaratResultUpdater extends React.Component<
   }
 
   submit() {
-    const { cutCardIndex, cards } = this;
+    const { cutCardIndex, cards } = this.state;
     this.props.sendMessage({ set_result: { result: { cards, cutCardIndex } } });
+
+    this.setState({ isSubmitSuccessfully: true });
+
+    setTimeout(() => {
+      this.setState({ isSubmitSuccessfully: false });
+      this.toggle();
+    }, timeoutHideMessage);
   }
 
   render() {
-    const { minCutCard, maxCutCard } = this;
+    const { isValidCutCardIndex, isValidResult, isSubmitSuccessfully } = this.state;
+    const errorClasses = 'alert alert-danger';
+
     return (
       <Modal
         isOpen={this.props.modal}
@@ -118,9 +131,10 @@ export default class BlockchainBaccaratResultUpdater extends React.Component<
           <Row>
             <Col className={blockChainStyles["results"]} align="center">
               <div>
-                Results:
+                {resources.result}
               </div>
               <div><input
+                className={`form-group ${isValidResult ? '' : errorClasses}`}
                 type="text"
                 onChange={this.handleResultChange} />
               </div>
@@ -129,33 +143,37 @@ export default class BlockchainBaccaratResultUpdater extends React.Component<
           <Row>
             <Col className={blockChainStyles["cut-card"]} align="center">
               <div>
-                {`Cut-Card: =< ${minCutCard}`}
+                {`${resources.cutCardMin} ${minCutCard}`}
               </div>
               <div>
                 <input
+                  className={`form-group ${isValidCutCardIndex ? '' : errorClasses}`}
                   type="number"
                   min={minCutCard}
                   max={maxCutCard}
                   onChange={this.handleCutCardChange} />
               </div>
               <div>
-                {`=< ${maxCutCard}`}
+                {`${resources.cutCardMax} ${maxCutCard}`}
               </div>
             </Col>
           </Row>
-          <Row className={styles["errors"]}>
-            <div>{this.state.errors}</div>
+          {isSubmitSuccessfully && <Row className={styles["errors"]}>
+            <div>{resources.setResultSuccessfully}</div>
           </Row>
+          }
         </ModalBody>
-        <ModalFooter className={styles["custom-modal-footer"]}>
+        {!this.props.isProduction && <ModalFooter className={styles["custom-modal-footer"]}>
           <Button
             color="primary"
             onClick={this.submit}
+            disabled={!isValidResult || !isValidCutCardIndex}
             className={styles["custom-button"]}
           >
-            Submit
+            {resources.submit}
           </Button>
         </ModalFooter>
+        }
       </Modal>
     );
   }

@@ -14,11 +14,26 @@
 
   .results,
   .cut-card {
-    margin-bottom: 20px;
     text-align: left;
 
-    input[type=text] {
-      width: 300px;
+    input {
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      height: 35px;
+
+      &[type=text] {
+        width: 300px;
+      }
+
+      &[type=number] {
+        -moz-appearance: textfield;
+        width: 70px;
+      }
     }
 
     >div {

@@ -27,7 +27,6 @@ export default class BlockChainBaccarat extends Baccarat {
     return "Blockchain Baccarat";
   }
 
-
   finishHandler({ finish }) {
     this.isFirstLoad = false;
 
@@ -79,6 +78,53 @@ export default class BlockChainBaccarat extends Baccarat {
     const { time, roundNumber, betList, result } = this.state;
     const emptyCards = this.buildEmptyCards();
 
+    const totalbetRows = {
+      firstRow: [{
+        type: 'player',
+        total: betList.player.total,
+        isWin: this.checkWinner("player")
+      },
+      {
+        type: 'banker',
+        total: betList.banker.total,
+        isWin: this.checkWinner("banker")
+      },
+      {
+        type: 'baccaratBig',
+        total: betList.big.total,
+        isWin: this.checkWinner("big")
+      },
+      {
+        type: 'baccaratSmall',
+        total: betList.small.total,
+        isWin: this.checkWinner("small")
+      }],
+      secondRow: [{
+        type: 'tie',
+        total: betList.tie.total,
+        isWin: this.checkWinner("tie")
+      },
+      {
+        type: 'playerPair',
+        total: betList.playerPair.total,
+        isWin: this.checkWinner("playerPair")
+      },
+      {
+        type: 'bankerPair',
+        total: betList.bankerPair.total,
+        isWin: this.checkWinner("bankerPair")
+      }]
+    };
+
+    const cardRows = [{
+      title: 'Player',
+      cards: result.playerCards
+    },
+    {
+      title: 'Banker',
+      cards: result.bankerCards
+    }];
+
     return (
       <Container fluid>
         <Row>
@@ -93,24 +139,18 @@ export default class BlockChainBaccarat extends Baccarat {
                 <RoundNum roundNumber={roundNumber} />
               </Col>
             </Row>
-            <Row>
-              <Col align="center" className="justify-content-center">
-                <div className={styles.title}>Player</div>
-                <BlockchainBaccaratCardResult
-                  cardResult={result.playerCards}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col align="center" className="justify-content-center">
-                <div className={styles.title}>Banker</div>
-                <BlockchainBaccaratCardResult
-                  cardResult={result.bankerCards}
-                />
-              </Col>
-            </Row>
+            {
+              Object.values(cardRows).map((cardRow, cardRowIndex) => <Row key={cardRowIndex}>
+                <Col align="center" className="justify-content-center">
+                  <div className={styles.title}>{cardRow.title}</div>
+                  <BlockchainBaccaratCardResult
+                    cardResult={cardRow.cards}
+                  />
+                </Col>
+              </Row>)
+            }
           </Col >
-          <Col align="center" className="col-12 col-lg-2">
+          <Col align="center" className="col-12 col-lg-3">
             <Row>
               <Col>
                 <div className={styles.title}>{this.gameName}</div>
@@ -133,46 +173,14 @@ export default class BlockChainBaccarat extends Baccarat {
             </Row>
             }
           </Col>
-          <Col className="p-0 col-12 col-lg-7">
-            <Row className={styles["row-style"]}>
-              <TotalBet
-                type="player"
-                total={betList.player.total}
-                isWin={this.checkWinner("player")}
-              />
-              <TotalBet
-                type="banker"
-                total={betList.banker.total}
-                isWin={this.checkWinner("banker")}
-              />
-              <TotalBet
-                type="baccaratBig"
-                total={betList.big.total}
-                isWin={this.checkWinner("big")}
-              />
-              <TotalBet
-                type="baccaratSmall"
-                total={betList.small.total}
-                isWin={this.checkWinner("small")}
-              />
-            </Row>
-            <Row className={styles["row-style"]}>
-              <TotalBet
-                type="tie"
-                total={betList.tie.total}
-                isWin={this.checkWinner("tie")}
-              />
-              <TotalBet
-                type="playerPair"
-                total={betList.playerPair.total}
-                isWin={this.checkWinner("playerPair")}
-              />
-              <TotalBet
-                type="bankerPair"
-                total={betList.bankerPair.total}
-                isWin={this.checkWinner("bankerPair")}
-              />
-            </Row>
+          <Col className="p-0 col-12 col-lg-6">
+            {
+              Object.values(totalbetRows).map((row, rowIndex) => <Row className={styles["row-style"]} key={rowIndex}>
+                {
+                  Object.values(row).map((totalbet, totalbetIndex) => <TotalBet key={totalbetIndex} {...totalbet} />)
+                }
+              </Row>)
+            }
           </Col>
         </Row >
       </Container >
@@ -198,6 +206,7 @@ export default class BlockChainBaccarat extends Baccarat {
             toggle={this.updaterToggle}
             submit={this.updaterSubmit}
             sendMessage={this.props.sendMessage}
+            isProduction={this.props.isProduction}
           />
         )}
         $
