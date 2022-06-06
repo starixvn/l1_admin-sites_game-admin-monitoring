@@ -1,7 +1,7 @@
 export default {
-  taixiu: 1,
-  xocxoc: 2,
-  baucua: 3,
+  bigsmall: 1,
+  sedie: 2,
+  fishprawncrab: 3,
   txturbo: 4,
   oddeven: 5,
   oeturbo: 6,

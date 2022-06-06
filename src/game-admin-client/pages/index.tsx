@@ -44,11 +44,11 @@ export class Home extends React.Component<Props, State> {
     this.partners = configs.Partners;
     const env = configs.Env.toLocaleUpperCase();
     const token = env === "DEV"
-        ? configs.DefaultToken
-        : Cookies.get("token");
+      ? configs.DefaultToken
+      : Cookies.get("token");
 
     this.protocol = "wss";
-    this.isProduction =env === "PRO";
+    this.isProduction = env === "PRO";
     this.messageTransmitter = MessageTransmitter();
 
     this.state = {
@@ -62,11 +62,14 @@ export class Home extends React.Component<Props, State> {
   }
 
   initSocket(gameId: number) {
-    const socketInfo = this.getSocketInfo(gameId);
     const enabledMsgpack = process.env.NEXT_PUBLIC_ENABLE_MSGPACK;
+
+    const gameName = Object.keys(gameNameMapper).find(key => gameNameMapper[key] === gameId);
+
+    const subPath = configs.SubPath === "" ? "" : `/${configs.SubPath}`;
     const socket = new SocketIO(
-      `${this.protocol}://${socketInfo.endpoint}`,
-      socketInfo.route,
+      `${this.protocol}://${configs.Domain}/admin/${gameName}`,
+      `${subPath}/${gameName}/socket.io`,
       enabledMsgpack
     );
 
@@ -80,12 +83,6 @@ export class Home extends React.Component<Props, State> {
     return socket;
   }
 
-  getSocketInfo(gameId) {
-    return {
-      endpoint: configs.GameServers[`${gameId}`].Socket,
-      route: configs.GameServers[`${gameId}`].SocketRoute
-    };
-  }
  
 
   async componentDidUpdate(prevProps) {
