@@ -18,7 +18,6 @@ type State = {
 export default class EditableText extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    console.log(props.className);
     this.state = {
       type: props.type || "text",
       edit: false,

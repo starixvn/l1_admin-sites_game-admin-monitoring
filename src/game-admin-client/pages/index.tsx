@@ -8,7 +8,6 @@ import {
   getGameInfoByGameId,
   getGameInfoByGameName,
 } from "../components/game-monitoring/game-monitoring";
-import gameNameMapper from "../components/game-monitoring/game-name-mapper";
 import Loading from "../components/game-monitoring/game-template/game-template-loading";
 import GameMenu from "../components/game-monitoring/menu/menu";
 import SocketIO from "../components/util/game-server-endpoint/socket-io";
@@ -17,6 +16,7 @@ import MessageTransmitter, {
   MessageTransmitterType,
 } from "../components/util/message-transmitter";
 import configs from "../configs.json";
+import { gameMapper, getGameName } from "../constants";
 
 type Props = {
   router: NextRouter;
@@ -63,13 +63,11 @@ export class Home extends React.Component<Props, State> {
 
   initSocket(gameId: number) {
     const enabledMsgpack = process.env.NEXT_PUBLIC_ENABLE_MSGPACK;
-
-    const gameName = Object.keys(gameNameMapper).find(key => gameNameMapper[key] === gameId);
-
     const subPath = configs.SubPath === "" ? "" : `/${configs.SubPath}`;
+
     const socket = new SocketIO(
-      `${this.protocol}://${configs.Domain}/admin/${gameName}`,
-      `${subPath}/${gameName}/socket.io`,
+      `${this.protocol}://${configs.Domain}/${gameMapper[gameId].socket}`,
+      `${subPath}/${gameMapper[gameId].socketRoute}`,
       enabledMsgpack
     );
 
@@ -89,12 +87,13 @@ export class Home extends React.Component<Props, State> {
     const { query } = this.props.router;
 
     if (query !== prevProps.router.query) {
-      const gameId = (query.gameId || 0).toString();
+      const gameId = (query.gameid || 0).toString();
       const gameName = (query.game || "").toString();
+
       const socket = this.initSocket(
         parseInt(gameId) > 0
           ? parseInt(gameId)
-          : parseInt(gameNameMapper[gameName])
+          : parseInt(getGameName(gameName))
       );
 
       await socket.connect();

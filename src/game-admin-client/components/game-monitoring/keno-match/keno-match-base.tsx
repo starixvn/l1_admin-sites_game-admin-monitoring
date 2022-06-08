@@ -67,7 +67,6 @@ export default class KenoMatch extends BaseMonitoring<KenoMatchModel> {
   renderResultSummary() {
     const { result: hfResult, settlementResult: hfSettlementResult } =
       this.state.result.firstHalf;
-    console.log(this.state.result);
 
     if (Object.values(hfSettlementResult).some((x) => x)) {
       const hfBlueTotal = hfResult.blue.reduce((num1, num2) => num1 + num2, 0);
@@ -113,8 +112,8 @@ export default class KenoMatch extends BaseMonitoring<KenoMatchModel> {
     const blueRed = settlementResult.blue
       ? "Blue - "
       : settlementResult.red
-      ? "Red - "
-      : "";
+        ? "Red - "
+        : "";
     const overUnder = settlementResult.over ? "Over" : "Under";
     const oddEven = settlementResult.odd ? "Odd" : "Even";
 
