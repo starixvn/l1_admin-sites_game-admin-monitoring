@@ -7,6 +7,19 @@
     right: 5px;
     font-weight: bold;
   }
+
+  &[class*="third-card"] {
+    .card-index {
+      bottom: 15px;
+      right: 0px;
+    }
+  }
+
+  div[class*="card-suit"] {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
 }
 
 .blockchain-baccrat-popup {

@@ -6,20 +6,19 @@ import TimeCounter from "../../shared/time-counter/time-counter";
 import TotalBet from "../../shared/total-bet/total-bet";
 import BlockchainBaccaratCardResult from "./blockchain-baccarat-card-result";
 import styles from "../baccarat/styles.module.scss";
-
 import GameTemplate from "../game-template/game-template";
-
 import BlockchainBaccaratResultUpdater from "./blockchain-baccarat-result-updater";
 import DeskOfCards from "../baccarat/desk-of-cards";
-import { GameState } from "../../shared/common/GameState";
 import blockChainStyles from "./blockchain-baccarat.module.scss";
+import { isEmpty } from "lodash";
+import CardResult from "../../common/model/CardResult";
+
+const numberOfCardsEachRound = 6;
 
 export default class BlockChainBaccarat extends Baccarat {
-  currentIndex: number;
   constructor(props) {
     super(props);
 
-    this.currentIndex = 0;
     this.buildEmptyCards = this.buildEmptyCards.bind(this);
   }
 
@@ -27,27 +26,25 @@ export default class BlockChainBaccarat extends Baccarat {
     return "Blockchain Baccarat";
   }
 
-  finishHandler({ finish }) {
-    this.isFirstLoad = false;
+  handleData(data) {
+    super.handleData(data);
 
+    if (!!data.blockchain) {
+      this.blockchainHandler(data);
+    }
+  }
+
+  blockchainHandler({ blockchain }) {
     this.setState({
-      result: this.getResult(finish.result),
-      currentBlockchainIndex: finish.blockchain.currentIndex,
-      settlementResult: this.getSettlementResult(finish.settlementResult),
-      gameState: GameState.waiting,
-      time: {
-        remainingTime: this.waitingTime,
-      },
+      currentBlockchainIndex: blockchain.currentIndex
     });
+  }
 
+  finishHandler({ finish }) {
+    super.finishHandler({ finish });
     this.timeout = setTimeout(() => {
       this.setState({
-        ...this.defaultState,
-        gameState: GameState.running,
-        roundNumber: this.state.roundNumber + 1,
-        time: {
-          remainingTime: this.totalTimeInRound,
-        },
+        currentBlockchainIndex: finish.blockchain.currentIndex,
       });
     }, this.waitingTime * 1000);
   }
@@ -60,23 +57,50 @@ export default class BlockChainBaccarat extends Baccarat {
     return number.toString();
   }
 
-  buildEmptyCards() {
-    const { result, currentBlockchainIndex } = this.state;
-
-    let numberOfEmptyCards = 6;
-    Object.values(result.playerCards.concat(result.bankerCards)).forEach(card => card && numberOfEmptyCards--);
-
+  buildEmptyCards(currentIndexBankerCards: number) {
+    const { currentBlockchainIndex } = this.state;
+    const numberOfFaceUpCards = currentIndexBankerCards - currentBlockchainIndex;
+    const numberOfEmptyCards = numberOfCardsEachRound - numberOfFaceUpCards;
     let emptyCards = [];
-    for (let i = 1; i <= numberOfEmptyCards; i++) {
-      emptyCards.push({ index: this.padToThree(currentBlockchainIndex + i) });
+    for (let i = 0; i < numberOfEmptyCards; i++) {
+      emptyCards.push({ index: this.padToThree(currentIndexBankerCards + i) });
     }
 
     return emptyCards;
   }
 
+  buildIndexCardsForEachSession(originalCards: Array<CardResult>, isFaceUpCard: boolean, currentIndex: number) {
+    const cards = originalCards.map((item: CardResult) => {
+      if (isFaceUpCard) {
+        if (!isEmpty(item)) {
+          return {
+            rank: item.rank, suit: item.suit, index: this.padToThree(currentIndex++)
+          };
+        }
+      }
+      else {
+        return { index: this.padToThree(currentIndex++) };
+      }
+    });
+
+    return { cards, currentIndex };
+  }
+
+  buildIndexCards() {
+    const { result, currentBlockchainIndex } = this.state;
+    const isFaceUpCard = result.playerCards.some(item => !isEmpty(item));
+    let currentIndex = currentBlockchainIndex;
+
+    const playerCards = this.buildIndexCardsForEachSession(result.playerCards, isFaceUpCard, currentIndex);
+    const bankerCards = this.buildIndexCardsForEachSession(result.bankerCards, isFaceUpCard, playerCards.currentIndex);
+    const emptyCards = this.buildEmptyCards(bankerCards.currentIndex);
+
+    return { playerCards, bankerCards, emptyCards };
+  }
+
   renderMonitor() {
-    const { time, roundNumber, betList, result } = this.state;
-    const emptyCards = this.buildEmptyCards();
+    const { time, roundNumber, betList } = this.state;
+    const { playerCards, bankerCards, emptyCards } = this.buildIndexCards();
 
     const totalbetRows = {
       firstRow: [{
@@ -118,11 +142,11 @@ export default class BlockChainBaccarat extends Baccarat {
 
     const cardRows = [{
       title: 'Player',
-      cards: result.playerCards
+      cards: playerCards.cards
     },
     {
       title: 'Banker',
-      cards: result.bankerCards
+      cards: bankerCards.cards
     }];
 
     return (
@@ -143,9 +167,7 @@ export default class BlockChainBaccarat extends Baccarat {
               Object.values(cardRows).map((cardRow, cardRowIndex) => <Row key={cardRowIndex}>
                 <Col align="center" className="justify-content-center">
                   <div className={styles.title}>{cardRow.title}</div>
-                  <BlockchainBaccaratCardResult
-                    cardResult={cardRow.cards}
-                  />
+                  <BlockchainBaccaratCardResult cards={cardRow.cards} />
                 </Col>
               </Row>)
             }
@@ -163,12 +185,9 @@ export default class BlockChainBaccarat extends Baccarat {
                 )}
               </Col >
             </Row>
-            {emptyCards.length < 6 && <Row className={blockChainStyles["empty-card"]}>
+            {emptyCards.length > 0 && <Row className={blockChainStyles["empty-card"]}>
               <Col>
-                <BlockchainBaccaratCardResult
-                  cardResult={emptyCards}
-                  isShowCardIndex={true}
-                />
+                <BlockchainBaccaratCardResult cards={emptyCards} />
               </Col >
             </Row>
             }

@@ -13,6 +13,6 @@
     "ChanLeOrder": "chan,le",
     "RootUrl": "http://localhost:7000",
     "EnableMsgpackGameIds": "",
-    "Domain": "l1-proxy1.lumigame.com",
+    "Domain": "l1-proxy2.lumigame.com",
     "SubPath": ""
 }
