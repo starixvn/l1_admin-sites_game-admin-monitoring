@@ -16,12 +16,6 @@ import CardResult from "../../common/model/CardResult";
 const numberOfCardsEachRound = 6;
 
 export default class BlockChainBaccarat extends Baccarat {
-  constructor(props) {
-    super(props);
-
-    this.buildEmptyCards = this.buildEmptyCards.bind(this);
-  }
-
   get gameName() {
     return "Blockchain Baccarat";
   }
@@ -50,57 +44,60 @@ export default class BlockChainBaccarat extends Baccarat {
   }
 
   padToThree(number: number) {
-    if (number <= 999) {
-      return (`00${number}`).slice(-3);
-    }
-
-    return number.toString();
+    return number <= 999 ? (`00${number}`).slice(-3) : number.toString();
   }
 
-  buildEmptyCards(currentIndexBankerCards: number) {
+  buildEmptyCardsWhenFaceDown() {
     const { currentBlockchainIndex } = this.state;
-    const numberOfFaceUpCards = currentIndexBankerCards - currentBlockchainIndex;
-    const numberOfEmptyCards = numberOfCardsEachRound - numberOfFaceUpCards;
-    let emptyCards = [];
-    for (let i = 0; i < numberOfEmptyCards; i++) {
-      emptyCards.push({ index: this.padToThree(currentIndexBankerCards + i) });
-    }
-
-    return emptyCards;
-  }
-
-  buildIndexCardsForEachSession(originalCards: Array<CardResult>, isFaceUpCard: boolean, currentIndex: number) {
-    const cards = originalCards.map((item: CardResult) => {
-      if (isFaceUpCard) {
-        if (!isEmpty(item)) {
-          return {
-            rank: item.rank, suit: item.suit, index: this.padToThree(currentIndex++)
-          };
-        }
+    let playerCards = [], bankerCards = [], emptyCards = [];
+    for (let i = 0; i < numberOfCardsEachRound; i++) {
+      const cardTmp = { index: this.padToThree(currentBlockchainIndex + i) };
+      if (i > 3) {
+        emptyCards.push(cardTmp);
       }
       else {
-        return { index: this.padToThree(currentIndex++) };
+        i % 2 === 0 ? playerCards.push(cardTmp) : bankerCards.push(cardTmp);
       }
-    });
+    }
 
-    return { cards, currentIndex };
+    return { playerCards, bankerCards, emptyCards };
   }
 
-  buildIndexCards() {
-    const { result, currentBlockchainIndex } = this.state;
-    const isFaceUpCard = result.playerCards.some(item => !isEmpty(item));
-    let currentIndex = currentBlockchainIndex;
+  buildIndexCardsForEachSession(originalCards: Array<CardResult>, isPlayer: boolean = true) {
+    const { currentBlockchainIndex } = this.state;
+    let cards = [];
+    for (let i = 0; i < originalCards.length; i++) {
+      const cardTmp = originalCards[i];
+      if (!isEmpty(cardTmp)) {
+        const cardIndex = currentBlockchainIndex + (i * 2 + (isPlayer ? 0 : 1));
+        cards.push({
+          rank: cardTmp.rank, suit: cardTmp.suit, index: this.padToThree(cardIndex)
+        })
+      }
+    }
 
-    const playerCards = this.buildIndexCardsForEachSession(result.playerCards, isFaceUpCard, currentIndex);
-    const bankerCards = this.buildIndexCardsForEachSession(result.bankerCards, isFaceUpCard, playerCards.currentIndex);
-    const emptyCards = this.buildEmptyCards(bankerCards.currentIndex);
+    return cards;
+  }
+
+  buildCardsWhenFaceUp() {
+    const { result, currentBlockchainIndex } = this.state;
+    const playerCards = this.buildIndexCardsForEachSession(result.playerCards);
+    const bankerCards = this.buildIndexCardsForEachSession(result.bankerCards, false);
+
+    let emptyCards = [];
+    const totalFaceUpCards = playerCards.length + bankerCards.length;
+
+    for (let i = 0; i < numberOfCardsEachRound - totalFaceUpCards; i++) {
+      emptyCards.push({ index: this.padToThree(currentBlockchainIndex + totalFaceUpCards + i) });
+    }
 
     return { playerCards, bankerCards, emptyCards };
   }
 
   renderMonitor() {
-    const { time, roundNumber, betList } = this.state;
-    const { playerCards, bankerCards, emptyCards } = this.buildIndexCards();
+    const { time, roundNumber, betList, result } = this.state;
+    const isFaceUpCard = !this.isFirstLoad && result.playerCards.some(item => !isEmpty(item));
+    const { playerCards, bankerCards, emptyCards } = isFaceUpCard ? this.buildCardsWhenFaceUp() : this.buildEmptyCardsWhenFaceDown();
 
     const totalbetRows = {
       firstRow: [{
@@ -142,11 +139,11 @@ export default class BlockChainBaccarat extends Baccarat {
 
     const cardRows = [{
       title: 'Player',
-      cards: playerCards.cards
+      cards: playerCards
     },
     {
       title: 'Banker',
-      cards: bankerCards.cards
+      cards: bankerCards
     }];
 
     return (
