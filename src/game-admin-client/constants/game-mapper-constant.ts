@@ -63,21 +63,21 @@ const getInfoByGameKey = (key: string) => {
 
 export const gameMapper = {
   1: {
-    name: "bigsmall",
+    name: "taixiu",
     component: BigSmall,
     socket: "admin/bigsmall",
     socketRoute: "bigsmall/socket.io",
     ...getInfoByGameKey("BigSmall"),
   },
   2: {
-    name: "sedie",
+    name: "xocxoc",
     component: ShakeThePlate,
     socket: "admin/sedie",
     socketRoute: "sedie/socket.io",
     ...getInfoByGameKey("SeDie"),
   },
   3: {
-    name: "fishprawncrab",
+    name: "baucua",
     component: FishPrawnCrab,
     socket: "admin/fishprawncrab",
     socketRoute: "fishprawncrab/socket.io",

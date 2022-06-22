@@ -16,7 +16,7 @@ import MessageTransmitter, {
   MessageTransmitterType,
 } from "../components/util/message-transmitter";
 import configs from "../configs.json";
-import { gameMapper, getGameName } from "../constants";
+import { gameMapper, getGameName } from "../constants/game-mapper-constant";
 
 type Props = {
   router: NextRouter;

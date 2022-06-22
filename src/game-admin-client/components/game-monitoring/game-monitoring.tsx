@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { gameMapper, getGameName } from "../../constants";
+import { gameMapper, getGameName } from "../../constants/game-mapper-constant";
 
 export function getGameInfoByGameId(gameId: number | string) {
   return gameMapper[gameId];

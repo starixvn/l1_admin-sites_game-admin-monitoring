@@ -4,13 +4,7 @@
         "ONEworks1",
         "SBO"
     ],
-    "I18nConfigPath": "/locales/i18n.config.json",
-    "ConsoleLogLevel": "info",
-    "SentryLogLevel": "info",
-    "SentryDns": "",
     "DefaultToken": "",
-    "TaiXiuOrder": "tai,xiu",
-    "ChanLeOrder": "chan,le",
     "Protocol": "https",
     "RootUrl": "https://l1-proxy1.lumigame.com/monitoring",
     "EnableMsgpackGameIds": "",

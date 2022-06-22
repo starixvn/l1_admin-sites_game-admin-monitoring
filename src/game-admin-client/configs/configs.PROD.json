@@ -3,13 +3,7 @@
     "Partners": [
         "ONEworks1"
     ],
-    "I18nConfigPath": "/locales/i18n.config.json",
-    "ConsoleLogLevel": "info",
-    "SentryLogLevel": "info",
-    "SentryDns": "",
     "DefaultToken": "",
-    "TaiXiuOrder": "tai,xiu",
-    "ChanLeOrder": "chan,le",
     "RootUrl": "https://proxy.sabagame.com/monitoring",
     "EnableMsgpackGameIds": "1,2,3,4,9,10,22,25,27",
     "Domain": "proxy.sabagame.com",
