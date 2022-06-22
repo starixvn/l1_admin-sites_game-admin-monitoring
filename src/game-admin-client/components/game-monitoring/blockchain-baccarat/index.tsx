@@ -30,7 +30,7 @@ export default class BlockChainBaccarat extends Baccarat {
 
   blockchainHandler({ blockchain }) {
     this.setState({
-      currentBlockchainIndex: blockchain.currentIndex
+      startBlockchainIndexNewRound: blockchain.currentIndex + 1
     });
   }
 
@@ -38,7 +38,7 @@ export default class BlockChainBaccarat extends Baccarat {
     super.finishHandler({ finish });
     this.timeout = setTimeout(() => {
       this.setState({
-        currentBlockchainIndex: finish.blockchain.currentIndex,
+        startBlockchainIndexNewRound: finish.blockchain.currentIndex + 1,
       });
     }, this.waitingTime * 1000);
   }
@@ -48,10 +48,10 @@ export default class BlockChainBaccarat extends Baccarat {
   }
 
   buildEmptyCardsWhenFaceDown() {
-    const { currentBlockchainIndex } = this.state;
+    const { startBlockchainIndexNewRound } = this.state;
     let playerCards = [], bankerCards = [], emptyCards = [];
     for (let i = 0; i < numberOfCardsEachRound; i++) {
-      const cardTmp = { index: this.padToThree(currentBlockchainIndex + i) };
+      const cardTmp = { index: this.padToThree(startBlockchainIndexNewRound + i) };
       if (i > 3) {
         emptyCards.push(cardTmp);
       }
@@ -64,12 +64,12 @@ export default class BlockChainBaccarat extends Baccarat {
   }
 
   buildIndexCardsForEachSession(originalCards: Array<CardResult>, isPlayer: boolean = true) {
-    const { currentBlockchainIndex } = this.state;
+    const { startBlockchainIndexNewRound } = this.state;
     let cards = [];
     for (let i = 0; i < originalCards.length; i++) {
       const cardTmp = originalCards[i];
       if (!isEmpty(cardTmp)) {
-        const cardIndex = currentBlockchainIndex + (i * 2 + (isPlayer ? 0 : 1));
+        const cardIndex = startBlockchainIndexNewRound + (i * 2 + (isPlayer ? 0 : 1));
         cards.push({
           rank: cardTmp.rank, suit: cardTmp.suit, index: this.padToThree(cardIndex)
         })
@@ -80,7 +80,7 @@ export default class BlockChainBaccarat extends Baccarat {
   }
 
   buildCardsWhenFaceUp() {
-    const { result, currentBlockchainIndex } = this.state;
+    const { result, startBlockchainIndexNewRound } = this.state;
     const playerCards = this.buildIndexCardsForEachSession(result.playerCards);
     const bankerCards = this.buildIndexCardsForEachSession(result.bankerCards, false);
 
@@ -88,7 +88,7 @@ export default class BlockChainBaccarat extends Baccarat {
     const totalFaceUpCards = playerCards.length + bankerCards.length;
 
     for (let i = 0; i < numberOfCardsEachRound - totalFaceUpCards; i++) {
-      emptyCards.push({ index: this.padToThree(currentBlockchainIndex + totalFaceUpCards + i) });
+      emptyCards.push({ index: this.padToThree(startBlockchainIndexNewRound + totalFaceUpCards + i) });
     }
 
     return { playerCards, bankerCards, emptyCards };
