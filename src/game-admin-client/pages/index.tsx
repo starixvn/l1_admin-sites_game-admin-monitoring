@@ -80,7 +80,7 @@ export class Home extends React.Component<Props, State> {
 
   initSocket(gameId: number) {
     const socketInfo = this.getSocketInfo(gameId);
-    const enabledMsgpack = this.isEnabledMsgpack(gameId);
+    const enabledMsgpack = process.env.NEXT_PUBLIC_ENABLE_MSGPACK;
     const socket = NewSocketGameIds.includes(gameId)
       ? new SocketIO(
           `${this.protocol}://${socketInfo.endpoint}`,
@@ -419,15 +419,6 @@ export class Home extends React.Component<Props, State> {
             }
           : this.getGameSocketCookie(gameId);
     }
-  }
-
-  isEnabledMsgpack(gameId) {
-    const stringEnabledMsgpackGameIds =
-      process.env.NEXT_PUBLIC_ENABLE_MSGPACK_GAMEIDS;
-    const enabledMsgpackGameIds = stringEnabledMsgpackGameIds
-      .split(",")
-      .map((id) => +id);
-    return enabledMsgpackGameIds.includes(gameId);
   }
 
   getGameSocketCookie(gameId) {
