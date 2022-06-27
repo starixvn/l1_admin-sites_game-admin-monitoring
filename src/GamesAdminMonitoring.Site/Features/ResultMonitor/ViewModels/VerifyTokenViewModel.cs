@@ -11,7 +11,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
     public class VerifyTokenViewModel
     {
-        private readonly Dictionary<VerifyTokenMessage, string> Errors = new Dictionary<VerifyTokenMessage, string>()
+        private readonly Dictionary<VerifyTokenMessage, string> Errors = new Dictionary<VerifyTokenMessage, string>
         {
             { VerifyTokenMessage.ValidToken, string.Empty },
             { VerifyTokenMessage.InvalidToken, "Invalid Token"},

@@ -21,9 +21,7 @@
     <Content Remove="Features\ResultMonitor\Views\Container\WhoAmI.cshtml" />
     <Content Remove="Features\ResultMonitor\Views\Index.cshtml" />
     <Content Remove="wwwroot\js\.js" />
-    <Content Remove="wwwroot\js\partner - Copy.min.js" />
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Audit.Mvc.Core" Version="18.1.6" />
@@ -53,7 +51,6 @@
     <PackageReference Include="Sentry.AspNetCore" Version="2.1.0" />
   </ItemGroup>
 
-
   <ItemGroup>
     <Folder Include="IdentityServer\" />
     <Folder Include="wwwroot\css\" />
@@ -61,7 +58,6 @@
     <Folder Include="wwwroot\game-admin\_next\static\development\pages\next\dist\pages\" />
     <Folder Include="wwwroot\lib\data-tables\DataTables-1.10.20\" />
   </ItemGroup>
-
 
   <ItemGroup>
     <None Include="appsettings.Debug.json">
@@ -162,13 +158,9 @@
     <None Include="wwwroot\scss\fonts\admin-icons\fonts\icomoon.svg" />
   </ItemGroup>
 
-
   <ItemGroup>
     <Content Update="appsettings.json">
       <TransformOnBuild>true</TransformOnBuild>
-    </Content>
-    <Content Update="wwwroot\js\blackjack-report - Copy.min.js">
-      <DependentUpon>blackjack-report.min.js</DependentUpon>
     </Content>
     <Content Update="wwwroot\scss\themes\themel2.min.css">
       <DependentUpon>themel2.css</DependentUpon>

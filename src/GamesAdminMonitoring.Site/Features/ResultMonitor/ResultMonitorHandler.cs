@@ -28,7 +28,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<VerifyTokenViewModel> Handle(VerifyTokenRequest request, CancellationToken cancellationToken)
         {
-            if (appSettings.Env.ToLower().Equals(ProEnv))
+            if (appSettings.Env.ToLowerInvariant().Equals(ProEnv))
             {
                 return new VerifyTokenViewModel(VerifyTokenMessage.CannotSetResultOnPro, request.GameConfigName);
             }

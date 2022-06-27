@@ -13,6 +13,7 @@ namespace GamesAdmin.Core.IdentityServer
         private static TokenResponse tokenResponse;
         private static DateTime lastTokenRequest;
         private static IDiscoveryCache discoveryCache;
+        private const int defaultMinutes = 5;
 
         public static void Initialize(IdentityServerAuth identityServerAuth)
         {
@@ -25,7 +26,7 @@ namespace GamesAdmin.Core.IdentityServer
 
         public static async Task<string> GetAccessToken()
         {
-            if (tokenResponse == null || lastTokenRequest.AddSeconds(tokenResponse.ExpiresIn) < DateTime.Now.AddMinutes(5))
+            if (tokenResponse == null || lastTokenRequest.AddSeconds(tokenResponse.ExpiresIn) < DateTime.Now.AddMinutes(defaultMinutes))
             {
                 var client = GetIdentityClient();
 
@@ -57,10 +58,7 @@ namespace GamesAdmin.Core.IdentityServer
             {
                 lock (lockObj)
                 {
-                    if (identityClient == null)
-                    {
-                        identityClient = new HttpClient();
-                    }
+                    identityClient = new HttpClient();
                 }
             }
 

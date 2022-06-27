@@ -10,6 +10,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
             GameName = gameName;
             Board = board;
+            FormattedBoard = board?.Result?.ToArray()?.FormatBoard();
         }
 
         public string GameName { get; }
@@ -18,7 +19,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public bool IsError => Board == null;
 
-        public byte[][] FormattedBoard => Board?.Result?.ToArray()?.FormatBoard();
+        public byte[][] FormattedBoard { get; }
 
         public string WinningPaylines => string.Join(", ", Board?.Paylines?.Where(x => x.Odds > 0)?.Select(x => x.Payline) ?? Enumerable.Empty<byte>());
 
