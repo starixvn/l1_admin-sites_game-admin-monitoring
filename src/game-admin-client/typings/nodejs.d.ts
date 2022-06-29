@@ -15,6 +15,6 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_SPECIAL_SEDIE_SERVER_PROXY_ROUTE: string;
     readonly NEXT_PUBLIC_TAIXIU_ORDER: string;
     readonly NEXT_PUBLIC_CHANLE_ORDER: string;
-    readonly NEXT_PUBLIC_ENABLE_MSGPACK_GAMEIDS: string;
+    readonly NEXT_PUBLIC_ENABLE_MSGPACK: boolean;
   }
 }
