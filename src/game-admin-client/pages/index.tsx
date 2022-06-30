@@ -62,13 +62,12 @@ export class Home extends React.Component<Props, State> {
   }
 
   initSocket(gameId: number) {
-    const enabledMsgpack = process.env.NEXT_PUBLIC_ENABLE_MSGPACK;
     const subPath = configs.SubPath === "" ? "" : `/${configs.SubPath}`;
 
     const socket = new SocketIO(
       `${this.protocol}://${configs.Domain}/${gameMapper[gameId].socket}`,
       `${subPath}/${gameMapper[gameId].socketRoute}`,
-      enabledMsgpack
+      configs.EnableMsgpack
     );
 
     socket.onDisconnected(this.showWebSocketDisconnected.bind(this));
@@ -81,7 +80,7 @@ export class Home extends React.Component<Props, State> {
     return socket;
   }
 
- 
+
 
   async componentDidUpdate(prevProps) {
     const { query } = this.props.router;

@@ -192,7 +192,7 @@ export const gameMapper = {
     name: "vipsedie",
     component: VipSeDie,
     socket: "admin/vipsedie",
-    socketRoute: "vipsedie/socket.io",
+    socketRoute: "vsedie/socket.io",
     ...getInfoByGameKey("VipSeDie"),
   },
   24: {

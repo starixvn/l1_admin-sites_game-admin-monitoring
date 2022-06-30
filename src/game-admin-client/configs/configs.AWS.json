@@ -6,7 +6,7 @@
     ],
     "DefaultToken": "",
     "RootUrl": "https://sc1-proxy.sportsfun.app/monitoring",
-    "EnableMsgpackGameIds": "",
+    "EnableMsgpack": true,
     "Domain": "sc1-proxy.sportsfun.app",
     "SubPath": "uat"
 }

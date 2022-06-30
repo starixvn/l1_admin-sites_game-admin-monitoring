@@ -6,7 +6,7 @@
     ],
     "DefaultToken": "",
     "RootUrl": "https://l1-proxy.lumigame.com/monitoring",
-    "EnableMsgpackGameIds": "",
+    "EnableMsgpack": false,
     "Domain": "l1-proxy.lumigame.com",
     "SubPath": ""
 }

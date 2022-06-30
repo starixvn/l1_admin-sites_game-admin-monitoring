@@ -7,7 +7,7 @@
     "I18nConfigPath": "/locales/i18n.config.json",
     "DefaultToken": "",
     "RootUrl": "https://l1-proxy3.lumigame.com/monitoring",
-    "EnableMsgpackGameIds": "",
+    "EnableMsgpack": false,
     "Domain": "l1-proxy3.lumigame.com",
     "SubPath": ""
 }
