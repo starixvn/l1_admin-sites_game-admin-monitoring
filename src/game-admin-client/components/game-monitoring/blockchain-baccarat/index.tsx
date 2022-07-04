@@ -11,7 +11,6 @@ import BlockchainBaccaratResultUpdater from "./blockchain-baccarat-result-update
 import DeskOfCards from "../baccarat/desk-of-cards";
 import blockChainStyles from "./blockchain-baccarat.module.scss";
 import { isEmpty } from "lodash";
-import CardResult from "../../common/model/CardResult";
 
 const numberOfCardsEachRound = 6;
 
@@ -63,28 +62,33 @@ export default class BlockChainBaccarat extends Baccarat {
     return { playerCards, bankerCards, emptyCards };
   }
 
-  buildIndexCardsForEachSession(originalCards: Array<CardResult>, isPlayer: boolean = true) {
-    const { startBlockchainIndexNewRound } = this.state;
-    let cards = [];
-    for (let i = 0; i < originalCards.length; i++) {
-      const cardTmp = originalCards[i];
-      if (!isEmpty(cardTmp)) {
-        const cardIndex = startBlockchainIndexNewRound + (i * 2 + (isPlayer ? 0 : 1));
-        cards.push({
-          rank: cardTmp.rank, suit: cardTmp.suit, index: this.padToThree(cardIndex)
-        })
-      }
-    }
-
-    return cards;
-  }
-
   buildCardsWhenFaceUp() {
     const { result, startBlockchainIndexNewRound } = this.state;
-    const playerCards = this.buildIndexCardsForEachSession(result.playerCards);
-    const bankerCards = this.buildIndexCardsForEachSession(result.bankerCards, false);
 
-    let emptyCards = [];
+    let playerCards = [], bankerCards = [], emptyCards = [];
+    let playerCardIndex = startBlockchainIndexNewRound;
+    for (let i = 0; i < 2; i++) {
+      playerCards.push({
+        rank: result.playerCards[i].rank, suit: result.playerCards[i].suit, index: this.padToThree(playerCardIndex++)
+      });
+
+      bankerCards.push({
+        rank: result.bankerCards[i].rank, suit: result.bankerCards[i].suit, index: this.padToThree(playerCardIndex++)
+      })
+    }
+
+    if (!isEmpty(result.playerCards[2])) {
+      playerCards.push({
+        rank: result.playerCards[2].rank, suit: result.playerCards[2].suit, index: this.padToThree(playerCardIndex++)
+      });
+    }
+
+    if (!isEmpty(result.bankerCards[2])) {
+      bankerCards.push({
+        rank: result.bankerCards[2].rank, suit: result.bankerCards[2].suit, index: this.padToThree(playerCardIndex)
+      });
+    }
+
     const totalFaceUpCards = playerCards.length + bankerCards.length;
 
     for (let i = 0; i < numberOfCardsEachRound - totalFaceUpCards; i++) {
