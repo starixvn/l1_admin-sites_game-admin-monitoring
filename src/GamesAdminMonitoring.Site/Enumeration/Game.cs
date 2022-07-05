@@ -9,6 +9,7 @@
         public const string CasinoHoldemPokerValue = "casinoholdempoker";
         public const string TexasHoldemPokerValue = "texasholdempoker";
         public const string TreasureIslandValue = "treasureisland";
+        public const string WayToGoalValue = "waytogoal";
 
         public const string HiLoValue = "hilo";
 
@@ -22,6 +23,7 @@
 
         public static readonly Game TreasureIsland = new Game(TreasureIslandValue, "Treasure Island", GameId.NightClub);
         public static readonly Game HiLo = new Game(HiLoValue, "Hi-Lo", GameId.HiLo);
+        public static readonly Game WayToGoal = new Game(WayToGoalValue, "Way To Goal", GameId.WayToGoal);
 
 
         public Game()

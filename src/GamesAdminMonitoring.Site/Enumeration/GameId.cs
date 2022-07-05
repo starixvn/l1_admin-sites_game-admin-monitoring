@@ -9,5 +9,6 @@
         HiLo = 45,
         NightClub = 46,
         TreasureIsland = 47,
+        WayToGoal = 49
     }
 }
