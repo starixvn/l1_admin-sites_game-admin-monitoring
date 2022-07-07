@@ -85,7 +85,7 @@ export default class BlockchainBaccaratResultUpdater extends React.Component<
     let count = 0;
     let cardsTemp = []
     cardsRaw.forEach(item => {
-      if (!isNaN(parseInt(item))) {
+      if (cardLabels.indexOf(item) !== -1) {
         cardsTemp.push({ rank: cardLabels.indexOf(item), suit: chance.pickone(suits) });
         count++;
       }
