@@ -212,15 +212,15 @@ export const gameMapper = {
   26: {
     name: "vipfishprawncrab",
     component: VipFishPrawnCrab,
-    socket: "admin/bigsmall",
-    socketRoute: "bigsmall/socket.io",
+    socket: "admin/vipfishprawncrab",
+    socketRoute: "vipfishprawncrab/socket.io",
     ...getInfoByGameKey("VipFishPrawnCrab"),
   },
   27: {
     name: "vipbaccarat",
     component: VipBaccarat,
-    socket: "admin/vipfishprawncrab",
-    socketRoute: "vipfishprawncrab/socket.io",
+    socket: "admin/vipbaccarat",
+    socketRoute: "vipbaccarat/socket.io",
     ...getInfoByGameKey("VipBaccarat"),
   },
   28: {
