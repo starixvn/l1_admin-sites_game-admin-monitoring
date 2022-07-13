@@ -286,6 +286,20 @@ export const gameMapper = {
     socketRoute: "blockchainbaccarat/socket.io",
     ...getInfoByGameKey("BlockchainBaccarat"),
   },
+  52: {
+    name: "megakeno",
+    component: MiniKeno("megaKeno", 20),
+    socket: "admin/megakeno",
+    socketRoute: "minikeno/socket.io",
+    ...getInfoByGameKey("MegaKeno"),
+  },
+  53: {
+    name: "megakeno2",
+    component: MiniKeno("megaKeno", 20),
+    socket: "admin/megakeno2",
+    socketRoute: "minikeno/socket.io",
+    ...getInfoByGameKey("MegaKeno2"),
+  },
 };
 
 export const getGameName = (gameName: string) =>

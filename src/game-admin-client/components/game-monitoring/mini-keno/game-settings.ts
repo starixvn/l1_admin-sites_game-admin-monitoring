@@ -66,4 +66,18 @@ export default {
       lockingBet: 5,
     },
   },
+  megaKeno: {
+    durations: {
+      wholeRound: 45,
+      placingBets: 36,
+      lockingBet: 5,
+    },
+  },
+  megaKeno2: {
+    durations: {
+      wholeRound: 30,
+      placingBets: 21,
+      lockingBet: 5,
+    },
+  },
 };

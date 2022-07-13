@@ -30,6 +30,8 @@ const GAME_NAMES = {
   kenoWest: "Keno West",
   kenoSouth: "Keno South",
   kenoNorth: "Keno North",
+  megaKeno: "Mega Keno",
+  megaKeno2: "Mega Keno 2",
 };
 
 export default function (props: Props) {
