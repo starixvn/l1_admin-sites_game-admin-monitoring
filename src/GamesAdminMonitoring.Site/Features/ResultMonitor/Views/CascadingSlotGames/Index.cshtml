@@ -1,0 +1,95 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+@model CascadingSlotResultViewModel
+
+@{
+    ViewData["Title"] = $"{Model.DisplayGameName} Result Controller";
+    var requiredBoardSymbols = 30;
+    var multiplerSymbolIndex = 10;
+}
+
+@section Styles {
+    <link href="~/css/cascading-slot-result.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div class="form filter">
+    <div class="form-row align-items-center">
+        <input type="hidden" asp-for="GameName" />
+        <div class="col-auto">
+            <label asp-for="Nickname" class="control-label nickname-label"></label>
+        </div>
+        <div class="col-auto">
+            <input type="text" class="form-control" placeholder="Nickname" asp-for="Nickname" onkeyup="cascadingSlotGameResult.onInputNickname(event)" />
+            <div class="error">Please input nickname !</div>
+        </div>
+        <div class="col-auto">
+            @using (Html.BeginForm("ExportResultJsonFile", "ResultMonitor", FormMethod.Post, new { name = "export-json", id = "export-json" }))
+            {
+                <input type="hidden" id="jsonData" name="jsonData" />
+                <input id="export-json-button" type="submit" disabled class="btn-primary disabled" value="Export Json Result" onclick="cascadingSlotGameResult.exportResultJsonFile(event)" />
+            }
+        </div>
+        <div class="col-auto">
+            <input class="hidden" type="file" id="file" name="file" accept=".json" onchange="cascadingSlotGameResult.importTemplateResults(event)" />
+            <label class="btn-primary" for="file">Import & Set Result </label>
+        </div>
+    </div>
+    <div class="form-row align-items-center" id="result-container">
+    </div>
+
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <button id="add-tumble" disabled type="button" class="btn-primary disabled" onclick="cascadingSlotGameResult.addTumble()">Add Tumble</button>
+        </div>
+        <div class="col-auto">
+            <button id="submit" type="submit" disabled class="btn-submit disabled" onclick="cascadingSlotGameResult.submit(event)">Submit</button>
+        </div>
+    </div>
+    <div id="preloader" class="hidden">
+        <div id="loader"></div>
+    </div>
+</div>
+
+<section id="attempts">
+    <template>
+        <div class="advance-mode">
+            <span class="attempt"></span>
+            <div class="result-container">
+                <div class="total-icons"></div>
+                <div class="message error hidden"></div>
+                @for (decimal index = 0; index <= multiplerSymbolIndex; index++)
+                {
+                    var onChangeFnc = index == multiplerSymbolIndex ? "cascadingSlotGameResult.addMultiplier(event)" : "cascadingSlotGameResult.changeNumberOfSymbol(event)";
+                    <div class="board-row">
+                        <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index ).png" /></div>
+                        <div class="board-number-multipler">
+                            <select id="Item-@index" data-no="@index" onchange="@onChangeFnc">
+                                @for (decimal j = 0; j <= requiredBoardSymbols; j++)
+                                {
+                                    <option value="@j">
+                                        @j
+                                    </option>
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+
+    </template>
+</section>
+
+<div id="set-result" class="col-sm-12 report-container">
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/cascading-slot-game-result-helper.js" asp-append-version="true"></script>
+        <script src="~/js/cascading-slot-game-result.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/cascading-slot-game-result.min.js" asp-append-version="true"></script>
+    </environment>
+}

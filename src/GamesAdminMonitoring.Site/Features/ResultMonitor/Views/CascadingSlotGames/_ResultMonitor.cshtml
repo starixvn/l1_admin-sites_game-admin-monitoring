@@ -1,0 +1,97 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
+@model SettlementCascadingSlotResultViewModel
+
+@if (!Model.IsValid)
+{
+    <div class="message-error" id="failedMsg">
+        Sending result unsuccessfully. The following conditions that must be satisfied in order to monitor board result.<br />
+        - Result cannot be set for real user and banned bot. <br />
+        - Result cannot be set for UUS user when the "Exclude UUS" setting is TRUE. <br />
+    </div>
+}
+else
+{
+    var results = Model.Results.ToList();
+    var rows = results.Count;
+    var mainRowIndex = 0;
+    <table class="table table-bordered table-four-guardians">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Winning Symbol</th>
+                <th>Number Of Symbol</th>
+                <th>Multiplier</th>
+                <th>Scatter</th>
+                <th>Result Board</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int rowIndex = 0; rowIndex < rows; rowIndex++)
+            {
+                var tumble = results[rowIndex];
+                var symbols = tumble.icons.ToList();
+                var numberOfWinningIcon = symbols.Count;
+                var rowspans = numberOfWinningIcon > 1 ? numberOfWinningIcon : 1;
+
+                for (int subRowIndex = 0; subRowIndex < rowspans; subRowIndex++)
+                {
+                    if (subRowIndex == mainRowIndex)
+                    {
+                        <tr>
+                            <td rowspan="@rowspans">
+                                @(rowIndex == 0 ? "Base Spin" : $"Tumble {rowIndex}")
+                            </td>
+                            <td class="text-center">
+                                @if (numberOfWinningIcon == 0)
+                                {
+                                    <div>-</div>
+                                }
+                                else
+                                {
+                                    <img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(symbols[subRowIndex].index).png" />
+                                }
+                            </td>
+                            <td class="text-center">
+                                @(numberOfWinningIcon == 0 ? "-" : symbols[subRowIndex].count.ToString())
+                            </td>
+                            <td rowspan="@rowspans" class="text-center">
+                                @tumble.multipliers.Count()
+                            </td>
+                            <td rowspan="@rowspans" class="text-center">
+                                @tumble.freeSpinCount
+                            </td>
+                            <td rowspan="@rowspans">
+                                <div class="table-paylines">
+                                    @{
+                                        var boardRows = tumble.Matrix.GetLength(0);
+                                        var boardColumns = tumble.Matrix.GetLength(1);
+                                        @for (int x = 0; x < boardRows; x++)
+                                        {
+                                            <div class="board-row">
+                                                @for (int y = 0; y < boardColumns; y++)
+                                                {
+                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(tumble.Matrix[x,y])).png" /></div>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(symbols[subRowIndex].index).png" />
+                            </td>
+                            <td class="text-center">
+                                @symbols[subRowIndex].count
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+}

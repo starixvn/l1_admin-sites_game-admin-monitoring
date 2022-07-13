@@ -36,5 +36,20 @@
       "wwwroot/lib/data-tables/datatables.min.css",
       "wwwroot/scss/pages/reports.min.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/cascading-slot-game-result.min.js",
+    "inputFiles": [
+      "wwwroot/js/cascading-slot-game-result-helper.js",
+      "wwwroot/js/cascading-slot-game-result.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/cascading-slot-result.min.css",
+    "inputFiles": [
+      "wwwroot/lib/data-tables/datatables.min.css",
+      "wwwroot/scss/pages/reports.min.css",
+      "wwwroot/scss/pages/cascading-slot-result.min.css"
+    ]
   }
 ]

@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using GamesAdminMonitoring.Site.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
@@ -123,6 +127,49 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public async Task<IActionResult> SetHiLoResult(HiLoResultViewModel viewModel)
             => PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
 
+        [HttpGet]
+        public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCascadingSlotResult(string data)
+        {
+            var request = JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(data);
+
+            return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+        }
+
+        [HttpPost]
+        public IActionResult ExportResultJsonFile(string jsonData)
+        {
+            JsonSerializerSettings options = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
+            var request = JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(jsonData);
+
+            return File(
+                SerializeToUtf8Bytes(request, options),
+                "text/plain",
+                $"{request.gameConfigName}-Result-Template-{DateTime.Now:yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK}.json");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportTemplateResults(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return PartialView(
+                    "CascadingSlotGames/_ResultMonitor",
+                    new SettlementCascadingSlotResultViewModel(string.Empty, Enumerable.Empty<SettlementCascadingSlotResult>(), false));
+            }
+
+            using var reader = new StreamReader(file.OpenReadStream());
+            var request = JsonConvert.DeserializeObject<SetCascadingSlotResultRequest>(await reader.ReadToEndAsync());
+            return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
+        }
+
         private void AddMiniKenoCookie()
         {
             var cookies = new[] { "keno-max", "keno-max2", "keno-mini", "keno-mini2", "keno-east", "keno-west", "keno-south", "keno-north" };
@@ -137,5 +184,16 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 
         private IActionResult RedirectToRestrictedPage(string message)
             => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));
+
+        private static byte[] SerializeToUtf8Bytes(object obj, JsonSerializerSettings options)
+        {
+            using var stream = new MemoryStream();
+            using var streamWriter = new StreamWriter(stream);
+            using var jsonWriter = new JsonTextWriter(streamWriter);
+            JsonSerializer.CreateDefault(options).Serialize(jsonWriter, obj);
+            jsonWriter.Flush();
+            stream.Position = 0;
+            return stream.ToArray();
+        }
     }
 }

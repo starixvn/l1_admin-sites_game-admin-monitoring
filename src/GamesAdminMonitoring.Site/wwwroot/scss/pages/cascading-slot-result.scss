@@ -1,0 +1,163 @@
+﻿
+.form {
+    .form-row {
+        align-items: flex-start !important;
+    }
+
+    .error {
+        border: 1px solid;
+        margin: 10px;
+        padding: 0.5rem;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        color: #D8000C;
+        background-color: #FFBABA;
+        border-radius: 0.5rem;
+    }
+
+    .successfully {
+        border: 1px solid;
+        margin: 10px;
+        padding: 0.5rem;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        color: forestgreen;
+        background-color: lightgreen;
+        border-radius: 0.5rem;
+    }
+
+    .nickname-label {
+        height: 3.6rem;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+    }
+
+    .div-multipler {
+        display: inline-block;
+        max-width: 150px;
+        margin-left: 5px;
+
+        label {
+            display: inline-block;
+        }
+
+        .input-multiplier {
+            width: 50px;
+        }
+    }
+
+    .required-icons {
+        font-weight: bold;
+        color: darkred;
+    }
+
+    .result-temp {
+        display: block;
+        margin-bottom: 10px;
+
+        .tumble-title {
+            width: 100px;
+            display: inline-block;
+        }
+
+        .tumble-content {
+            width: 500px;
+            display: inline-block;
+
+            .result-raw {
+                width: 80%;
+            }
+        }
+    }
+}
+
+.btn-primary {
+    min-width: 9rem;
+    height: 3.6rem;
+    padding: 0.75rem 1.3rem 0.6rem;
+    border-radius: 0.5rem;
+    box-shadow: none !important;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 1.3rem;
+    outline: none;
+    text-align: center;
+
+    &.disabled {
+        background-color: darkgray !important;
+        border-color: lightgray !important;
+    }
+}
+
+.btn-submit {
+    &.disabled {
+        background-color: darkgray !important;
+        border-color: lightgray !important;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+select {
+    width: 50px;
+}
+
+.report-container {
+    .board-row {
+        display: block;
+        text-align: center;
+
+        .board-column {
+            display: inline-block !important;
+            padding: 5px;
+
+            .symbol {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    }
+}
+
+
+.advance-mode {
+    padding: 5px;
+    margin-top: 10px;
+
+    .attempt {
+        display: inline-block;
+        vertical-align: top;
+        font-weight: bold;
+    }
+
+    .result-container {
+        border: 1px solid gray;
+        display: inline-block;
+
+        .board-row {
+            display: inline-block;
+            margin-right: 20px;
+
+            div {
+                display: inline-block !important;
+            }
+
+            .board-column {
+                display: inline-block;
+                padding: 5px;
+
+                .symbol {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+        }
+    }
+}
