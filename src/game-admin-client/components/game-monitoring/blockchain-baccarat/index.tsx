@@ -13,10 +13,15 @@ import blockChainStyles from "./blockchain-baccarat.module.scss";
 import { isEmpty } from "lodash";
 
 const numberOfCardsEachRound = 6;
+const WAITING_TIME = 18;
 
 export default class BlockChainBaccarat extends Baccarat {
   get gameName() {
     return "Blockchain Baccarat";
+  }
+
+  get waitingTime(): number {
+    return WAITING_TIME;
   }
 
   handleData(data) {
