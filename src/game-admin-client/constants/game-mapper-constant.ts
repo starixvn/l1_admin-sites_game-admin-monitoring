@@ -295,7 +295,7 @@ export const gameMapper = {
   },
   53: {
     name: "megakeno2",
-    component: MiniKeno("megaKeno", 20),
+    component: MiniKeno("megaKeno2", 20),
     socket: "admin/megakeno2",
     socketRoute: "minikeno/socket.io",
     ...getInfoByGameKey("MegaKeno2"),

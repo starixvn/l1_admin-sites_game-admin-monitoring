@@ -33,50 +33,50 @@ export default {
   },
   kenoMini: {
     durations: {
-      wholeRound: 59,
-      placingBets: 50,
+      wholeRound: 47,
+      placingBets: 40,
       lockingBet: 5,
     },
   },
   kenoMini2: {
     durations: {
-      wholeRound: 59,
-      placingBets: 50,
+      wholeRound: 37,
+      placingBets: 30,
       lockingBet: 5,
     },
   },
   kenoNorth: {
     durations: {
-      wholeRound: 39,
+      wholeRound: 40,
       placingBets: 30,
       lockingBet: 5,
     },
   },
   kenoSouth: {
     durations: {
-      wholeRound: 39,
+      wholeRound: 40,
       placingBets: 30,
       lockingBet: 5,
     },
   },
   kenoWest: {
     durations: {
-      wholeRound: 39,
+      wholeRound: 40,
       placingBets: 30,
       lockingBet: 5,
     },
   },
   megaKeno: {
     durations: {
-      wholeRound: 45,
-      placingBets: 36,
+      wholeRound: 55,
+      placingBets: 45,
       lockingBet: 5,
     },
   },
   megaKeno2: {
     durations: {
-      wholeRound: 30,
-      placingBets: 21,
+      wholeRound: 40,
+      placingBets: 30,
       lockingBet: 5,
     },
   },
