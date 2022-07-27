@@ -1,7 +1,8 @@
 import BigSmallBase from "../big-small-base/big-small-base";
 import { types } from "../game-monitoring-config";
+import React from "react";
 
-export default class OddEvenTurbo extends BigSmallBase {
+class OddEvenTurbo extends BigSmallBase {
   get turbo(): boolean {
     return true;
   }
@@ -18,3 +19,12 @@ export default class OddEvenTurbo extends BigSmallBase {
     return 5;
   }
 }
+
+export default (gameName: string) => (props) => {
+  return (
+    <OddEvenTurbo
+      gameName={gameName}
+      {...props}
+    />
+  );
+};

@@ -238,9 +238,6 @@ export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
       gameState,
     } = this.state;
 
-    const gameName = `${this.turbo ? "Turbo " : ""}${
-      this.type == types.taixiu ? "Big Small" : "Odd Even"
-    }`;
     const type1 =
       this.type == types.taixiu ? gameMapping.taixiu[0] : gameMapping.chanle[0];
     const type2 =
@@ -255,7 +252,7 @@ export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
       <Container>
         <Row>
           <span className={styles["turbo"]}>
-            <div>{gameName}</div>
+            <div>{this.props.gameName}</div>
           </span>
           <Col align="center" className={styles["flex-col"]}>
             <TotalBet

@@ -1,7 +1,8 @@
 import BigSmallBase from "../big-small-base/big-small-base";
 import { types } from "../game-monitoring-config";
+import React from "react";
 
-export default class BigSmall extends BigSmallBase {
+class BigSmall extends BigSmallBase {
   get turbo(): boolean {
     return false;
   }
@@ -18,3 +19,12 @@ export default class BigSmall extends BigSmallBase {
     return 10;
   }
 }
+
+export default (gameName: string) => (props) => {
+  return (
+    <BigSmall
+      gameName={gameName}
+      {...props}
+    />
+  );
+};
