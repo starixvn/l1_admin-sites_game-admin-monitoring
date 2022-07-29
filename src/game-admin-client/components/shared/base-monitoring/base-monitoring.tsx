@@ -147,7 +147,7 @@ export default class BaseMonitoring<
       settlementResult: this.getSettlementResult(finish.settlementResult),
       gameState: GameState.waiting,
       time: {
-        remainingTime: this.waitingTime,
+        remainingTime: this.waitingTime - 1,
       },
     });
 

@@ -12,18 +12,19 @@ class BigSmallTurbo extends BigSmallBase {
   }
 
   get totalTimeInRound(): number {
-    return 30;
+    return this.props.duration.placingBet;
   }
 
   get waitingTime(): number {
-    return 5;
+    return this.props.duration.waitingTime;
   }
 }
 
-export default (gameName: string) => (props) => {
+export default (gameName: string, duration: Object) => (props) => {
   return (
     <BigSmallTurbo
       gameName={gameName}
+      duration={duration}
       {...props}
     />
   );
