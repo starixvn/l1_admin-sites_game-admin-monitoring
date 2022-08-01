@@ -17,12 +17,12 @@ import {
   SicBoSettlementResult,
 } from "../../common/model/SicBoModel";
 import { Notice } from "../../shared/notice/notice";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetItem from "../../common/model/BetItem";
 import configs from "../../../configs.json";
 import { getBetAmountOnSystem } from "../../util/util";
 
-export default class SicBo extends BaseMonitoring<SicBoModel> {
+export default class SicBo extends BaseMonitoring<SicBoModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

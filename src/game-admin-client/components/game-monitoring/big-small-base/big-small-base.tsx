@@ -17,7 +17,7 @@ import BetItem from "../../common/model/BetItem";
 import { types, gameMapping } from "../game-monitoring-config";
 import { GameState } from "../../shared/common/GameState";
 import Dice from "../../shared/dice/dice";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import _ from "lodash";
 import configs from "../../../configs.json";
 import { getBetAmountOnSystem } from "../../util/util";
@@ -32,7 +32,15 @@ const betListMapping = (flag: boolean) => {
   return betListLabels[choice];
 };
 
-export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
+type BigSmallMonitoringProps = BaseMonitoringProps & {
+  gameName: string;
+  duration?: any;
+};
+
+export default class BigSmallBase extends BaseMonitoring<
+  BigSmallBaseModel,
+  BigSmallMonitoringProps
+> {
   constructor(props) {
     super(props);
 

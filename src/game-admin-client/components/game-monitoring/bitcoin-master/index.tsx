@@ -15,9 +15,9 @@ import {
 import { Notice } from "../../shared/notice/notice";
 import gameDurations from "./game-durations";
 import EditableText from "../../shared/editable-text";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
-export default class BitcoinMaster extends BaseMonitoring<BitcoinMasterModel> {
+export default class BitcoinMaster extends BaseMonitoring<BitcoinMasterModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

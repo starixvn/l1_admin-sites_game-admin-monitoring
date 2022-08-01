@@ -6,7 +6,7 @@ import GameTemplate from "../../game-monitoring/game-template/game-template";
 import configs from "../../../configs.json";
 import { getBetAmountOnSystem } from "../../util/util";
 
-type BaseMonitoringProps = {
+export type BaseMonitoringProps = {
   onMessage: Function;
   sendMessage: Function;
   isProduction: boolean;
@@ -16,8 +16,9 @@ type BaseMonitoringProps = {
 const baseCurrency = "INH";
 
 export default class BaseMonitoring<
-  GameStateModel extends BaseMonitoringState
-> extends React.Component<BaseMonitoringProps, GameStateModel> {
+  GameStateModel extends BaseMonitoringState,
+  GameProps extends BaseMonitoringProps
+> extends React.Component<GameProps, GameStateModel> {
   protected isFirstLoad: boolean;
   protected timeout: NodeJS.Timeout;
   protected currencyExchangeRate: Object;

@@ -5,7 +5,7 @@ import BetItem from "../../common/model/BetItem";
 import RouletteModel, {
   RouletteBetList,
 } from "../../common/model/RouletteModel";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import { GameState } from "../../shared/common/GameState";
 import RoundNum from "../../shared/round-num/round-num";
@@ -65,7 +65,7 @@ const COLUMN_CHOICE_MAPPER = {
   3: "3rd column",
 };
 
-export default class Roulette extends BaseMonitoring<RouletteModel> {
+export default class Roulette extends BaseMonitoring<RouletteModel, BaseMonitoringProps> {
   constructor(props: Props) {
     super(props);
 

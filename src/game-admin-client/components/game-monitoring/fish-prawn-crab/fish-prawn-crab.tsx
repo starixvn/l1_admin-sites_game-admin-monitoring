@@ -16,7 +16,7 @@ import {
   FishPrawnCrabBetList,
 } from "../../common/model/FishPrawnCrabModel";
 import { Notice } from "../../shared/notice/notice";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
 const CHOICES = ["stag", "gourd", "rooster", "fish", "crab", "prawn"];
 
@@ -29,7 +29,7 @@ enum FishPrawnCrabDice {
   prawn,
 }
 
-export default class FishPrawnCrab extends BaseMonitoring<FishPrawnCrabModel> {
+export default class FishPrawnCrab extends BaseMonitoring<FishPrawnCrabModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

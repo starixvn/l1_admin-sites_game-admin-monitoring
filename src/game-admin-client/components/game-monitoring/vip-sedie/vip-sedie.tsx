@@ -7,7 +7,7 @@ import ShakeThePlateModel, {
   SeDieSettlementResult,
   ShakeThePlateBetList,
 } from "../../common/model/ShakeThePlateModel";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import { GameState } from "../../shared/common/GameState";
 import Dice from "../../shared/dice/dice";
@@ -17,7 +17,7 @@ import TotalBet from "../../shared/total-bet/total-bet";
 import styles from "./vip-sedie.module.scss";
 import _ from "lodash";
 
-export default class VipSeDie extends BaseMonitoring<ShakeThePlateModel> {
+export default class VipSeDie extends BaseMonitoring<ShakeThePlateModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

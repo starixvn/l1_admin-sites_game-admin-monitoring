@@ -6,7 +6,7 @@ import ShakeThePlateModel, {
   SeDieSettlementResult,
   ShakeThePlateBetList,
 } from "../../common/model/ShakeThePlateModel";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import { GameState } from "../../shared/common/GameState";
 import Dice from "../../shared/dice/dice";
@@ -26,7 +26,7 @@ const DefaultResult = [
 const DefaultSettlementResult = new SeDieSettlementResult();
 
 const DefaultBetList = new ShakeThePlateBetList();
-export default class ShakeThePlate extends BaseMonitoring<ShakeThePlateModel> {
+export default class ShakeThePlate extends BaseMonitoring<ShakeThePlateModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

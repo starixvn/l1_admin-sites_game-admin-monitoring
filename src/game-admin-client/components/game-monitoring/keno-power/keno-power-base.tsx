@@ -25,7 +25,7 @@ import {
 } from "../../common/model/KenoPowerModel";
 import { Notice } from "../../shared/notice/notice";
 import KenoPowerResult from "./keno-power-result";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
 const choiceLabelMapper = {
   blue: "Blue",
@@ -40,7 +40,7 @@ const choiceLabelMapper = {
   redSmall: "Small",
 };
 
-export default class KenoPower extends BaseMonitoring<KenoPowerModel> {
+export default class KenoPower extends BaseMonitoring<KenoPowerModel, BaseMonitoringProps> {
   gameName: string;
 
   constructor(props) {

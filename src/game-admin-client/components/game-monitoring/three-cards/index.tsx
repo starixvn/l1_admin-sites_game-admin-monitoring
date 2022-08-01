@@ -14,7 +14,7 @@ import {
 } from "../../common/model/ThreeCardsModel";
 import { Notice } from "../../shared/notice/notice";
 import Card from "../../shared/card/card";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import CardModel from "../../common/model/CardModel";
 
 const cardSuit = [0, 1, 2, 3];
@@ -33,7 +33,7 @@ const cardRank = [
   "Q",
   "K",
 ];
-export default class ThreeCards extends BaseMonitoring<ThreeCardsModel> {
+export default class ThreeCards extends BaseMonitoring<ThreeCardsModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

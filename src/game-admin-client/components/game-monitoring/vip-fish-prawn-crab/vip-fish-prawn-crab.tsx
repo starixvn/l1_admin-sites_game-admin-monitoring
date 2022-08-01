@@ -8,7 +8,7 @@ import {
   VipFishPrawnCrabModel,
   VipFishPrawnCrabSettlementResult,
 } from "../../common/model/VipFishPrawnCrabModel";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import { GameState } from "../../shared/common/GameState";
 import DiceResult from "../../shared/dice-result/dice-result";
@@ -35,7 +35,7 @@ enum FishPrawnCrabDice {
   tom,
 }
 
-export default class VipFishPrawnCrab extends BaseMonitoring<VipFishPrawnCrabModel> {
+export default class VipFishPrawnCrab extends BaseMonitoring<VipFishPrawnCrabModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

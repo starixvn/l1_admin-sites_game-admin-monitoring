@@ -16,11 +16,11 @@ import {
 import { Notice } from "../../shared/notice/notice";
 import LotteryRoundResult from "../../shared/lottery-round-result";
 import generateBoard from "./lottery-number-generator";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import configs from "../../../configs.json";
 import { getBetAmountOnSystem } from "../../util/util";
 
-export default class Lottery extends BaseMonitoring<LotteryModel> {
+export default class Lottery extends BaseMonitoring<LotteryModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

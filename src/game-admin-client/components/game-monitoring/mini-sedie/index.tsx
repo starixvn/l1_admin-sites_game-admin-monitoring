@@ -12,10 +12,10 @@ import { GameState } from "../../shared/common/GameState";
 import MiniSedieModel, {
   MiniSedieBetList,
 } from "../../common/model/MiniSedieModel";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import _ from "lodash";
 
-export default class MiniSedie extends BaseMonitoring<MiniSedieModel> {
+export default class MiniSedie extends BaseMonitoring<MiniSedieModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

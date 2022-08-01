@@ -15,10 +15,10 @@ import VipSeDieWarModel, {
   VipSeDieWarResult,
 } from "../../common/model/VipSeDieWarModel";
 import { Notice } from "../../shared/notice/notice";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import { VipFishPrawnCrabSettlementResult } from "../../common/model/VipFishPrawnCrabModel";
 
-export default class VipSeDieWar extends BaseMonitoring<VipSeDieWarModel> {
+export default class VipSeDieWar extends BaseMonitoring<VipSeDieWarModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

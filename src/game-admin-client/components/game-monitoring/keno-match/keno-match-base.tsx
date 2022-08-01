@@ -22,7 +22,7 @@ import { GameState } from "../../shared/common/GameState";
 import { KenoMatchModel } from "../../common/model/KenoMatchModel";
 import { Notice } from "../../shared/notice/notice";
 import KenoMatchResult from "./keno-match-result";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
 const choiceLabelMapper = {
   fhBlue: "Blue",
@@ -45,7 +45,7 @@ const choiceLabelMapper = {
   liveFTEven: "Even",
 };
 
-export default class KenoMatch extends BaseMonitoring<KenoMatchModel> {
+export default class KenoMatch extends BaseMonitoring<KenoMatchModel, BaseMonitoringProps> {
   isFirstLoad: boolean;
   timeout: NodeJS.Timeout;
   gameName: string;

@@ -6,7 +6,7 @@ import DiceType from "../../common/model/DiceType";
 import SpecialSeDieModel, {
   SpecialSeDieBetList,
 } from "../../common/model/SpecialSeDieModel";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import { GameState } from "../../shared/common/GameState";
 import Dice from "../../shared/dice/dice";
@@ -15,7 +15,7 @@ import TimeCounter from "../../shared/time-counter/time-counter";
 import TotalBet from "../../shared/total-bet/total-bet";
 import styles from "./styles.module.scss";
 
-export default class SpecialSeDie extends BaseMonitoring<SpecialSeDieModel> {
+export default class SpecialSeDie extends BaseMonitoring<SpecialSeDieModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

@@ -6,7 +6,7 @@ import {
   BaccaratBetList,
 } from "../../common/model/BaccaratModel";
 import CardResult from "../../common/model/CardResult";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import RoundNum from "../../shared/round-num/round-num";
 import TimeCounter from "../../shared/time-counter/time-counter";
@@ -35,7 +35,7 @@ const CHOICES = [
   { name: "small", displayName: "Small" },
 ];
 
-export default class Baccarat extends BaseMonitoring<BaccaratModel> {
+export default class Baccarat extends BaseMonitoring<BaccaratModel, BaseMonitoringProps> {
   constructor(props) {
     super(props);
 

@@ -14,7 +14,7 @@ import BetItem from "../../common/model/BetItem";
 import { GameState } from "../../shared/common/GameState";
 import { updateTotalBetOfBetList, upperFirstLetter } from "../../util/util";
 import KenoResultUpdater from "../../shared/keno-result-updater/keno-result-updater";
-import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
 type Props = {
   onMessage: Function;
@@ -42,7 +42,7 @@ const TYPES = [
 const TOTAL_TIME = 30;
 const WAITING_TIME = 9;
 
-export default class KenoProMax extends BaseMonitoring<KenoProMaxModel> {
+export default class KenoProMax extends BaseMonitoring<KenoProMaxModel, BaseMonitoringProps> {
   constructor(props: any) {
     super(props);
 
