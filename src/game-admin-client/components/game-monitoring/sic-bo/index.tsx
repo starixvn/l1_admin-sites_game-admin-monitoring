@@ -19,6 +19,8 @@ import {
 import { Notice } from "../../shared/notice/notice";
 import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
 import BetItem from "../../common/model/BetItem";
+import configs from "../../../configs.json";
+import { getBetAmountOnSystem } from "../../util/util";
 
 export default class SicBo extends BaseMonitoring<SicBoModel> {
   constructor(props) {
@@ -65,10 +67,12 @@ export default class SicBo extends BaseMonitoring<SicBoModel> {
       const userRate = this.currencyExchangeRate[currency];
       Object.keys(betTracks).forEach((key) => {
         if (betTracks[key]) {
-          const baseBetAmount = parseFloat(
-            (betTracks[key] * userRate).toFixed(2)
+          const amount = betTracks[key] * userRate;
+          const baseBetAmount = getBetAmountOnSystem(
+            configs.SystemType,
+            amount,
+            this.baseMultiplier
           );
-
           if (key.includes("specific")) {
             const choice = key.split("specific")[1];
             currentData.specificNumber.dataList.unshift(

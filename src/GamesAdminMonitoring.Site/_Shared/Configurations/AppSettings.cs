@@ -1,5 +1,4 @@
 ﻿using GamesAdmin.Core.IdentityServer;
-using GamesAdmin.Site._Shared.Configurations;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.ComponentModel;
@@ -12,27 +11,9 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         IdentityServerAuth IdentityServerAuth { get; }
 
-        TimeZoneInfo DefaultTimeZone { get; }
-
-        string DefaultUmMessage { get; }
-
         string Env { get; }
 
-        int MaxDecreased { get; }
-
-        ResultPageConfiguration ResultPageConfiguration { get; }
-
-        GameServerSettings GameServers { get; }
-
         string SubPath { get; }
-    }
-
-    public class ResultPageConfiguration
-    {
-        public string BaseUrl { get; set; }
-        public string ClientId { get; set; }
-        public string ClientKey { get; set; }
-        public string Language { get; set; }
     }
 
     public class AppSettings : IAppSettings
@@ -45,12 +26,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
             ApiHost = GetValue<string>(nameof(ApiHost));
             IdentityServerAuth = configuration.GetSection(nameof(IdentityServerAuth)).Get<IdentityServerAuth>();
-            DefaultTimeZone = TimeZoneInfo.FindSystemTimeZoneById(GetValue<string>(nameof(DefaultTimeZone)));
-            DefaultUmMessage = GetValue<string>(nameof(DefaultUmMessage));
             Env = GetValue<string>(nameof(Env));
-            ResultPageConfiguration = configuration.GetSection(nameof(ResultPageConfiguration)).Get<ResultPageConfiguration>();
-            MaxDecreased = GetValue<int>(nameof(MaxDecreased));
-            GameServers = configuration.GetSection(nameof(GameServers)).Get<GameServerSettings>();
             SubPath = GetValue<string>(nameof(SubPath));
         }
 
@@ -58,17 +34,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
 
         public IdentityServerAuth IdentityServerAuth { get; }
 
-        public TimeZoneInfo DefaultTimeZone { get; }
-
-        public string DefaultUmMessage { get; }
-
         public string Env { get; }
-
-        public ResultPageConfiguration ResultPageConfiguration { get; }
-
-        public int MaxDecreased { get; }
-
-        public GameServerSettings GameServers { get; }
 
         public string SubPath { get; }
 

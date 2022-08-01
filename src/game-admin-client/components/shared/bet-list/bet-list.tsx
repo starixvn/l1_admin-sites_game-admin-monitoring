@@ -2,7 +2,8 @@ import React from "react";
 import Moment from "react-moment";
 import style from "./bet-list.module.scss";
 import { Row, Col } from "reactstrap";
-import { Partners, SystemId } from "../../common/model/BetItem";
+import configs from "../../../configs.json";
+import { getAppTypeOnSystem, getPartnerOnSystem } from "../../util/util";
 
 const displayTypes = {
   onecolumn: "onecolumn",
@@ -39,9 +40,11 @@ const renderTitle = (titles, type) => {
 };
 
 const getDisplayName = (systemId, partnerId, name) => {
-  const partnerPrefix = partnerId ? Partners[partnerId] : "";
+  const partnerPrefix = getPartnerOnSystem(configs.SystemType, partnerId);
   const systemSuffix =
-    systemId == SystemId.SC ? "" : `[${SystemId[systemId]}] `;
+    systemId == 1
+      ? `[${getAppTypeOnSystem(configs.SystemType, systemId)}] `
+      : "";
 
   return `${partnerPrefix}-${name} ${systemSuffix}`;
 };

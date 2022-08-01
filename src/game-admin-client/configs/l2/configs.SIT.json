@@ -1,0 +1,10 @@
+{
+  "Env": "SIT",
+  "SystemType": "VG2",
+  "Partners": ["ONEworksVGCash", "ONEworksVG2"],
+  "DefaultToken": "",
+  "RootUrl": "https://l2uatproxy.sgamesuat.com/sit/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "l2uatproxy.sgamesuat.com",
+  "SubPath": "sit"
+}

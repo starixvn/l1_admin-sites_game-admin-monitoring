@@ -3,7 +3,10 @@ include:
     ref: master
     file: "gitlab-ci.yml"
 
-.base_transform_config_l1_admin_monitoring_site:
+  - project: "ci/repos-ci/pentagon_l2_vg2_admin_monitoring_site"
+    ref: master
+    file: "gitlab-ci-mixing.yml"
+
   stage: transform-config
   extends:
     - .build:image:l1_admin_monitoring_site:rules
@@ -13,9 +16,10 @@ include:
   script:
     - echo "====== Build NextJS ======"
     - echo $DEPLOY_ENV
-    - cp ./src/game-admin-client/configs/configs.$DEPLOY_ENV.json ./src/game-admin-client/configs.json
+    - echo $STACK_NAME
+    - cp ./src/game-admin-client/configs/$STACK_NAME/configs.$DEPLOY_ENV.json ./src/game-admin-client/configs.json
     - cat ./src/game-admin-client/configs.json
-  
+
   artifacts:
     paths:
       - ./src/game-admin-client/configs.json

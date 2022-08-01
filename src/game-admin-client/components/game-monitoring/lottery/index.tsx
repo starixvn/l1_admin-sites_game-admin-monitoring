@@ -17,6 +17,8 @@ import { Notice } from "../../shared/notice/notice";
 import LotteryRoundResult from "../../shared/lottery-round-result";
 import generateBoard from "./lottery-number-generator";
 import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
+import configs from "../../../configs.json";
+import { getBetAmountOnSystem } from "../../util/util";
 
 export default class Lottery extends BaseMonitoring<LotteryModel> {
   constructor(props) {
@@ -66,8 +68,11 @@ export default class Lottery extends BaseMonitoring<LotteryModel> {
         .forEach((betTypeKey) => {
           Object.entries(betTracks[betTypeKey]).forEach(
             ([betChoice, amountOnChoice]) => {
-              const baseBetAmount = parseFloat(
-                (+amountOnChoice * userRate).toFixed(2)
+              const amount = +amountOnChoice * userRate;
+              const baseBetAmount = getBetAmountOnSystem(
+                configs.SystemType,
+                amount,
+                this.baseMultiplier
               );
               currentData[betTypeKey].dataList.unshift(
                 new BetItem(

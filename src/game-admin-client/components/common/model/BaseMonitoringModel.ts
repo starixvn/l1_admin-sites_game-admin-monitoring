@@ -1,4 +1,4 @@
-import { SystemId } from "./BetItem";
+import { SystemSC1Id } from "./BetItem";
 import TimeModel from "./TimeModel";
 
 export default class BaseMonitoringState {
@@ -12,7 +12,7 @@ export default class BaseMonitoringState {
   currencyExchangeRate: { [key: string]: number };
   result: any;
   settlementResult: any;
-  systemFilter: SystemId;
+  systemFilter: SystemSC1Id;
   partnerFilter: string;
 
   constructor() {

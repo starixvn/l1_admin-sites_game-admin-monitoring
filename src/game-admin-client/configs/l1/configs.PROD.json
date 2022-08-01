@@ -1,0 +1,10 @@
+{
+  "Env": "PRO",
+  "SystemType": "SC1",
+  "Partners": ["ONEworks1"],
+  "DefaultToken": "",
+  "RootUrl": "https://proxy.sabagame.com/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "proxy.sabagame.com",
+  "SubPath": ""
+}

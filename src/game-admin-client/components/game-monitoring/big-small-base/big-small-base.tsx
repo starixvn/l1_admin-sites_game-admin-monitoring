@@ -19,6 +19,8 @@ import { GameState } from "../../shared/common/GameState";
 import Dice from "../../shared/dice/dice";
 import BaseMonitoring from "../../shared/base-monitoring/base-monitoring";
 import _ from "lodash";
+import configs from "../../../configs.json";
+import { getBetAmountOnSystem } from "../../util/util";
 
 const optionChoice = ["big", "even"];
 const DiceValue = [1, 2, 3, 4, 5, 6];
@@ -79,8 +81,11 @@ export default class BigSmallBase extends BaseMonitoring<BigSmallBaseModel> {
 
       Object.keys(betTracks).forEach((key) => {
         if (betTracks[key]) {
-          const baseBetAmount = parseFloat(
-            (betTracks[key] * userRate).toFixed(2)
+          const amount = betTracks[key] * userRate;
+          const baseBetAmount = getBetAmountOnSystem(
+            configs.SystemType,
+            amount,
+            this.baseMultiplier
           );
           let select = false;
           if (optionChoice.indexOf(key) !== -1) {

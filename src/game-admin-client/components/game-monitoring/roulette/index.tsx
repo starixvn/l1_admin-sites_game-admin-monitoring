@@ -14,6 +14,8 @@ import Title from "../../shared/title";
 import TotalBet from "../../shared/total-bet/total-bet";
 import RouletteResultUpdater from "./result-updater";
 import styles from "./styles.module.scss";
+import configs from "../../../configs.json";
+import { getBetAmountOnSystem } from "../../util/util";
 
 type Props = {
   onMessage: Function;
@@ -154,9 +156,12 @@ export default class Roulette extends BaseMonitoring<RouletteModel> {
         const betTrack = betTracks[type];
 
         Object.keys(betTrack).forEach((choice) => {
-          const betAmount = betTrack[choice];
-          const baseBetAmount = parseFloat((betAmount * userRate).toFixed(2));
-
+          const amount = betTrack[choice] * userRate;
+          const baseBetAmount = getBetAmountOnSystem(
+            configs.SystemType,
+            amount,
+            this.baseMultiplier
+          );
           betList[type].total += baseBetAmount;
           betList[type].dataList.unshift(
             new BetItem(

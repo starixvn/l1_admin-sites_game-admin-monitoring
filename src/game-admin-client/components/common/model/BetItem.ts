@@ -1,13 +1,25 @@
-export enum SystemId {
+export enum SystemSC1Id {
   None,
   SC,
   SM,
   Mini,
 }
+export enum SystemVG2Id {
+  None,
+  VG,
+  VGM,
+  Mini,
+}
 
-export const Partners = {
+export const PartnersSC1 = {
   ONEworks1: "1W",
   SBO: "SPart",
+};
+
+export const PartnersVG2 = {
+  ONEworksVGCash: "VG",
+  ONEworksVG2: "VG2",
+  SBO: "SBO_VG2",
 };
 
 export default class BetItem {
@@ -15,7 +27,7 @@ export default class BetItem {
   bet: number;
   time: string;
   choice: string;
-  system: SystemId;
+  system: SystemSC1Id;
   currency: string;
   partnerId: string;
 
@@ -24,7 +36,7 @@ export default class BetItem {
     bet: number = 0,
     time: string = "",
     choice = "",
-    system = SystemId.None,
+    system = SystemSC1Id.None,
     currency = "",
     partnerId = ""
   ) {

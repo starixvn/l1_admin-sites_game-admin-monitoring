@@ -8,7 +8,7 @@ import KenoResult from "../../shared/keno-result/keno-result";
 import style from "./base.module.scss";
 import KenoResultUpdater from "../../shared/keno-result-updater/keno-result-updater";
 import gameSettings from "./game-settings";
-import { SystemId } from "../../common/model/BetItem";
+import { SystemSC1Id } from "../../common/model/BetItem";
 
 type Props = {
   onMessage: Function;
@@ -34,7 +34,7 @@ type State = {
   boxes: Array<string>;
   isShowSetResultPanel: boolean;
   disabled: boolean;
-  systemFilter: SystemId;
+  systemFilter: SystemSC1Id;
   partnerFilter: string;
 };
 
@@ -87,7 +87,7 @@ export default class extends React.Component<Props, State> {
       boxes: gameSettings.choices,
       isShowSetResultPanel: false,
       disabled: false,
-      systemFilter: SystemId.None,
+      systemFilter: SystemSC1Id.None,
       partnerFilter: "",
     };
 

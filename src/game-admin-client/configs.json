@@ -1,12 +1,10 @@
 {
-    "Env": "DEV",
-    "Partners": [
-        "ONEworks1",
-        "SBO"
-    ],
-    "DefaultToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlckFnZW50IjoiYWRtaW4tYWdlbnQiLCJpYXQiOjE1OTE5Mjk2MDEsImV4cCI6MzQ4NDA4OTYwMX0.AsKMkQTMs5HAhY0LKr4ZAQ9lE0LXAD74rGPgPXfUNI8",
-    "RootUrl": "https://l1-proxy3.lumigame.com/monitoring",
-    "EnableMsgpack": false,
-    "Domain": "l1-proxy3.lumigame.com",
-    "SubPath": ""
+  "Env": "DEV",
+  "SystemType": "VG2",
+  "Partners": ["SBO", "ONEworksVGCash", "ONEworksVG2"],
+  "DefaultToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlckFnZW50IjoiYWRtaW4tYWdlbnQiLCJpYXQiOjE1OTE5Mjk2MDEsImV4cCI6MzQ4NDA4OTYwMX0.AsKMkQTMs5HAhY0LKr4ZAQ9lE0LXAD74rGPgPXfUNI8",
+  "RootUrl": "https://l2-proxy.lumigame.com/monitoring",
+  "EnableMsgpack": false,
+  "Domain": "l2-proxy.lumigame.com",
+  "SubPath": ""
 }

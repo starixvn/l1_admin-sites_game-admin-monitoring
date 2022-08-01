@@ -46,7 +46,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
             => await service.SetHiLoResult(request);
 
         public Task<GameSettingsViewModel> Handle(GameSettingsRequest request, CancellationToken cancellationToken)
-            => Task.FromResult(new GameSettingsViewModel(request.Token, request.GameName, appSettings.GameServers));
+            => Task.FromResult(new GameSettingsViewModel(request.Token, request.GameName));
 
         public async Task<SettlementCascadingSlotResultViewModel> Handle(SetCascadingSlotResultRequest request, CancellationToken cancellationToken)
             => new SettlementCascadingSlotResultViewModel(request.gameConfigName, await service.SetCascadingSlotResult(request), request.IsValid);

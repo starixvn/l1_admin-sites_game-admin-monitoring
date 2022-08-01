@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./game-template.module.scss";
 import { Notice } from "../../shared/notice/notice";
-import { Partners, SystemId } from "../../common/model/BetItem";
+import { SystemSC1Id } from "../../common/model/BetItem";
+import configs from "../../../configs.json";
+import { getAppTypeOnSystem, getPartnerOnSystem } from "../../util/util";
 
 type Props = {
   renderMonitor: Function;
@@ -39,24 +41,26 @@ export default function GameTemplate(props: Props) {
               <select onChange={onChangePartnerFilter}>
                 {partners.length > 1 && <option value={""}>All</option>}
                 {partners.map((key) => (
-                  <option value={key} key={key}>{Partners[key]}</option>
+                  <option value={key} key={key}>
+                    {getPartnerOnSystem(configs.SystemType, key)}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <label>App Type</label>
               <select onChange={onChangeSystemFilter}>
-                <option key={0} value={SystemId.None}>
+                <option key={0} value={SystemSC1Id.None}>
                   All
                 </option>
-                <option key={1} value={SystemId.SC}>
-                  SC
+                <option key={1} value={SystemSC1Id.SC}>
+                  {getAppTypeOnSystem(configs.SystemType, 1)}
                 </option>
-                <option key={2} value={SystemId.SM}>
-                  SM
+                <option key={2} value={SystemSC1Id.SM}>
+                  {getAppTypeOnSystem(configs.SystemType, 2)}
                 </option>
-                <option key={3} value={SystemId.Mini}>
-                  Mini SC
+                <option key={3} value={SystemSC1Id.Mini}>
+                  {getAppTypeOnSystem(configs.SystemType, 3)}
                 </option>
               </select>
             </div>

@@ -1,9 +1,9 @@
-import { SystemId } from "../../../common/model/BetItem";
+import { SystemSC1Id } from "../../../common/model/BetItem";
 
 export interface BetOfUser {
   name: string;
   bet: number;
-  system: SystemId;
+  system: SystemSC1Id;
   partnerId: string;
 }
 

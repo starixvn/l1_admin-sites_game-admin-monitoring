@@ -3,6 +3,8 @@ import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
 import BetItem from "../../common/model/BetItem";
 import { GameState } from "../../shared/common/GameState";
 import GameTemplate from "../../game-monitoring/game-template/game-template";
+import configs from "../../../configs.json";
+import { getBetAmountOnSystem } from "../../util/util";
 
 type BaseMonitoringProps = {
   onMessage: Function;
@@ -11,6 +13,8 @@ type BaseMonitoringProps = {
   partners: Array<string>;
 };
 
+const baseCurrency = "INH";
+
 export default class BaseMonitoring<
   GameStateModel extends BaseMonitoringState
 > extends React.Component<BaseMonitoringProps, GameStateModel> {
@@ -18,12 +22,14 @@ export default class BaseMonitoring<
   protected timeout: NodeJS.Timeout;
   protected currencyExchangeRate: Object;
   protected betList: any;
+  protected baseMultiplier: number;
 
   constructor(props) {
     super(props);
 
     this.betList = this.defaultBetList;
     this.isFirstLoad = true;
+    this.baseMultiplier = 1;
     this.renderMonitor = this.renderMonitor.bind(this);
     this.renderBetList = this.renderBetList.bind(this);
     this.onChangePartnerFilter = this.onChangePartnerFilter.bind(this);
@@ -166,6 +172,10 @@ export default class BaseMonitoring<
 
       result[currency.name] = multiplier * exchangeRate;
 
+      if (currency.name === baseCurrency) {
+        this.baseMultiplier = currency.multiplier;
+      }
+
       return result;
     }, {});
 
@@ -216,7 +226,12 @@ export default class BaseMonitoring<
         Object.keys(betTracks).forEach((key) => {
           const betAmount = betTracks[key];
           if (betAmount) {
-            const baseBetAmount = parseFloat((betAmount * userRate).toFixed(2));
+            const amount = betAmount * userRate;
+            const baseBetAmount = getBetAmountOnSystem(
+              configs.SystemType,
+              amount,
+              this.baseMultiplier
+            );
             !this.isExcludeUUS && (currentData[key].total += baseBetAmount);
 
             currentData[key].dataList.unshift(

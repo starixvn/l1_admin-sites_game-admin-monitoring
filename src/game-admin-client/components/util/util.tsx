@@ -1,4 +1,9 @@
-import BetItem, { SystemId } from "../common/model/BetItem";
+import BetItem, {
+  PartnersSC1,
+  PartnersVG2,
+  SystemSC1Id,
+  SystemVG2Id,
+} from "../common/model/BetItem";
 
 export function upperFirstLetter(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1);
@@ -6,7 +11,7 @@ export function upperFirstLetter(text: string) {
 
 export const updateTotalBetOfBetList = (
   betList: object,
-  systemFilter?: SystemId,
+  systemFilter?: SystemSC1Id,
   partnerFilter?: string,
   excludeUSS?: boolean
 ) => {
@@ -25,7 +30,7 @@ export const updateTotalBetOfBetList = (
 
 export const getTotalBetOnSystem = (
   betList: Array<BetItem>,
-  systemFilter: SystemId,
+  systemFilter: SystemSC1Id,
   partnerFilter: string,
   excludeUSS?: boolean
 ) => {
@@ -38,4 +43,32 @@ export const getTotalBetOnSystem = (
         : total,
     0
   );
+};
+
+export const getBetAmountOnSystem = (
+  systemType: string,
+  amount: number,
+  baseMultiplier: number
+) => {
+  const multiplier = systemType === "SC1" ? 1 : baseMultiplier;
+  return parseFloat((amount / multiplier).toFixed(2));
+};
+
+export const getAppTypeOnSystem = (systemType: string, appType: number) => {
+  if (systemType === "SC1") {
+    return SystemSC1Id[appType];
+  } else {
+    return SystemVG2Id[appType];
+  }
+};
+
+export const getPartnerOnSystem = (systemType: string, partnerId: string) => {
+  if (!partnerId) {
+    return "";
+  }
+  if (systemType === "SC1") {
+    return PartnersSC1[partnerId];
+  } else {
+    return PartnersVG2[partnerId];
+  }
 };

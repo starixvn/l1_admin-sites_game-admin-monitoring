@@ -1,0 +1,10 @@
+{
+  "Env": "LOCAL",
+  "SystemType": "VG2",
+  "Partners": ["SBO", "ONEworksVGCash", "ONEworksVG2"],
+  "DefaultToken": "",
+  "RootUrl": "https://l2-proxy.lumigame.com/monitoring",
+  "EnableMsgpack": false,
+  "Domain": "l2-proxy.lumigame.com",
+  "SubPath": ""
+}
