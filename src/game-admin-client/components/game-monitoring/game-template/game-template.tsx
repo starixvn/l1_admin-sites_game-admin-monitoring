@@ -39,7 +39,7 @@ export default function GameTemplate(props: Props) {
               <select onChange={onChangePartnerFilter}>
                 {partners.length > 1 && <option value={""}>All</option>}
                 {partners.map((key) => (
-                  <option value={key}>{Partners[key]}</option>
+                  <option value={key} key={key}>{Partners[key]}</option>
                 ))}
               </select>
             </div>

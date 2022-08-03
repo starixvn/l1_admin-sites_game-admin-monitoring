@@ -1,5 +1,6 @@
 import Transport from 'winston-transport';
 import _ from 'lodash';
+import configs from '../../configs.json';
 
 type LevelMaps ={
   silly: string,
@@ -45,7 +46,7 @@ export default class SentryTransport extends Transport {
     const context = {
       level: this.levelsMap[level],
       extra: _.omit(meta, ['user']),
-      fingerprint: [fingerprint, process.env.NEXT_PUBLIC_ENV],
+      fingerprint: [fingerprint, configs.Env],
     };
 
     this.sentry.configureScope((scope) => {

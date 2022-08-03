@@ -2,18 +2,19 @@ import { createLogger } from 'winston';
 import BrowserConsole from 'winston-transport-browserconsole';
 import * as Sentry from '@sentry/browser';
 import SentryTransport from './sentry-transport';
+import commonConstant from '../../constants/common-constant';
 
 Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  dsn: commonConstant.SentryDns,
 });
 
 const options = {
   console: {
-    level: process.env.NEXT_PUBLIC_CONSOLE_LOG_LEVEL,
+    level: commonConstant.ConsoleLogLevel,
     handleExceptions: true,
   },
   sentry: {
-    level: process.env.NEXT_PUBLIC_SENTRY_LOG_LEVEL,
+    level: commonConstant.SentryLogLevel,
   },
   winston: {
     exitOnError: false,

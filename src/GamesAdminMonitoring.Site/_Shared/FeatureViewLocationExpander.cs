@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Razor;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace GamesAdminMonitoring.Site._Shared
 {
@@ -35,6 +35,10 @@ namespace GamesAdminMonitoring.Site._Shared
 
         public void PopulateValues(ViewLocationExpanderContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./dice.module.scss";
 import DiceModel from "../../common/model/DiceModel";
 import DiceType from "../../common/model/DiceType";
+import configs from "../../../configs.json";
 
 type DiceProps = {
   diceModel: DiceModel;
@@ -17,7 +18,7 @@ export default function Dice(props: DiceProps) {
   const BauCuaDice = ["nai", "bau", "ga", "ca", "cua", "tom"];
 
   const getDiceIconURL = (value, type) => {
-    const rootPath = process.env['NEXT_PUBLIC_ROOT_URL'];
+    const rootPath = configs.RootUrl;
     let rootURL = `${rootPath}/game-admin/images/dice/${DiceType[
       type
     ].toLocaleLowerCase()}/dice-{0}.png`;

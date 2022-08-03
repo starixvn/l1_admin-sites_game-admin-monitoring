@@ -1,0 +1,12 @@
+{
+    "Env": "AWS",
+    "Partners": [
+        "ONEworks1",
+        "SBO"
+    ],
+    "DefaultToken": "",
+    "RootUrl": "https://sc1-proxy.sportsfun.app/monitoring",
+    "EnableMsgpack": true,
+    "Domain": "sc1-proxy.sportsfun.app",
+    "SubPath": "uat"
+}

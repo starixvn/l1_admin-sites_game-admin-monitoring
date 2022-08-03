@@ -1,0 +1,68 @@
+.holder {
+  position: relative;
+
+  .card-index {
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    font-weight: bold;
+  }
+
+  &[class*="third-card"] {
+    .card-index {
+      bottom: 15px;
+      right: 0px;
+    }
+  }
+
+  div[class*="card-suit"] {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+}
+
+.blockchain-baccrat-popup {
+  color: white;
+
+  .results,
+  .cut-card {
+    text-align: left;
+
+    input {
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      height: 35px;
+
+      &[type=text] {
+        width: 300px;
+      }
+
+      &[type=number] {
+        -moz-appearance: textfield;
+        width: 70px;
+      }
+    }
+
+    >div {
+      &:first-child {
+        margin-right: 10px;
+      }
+
+      &:last-child {
+        margin-left: 10px;
+      }
+
+      display: inline-block;
+    }
+  }
+}
+
+.empty-card {
+  margin-top: 80px;
+}

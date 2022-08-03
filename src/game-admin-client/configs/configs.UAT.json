@@ -1,0 +1,11 @@
+{
+    "Env": "UAT",
+    "Partners": [
+        "ONEworks1"
+    ],
+    "DefaultToken": "",
+    "RootUrl": "https://l1uatproxy.sgamesuat.com/uat/monitoring",
+    "EnableMsgpack": true,
+    "Domain": "l1uatproxy.sgamesuat.com",
+    "SubPath": "uat"
+}

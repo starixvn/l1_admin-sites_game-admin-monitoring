@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node ./_build-files/before-dev.js & next dev --port 7000",
+    "dev": "next dev --port 7000",
     "prestart": "next build",
     "start": "next start",
     "test": "jest --passWithNoTests",

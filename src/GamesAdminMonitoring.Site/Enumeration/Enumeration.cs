@@ -85,6 +85,26 @@ namespace GamesAdminMonitoring.Site.Enumeration
             return !(left == right);
         }
 
+        public static bool operator >(Enumeration left, Enumeration right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(Enumeration left, Enumeration right)
+        {
+            return left.CompareTo(right) >= 0;
+        }
+
+        public static bool operator <(Enumeration left, Enumeration right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(Enumeration left, Enumeration right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -122,7 +142,7 @@ namespace GamesAdminMonitoring.Site.Enumeration
                 throw new ArgumentNullException(nameof(obj));
             }
 
-            return Value.CompareTo(((Enumeration)obj).Value);
+            return string.CompareOrdinal(Value, ((Enumeration)obj).Value);
         }
 
         protected static T Parse<T, K>(K value, string description, Func<T, bool> predicate) where T : Enumeration, new()
