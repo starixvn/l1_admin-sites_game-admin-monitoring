@@ -85,44 +85,44 @@ export class Home extends React.Component<Props, State> {
           endpoint:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL1_SERVER_ENDPOINT
-              : Cookies.get("unbalanced-bigsmall1-server-endpoint"),
+              : Cookies.get("unbalancedbigsmall1-server-endpoint"),
           route:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL1_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalanced-bigsmall1-server-endpoint-route"),
+              : Cookies.get("unbalancedbigsmall1-server-endpoint-route"),
         };
       case gameNameMapper.unbalancedbigsmall2:
         return {
           endpoint:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL2_SERVER_ENDPOINT
-              : Cookies.get("unbalanced-bigsmall2-server-endpoint"),
+              : Cookies.get("unbalancedbigsmall2-server-endpoint"),
           route:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL2_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalanced-bigsmall2-server-endpoint-route"),
+              : Cookies.get("unbalancedbigsmall2-server-endpoint-route"),
         };
       case gameNameMapper.unbalancedbigsmall3:
         return {
           endpoint:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL3_SERVER_ENDPOINT
-              : Cookies.get("unbalanced-bigsmall3-server-endpoint"),
+              : Cookies.get("unbalancedbigsmall3-server-endpoint"),
           route:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL3_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalanced-bigsmall3-server-endpoint-route"),
+              : Cookies.get("unbalancedbigsmall3-server-endpoint-route"),
         };
       case gameNameMapper.unbalancedbigsmall4:
         return {
           endpoint:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL4_SERVER_ENDPOINT
-              : Cookies.get("unbalanced-bigsmall4-server-endpoint"),
+              : Cookies.get("unbalancedbigsmall4-server-endpoint"),
           route:
             process.env.NEXT_PUBLIC_ENV === "local"
               ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL4_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalanced-bigsmall4-server-endpoint-route"),
+              : Cookies.get("unbalancedbigsmall4-server-endpoint-route"),
         };
 
 
