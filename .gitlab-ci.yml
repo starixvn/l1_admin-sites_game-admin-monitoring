@@ -5,6 +5,8 @@ include:
 
 .base_transform_config_l1_admin_monitoring_site:
   stage: transform-config
+  extends:
+    - .build:image:l1_admin_monitoring_site:rules
   tags:
     - docker
 
