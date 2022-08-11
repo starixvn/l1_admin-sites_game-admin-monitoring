@@ -31,8 +31,8 @@ include:
   extends:
     - .deploy_vars_l1_admin_monitoring_site
     - .build:image:l1_admin_monitoring_site:rules
-.base_transform_config_l2_vg2_admin_monitoring_site:
+.base_transform_config_l2_admin_monitoring_site:
   <<: *base_transform_config_script
   extends:
-    - .deploy_vars_l2_vg2_admin_monitoring_site
-    - .build:image:l2_vg2_admin_monitoring_site:rules
+    - .deploy_vars_l2_admin_monitoring_site
+    - .build:image:l2_admin_monitoring_site:rules
