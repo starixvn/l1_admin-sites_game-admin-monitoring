@@ -334,6 +334,27 @@ export const gameMapper = {
     }),
     ...getInfoByGameKey("UnbalancedBigSmall4"),
   },
+  56: {
+    name: "minisedie2",
+    component: MiniSedie,
+    socket: "admin/minisedie2",
+    socketRoute: "minisedie/socket.io",
+    ...getInfoByGameKey("MiniSeDie2"),
+  },
+  57: {
+    name: "minisedie3",
+    component: MiniSedie,
+    socket: "admin/minisedie3",
+    socketRoute: "minisedie/socket.io",
+    ...getInfoByGameKey("MiniSeDie3"),
+  },
+  58: {
+    name: "minisedie4",
+    component: MiniSedie,
+    socket: "admin/minisedie4",
+    socketRoute: "minisedie/socket.io",
+    ...getInfoByGameKey("MiniSeDie4"),
+  },
 };
 
 export const getGameName = (gameName: string) =>
