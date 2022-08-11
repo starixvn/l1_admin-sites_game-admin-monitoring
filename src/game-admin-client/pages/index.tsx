@@ -43,9 +43,7 @@ export class Home extends React.Component<Props, State> {
 
     this.partners = configs.Partners;
     const env = configs.Env.toLocaleUpperCase();
-    const token = env === "DEV"
-      ? configs.DefaultToken
-      : Cookies.get("token");
+    const token = env === "DEV" ? configs.DefaultToken : Cookies.get("token");
 
     this.protocol = "wss";
     this.isProduction = env === "PRO";
@@ -79,52 +77,6 @@ export class Home extends React.Component<Props, State> {
 
     return socket;
   }
-
-      case gameNameMapper.unbalancedbigsmall1:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL1_SERVER_ENDPOINT
-              : Cookies.get("unbalancedbigsmall1-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL1_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalancedbigsmall1-server-endpoint-route"),
-        };
-      case gameNameMapper.unbalancedbigsmall2:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL2_SERVER_ENDPOINT
-              : Cookies.get("unbalancedbigsmall2-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL2_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalancedbigsmall2-server-endpoint-route"),
-        };
-      case gameNameMapper.unbalancedbigsmall3:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL3_SERVER_ENDPOINT
-              : Cookies.get("unbalancedbigsmall3-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL3_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalancedbigsmall3-server-endpoint-route"),
-        };
-      case gameNameMapper.unbalancedbigsmall4:
-        return {
-          endpoint:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL4_SERVER_ENDPOINT
-              : Cookies.get("unbalancedbigsmall4-server-endpoint"),
-          route:
-            process.env.NEXT_PUBLIC_ENV === "local"
-              ? process.env.NEXT_PUBLIC_UNBALANCED_BIGSMALL4_SERVER_PROXY_ROUTE
-              : Cookies.get("unbalancedbigsmall4-server-endpoint-route"),
-        };
-
 
   async componentDidUpdate(prevProps) {
     const { query } = this.props.router;

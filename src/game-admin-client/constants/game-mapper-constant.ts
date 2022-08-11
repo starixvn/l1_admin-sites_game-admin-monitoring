@@ -64,7 +64,7 @@ const getInfoByGameKey = (key: string) => {
 export const gameMapper = {
   1: {
     name: "taixiu",
-    component: BigSmall,
+    component: BigSmall("Big Small"),
     socket: "admin/bigsmall",
     socketRoute: "bigsmall/socket.io",
     ...getInfoByGameKey("BigSmall"),
@@ -85,14 +85,17 @@ export const gameMapper = {
   },
   4: {
     name: "txturbo",
-    component: BigSmallTurbo,
+    component: BigSmallTurbo("Turbo Big Small", {
+      placingBet: 30,
+      waitingTime: 5,
+    }),
     socket: "admin/txturbo",
     socketRoute: "turbobigsmall/socket.io",
     ...getInfoByGameKey("TXTurbo"),
   },
   6: {
     name: "oeturbo",
-    component: OddEvenTurbo,
+    component: OddEvenTurbo("Turbo Odd Even"),
     socket: "admin/oeturbo",
     socketRoute: "turbooddeven/socket.io",
     ...getInfoByGameKey("OETurbo"),
@@ -286,6 +289,20 @@ export const gameMapper = {
     socketRoute: "blockchainbaccarat/socket.io",
     ...getInfoByGameKey("BlockchainBaccarat"),
   },
+  50: {
+    name: "unbalancedbigsmall1",
+    component: BigSmall("Las Vegas"),
+    socket: "admin/unbalancedbigsmall1",
+    socketRoute: "unbalancedbigsmall/socket.io",
+    ...getInfoByGameKey("UnbalancedBigSmall1"),
+  },
+  51: {
+    name: "unbalancedbigsmall2",
+    socket: "admin/unbalancedbigsmall2",
+    socketRoute: "unbalancedbigsmall/socket.io",
+    component: BigSmallTurbo("Marina Bay", { placingBet: 30, waitingTime: 10 }),
+    ...getInfoByGameKey("UnbalancedBigSmall2"),
+  },
   52: {
     name: "megakeno",
     component: MiniKeno("megaKeno", 20),
@@ -299,6 +316,23 @@ export const gameMapper = {
     socket: "admin/megakeno2",
     socketRoute: "minikeno/socket.io",
     ...getInfoByGameKey("MegaKeno2"),
+  },
+  54: {
+    name: "unbalancedbigsmall3",
+    socket: "admin/unbalancedbigsmall3",
+    socketRoute: "unbalancedbigsmall/socket.io",
+    component: BigSmall("Macau"),
+    ...getInfoByGameKey("UnbalancedBigSmall3"),
+  },
+  55: {
+    name: "unbalancedbigsmall4",
+    socket: "admin/unbalancedbigsmall4",
+    socketRoute: "unbalancedbigsmall/socket.io",
+    component: BigSmallTurbo("Monte Carlo", {
+      placingBet: 30,
+      waitingTime: 10,
+    }),
+    ...getInfoByGameKey("UnbalancedBigSmall4"),
   },
 };
 
