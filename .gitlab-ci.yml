@@ -3,7 +3,7 @@ include:
     ref: master
     file: "gitlab-ci.yml"
 
-.base_transform_config:
+.base_transform_config_l1_admin_monitoring_site:
   stage: transform-config
   tags:
     - docker
