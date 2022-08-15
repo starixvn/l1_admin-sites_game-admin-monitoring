@@ -43,8 +43,8 @@ const getDisplayName = (systemId, partnerId, name) => {
   const partnerPrefix = getPartnerOnSystem(configs.SystemType, partnerId);
   const systemSuffix =
     systemId == 1
-      ? `[${getAppTypeOnSystem(configs.SystemType, systemId)}] `
-      : "";
+      ? ""
+      : `[${getAppTypeOnSystem(configs.SystemType, systemId)}]`;
 
   return `${partnerPrefix}-${name} ${systemSuffix}`;
 };
