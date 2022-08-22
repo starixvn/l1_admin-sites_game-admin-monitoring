@@ -2,13 +2,13 @@ export enum SystemSC1Id {
   None,
   SC,
   SM,
-  Mini,
+  SI,
 }
 export enum SystemVG2Id {
   None,
   VG,
   VGM,
-  Mini,
+  VGI,
 }
 
 export const PartnersSC1 = {

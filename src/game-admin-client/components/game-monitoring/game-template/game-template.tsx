@@ -59,7 +59,7 @@ export default function GameTemplate(props: Props) {
                 <option key={2} value={SystemSC1Id.SM}>
                   {getAppTypeOnSystem(configs.SystemType, 2)}
                 </option>
-                <option key={3} value={SystemSC1Id.Mini}>
+                <option key={3} value={SystemSC1Id.SI}>
                   {getAppTypeOnSystem(configs.SystemType, 3)}
                 </option>
               </select>
