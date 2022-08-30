@@ -41,10 +41,15 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 
         [HttpPost]
         public async Task<IActionResult> SetSlotResult([Bind] SlotResultViewModel viewModel)
-            => PartialView("SlotGames/_ResultMonitor", await mediator.Send(new SetSlotResultRequest(
+        {
+            var model = await mediator.Send(new SetSlotResultRequest(
                 viewModel.GameName,
                 viewModel.Nickname,
-                viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray())));
+                viewModel.Results.Trim().Split(',').Select(x => byte.Parse(x)).ToArray()));
+            model.SystemType = appSettings.SystemType;
+
+            return PartialView("SlotGames/_ResultMonitor", model);
+        }
 
         [HttpGet]
         public async Task<IActionResult> HoldemPokderResult(string token, string gameConfigName)

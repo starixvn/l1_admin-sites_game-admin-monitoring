@@ -1,5 +1,21 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
+@using GamesAdminMonitoring.Site.Enumeration;
 @model SettlementBoardViewModel
+
+@functions{
+    public string GetSymbolImage(byte symbol)
+    {
+        const byte jackpotId = 10;
+        if (symbol == jackpotId && Model.SystemType.Equals(SystemType.VG2Value) && Model.GameName.Equals(Game.FourGuardiansValue))
+        {
+            return "10-jackpot";
+        }
+        else
+        {
+            return symbol.ToString();
+        }
+    }
+}
 
 @if (Model.IsError)
 {
@@ -41,7 +57,7 @@ else
                                     <tr>
                                         @for (var column = 0; column < Model.FormattedBoard[row].Length; column++)
                                         {
-                                            <td><img class="symbol" src="~/images/slot-icons/@Model.GameName/@(Model.FormattedBoard[row][column]).png" /></td>
+                                            <td><img class="symbol" src="~/images/slot-icons/@Model.GameName/@(GetSymbolImage(Model.FormattedBoard[row][column])).png?v=2" /></td>
                                         }
                                     </tr>
 
@@ -54,4 +70,3 @@ else
         </tbody>
     </table>
 }
-

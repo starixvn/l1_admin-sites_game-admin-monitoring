@@ -14,6 +14,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         string Env { get; }
 
         string SubPath { get; }
+
+        string SystemType { get; }
     }
 
     public class AppSettings : IAppSettings
@@ -28,6 +30,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             IdentityServerAuth = configuration.GetSection(nameof(IdentityServerAuth)).Get<IdentityServerAuth>();
             Env = GetValue<string>(nameof(Env));
             SubPath = GetValue<string>(nameof(SubPath));
+            SystemType = GetValue<string>(nameof(SystemType));
         }
 
         public string ApiHost { get; }
@@ -37,6 +40,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         public string Env { get; }
 
         public string SubPath { get; }
+
+        public string SystemType { get; }
 
         public T GetValue<T>(string key)
         {

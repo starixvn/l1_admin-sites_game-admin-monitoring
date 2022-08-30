@@ -28,5 +28,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         public byte NumberOfBonus => (byte)(IsError ? 0 : Board?.Bonus?.Odds ?? 0);
 
         public string Jackpot => Board?.JackpotPayline > -1 ? "YES" : "NO";
+
+        public string SystemType { get; set; }
     }
 }
