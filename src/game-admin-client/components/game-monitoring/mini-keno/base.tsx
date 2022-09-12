@@ -87,7 +87,7 @@ export default class extends React.Component<Props, State> {
       boxes: gameSettings.choices,
       isShowSetResultPanel: false,
       disabled: false,
-      systemFilter: SystemSC1Id.None,
+      systemFilter: SystemSC1Id.All,
       partnerFilter: "",
     };
 

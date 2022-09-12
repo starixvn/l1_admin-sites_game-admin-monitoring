@@ -50,18 +50,13 @@ export default function GameTemplate(props: Props) {
             <div>
               <label>App Type</label>
               <select onChange={onChangeSystemFilter}>
-                <option key={0} value={SystemSC1Id.None}>
-                  All
-                </option>
-                <option key={1} value={SystemSC1Id.SC}>
-                  {getAppTypeOnSystem(configs.SystemType, 1)}
-                </option>
-                <option key={2} value={SystemSC1Id.SM}>
-                  {getAppTypeOnSystem(configs.SystemType, 2)}
-                </option>
-                <option key={3} value={SystemSC1Id.SI}>
-                  {getAppTypeOnSystem(configs.SystemType, 3)}
-                </option>
+                {Object.values(SystemSC1Id)
+                  .filter((value) => isNaN(Number(value)))
+                  .map((key) => (
+                    <option key={SystemSC1Id[key]} value={SystemSC1Id[key]}>
+                      {getAppTypeOnSystem(configs.SystemType, SystemSC1Id[key])}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>

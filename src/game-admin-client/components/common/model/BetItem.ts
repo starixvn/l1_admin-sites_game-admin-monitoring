@@ -1,14 +1,16 @@
 export enum SystemSC1Id {
-  None,
+  All,
   SC,
   SM,
   SI,
+  MK,
 }
 export enum SystemVG2Id {
-  None,
+  All,
   VG,
   VGM,
   VGI,
+  VGK,
 }
 
 export const PartnersSC1 = {
@@ -36,7 +38,7 @@ export default class BetItem {
     bet: number = 0,
     time: string = "",
     choice = "",
-    system = SystemSC1Id.None,
+    system = SystemSC1Id.All,
     currency = "",
     partnerId = ""
   ) {
