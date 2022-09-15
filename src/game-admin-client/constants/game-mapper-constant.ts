@@ -116,7 +116,7 @@ export const gameMapper = {
   },
   9: {
     name: "minisedie",
-    component: MiniSedie,
+    component: MiniSedie("Mini SeDie"),
     socket: "admin/minisedie",
     socketRoute: "minisedie/socket.io",
     ...getInfoByGameKey("MiniSeDie"),
@@ -336,21 +336,21 @@ export const gameMapper = {
   },
   56: {
     name: "minisedie2",
-    component: MiniSedie,
+    component: MiniSedie("Mini SeDie 2"),
     socket: "admin/minisedie2",
     socketRoute: "minisedie/socket.io",
     ...getInfoByGameKey("MiniSeDie2"),
   },
   57: {
     name: "minisedie3",
-    component: MiniSedie,
+    component: MiniSedie("Mini SeDie 3"),
     socket: "admin/minisedie3",
     socketRoute: "minisedie/socket.io",
     ...getInfoByGameKey("MiniSeDie3"),
   },
   58: {
     name: "minisedie4",
-    component: MiniSedie,
+    component: MiniSedie("Mini SeDie 4"),
     socket: "admin/minisedie4",
     socketRoute: "minisedie/socket.io",
     ...getInfoByGameKey("MiniSeDie4"),

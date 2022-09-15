@@ -12,10 +12,23 @@ import { GameState } from "../../shared/common/GameState";
 import MiniSedieModel, {
   MiniSedieBetList,
 } from "../../common/model/MiniSedieModel";
-import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, {
+  BaseMonitoringProps,
+} from "../../shared/base-monitoring/base-monitoring";
 import _ from "lodash";
 
-export default class MiniSedie extends BaseMonitoring<MiniSedieModel, BaseMonitoringProps> {
+type MiniSedieMonitoringProps = BaseMonitoringProps & {
+  gameName: string;
+};
+
+export default (gameName: string) => (props) => {
+  return <MiniSedie gameName={gameName} {...props} />;
+};
+
+class MiniSedie extends BaseMonitoring<
+  MiniSedieModel,
+  MiniSedieMonitoringProps
+> {
   constructor(props) {
     super(props);
 
@@ -180,7 +193,7 @@ export default class MiniSedie extends BaseMonitoring<MiniSedieModel, BaseMonito
               gameState={gameState}
             />
             <div>
-              <div className={styles.title}>Mini Se Die</div>
+              <div className={styles.title}>{this.props.gameName}</div>
               <Row className={styles.result}>
                 <Dice
                   diceModel={result[0]}
