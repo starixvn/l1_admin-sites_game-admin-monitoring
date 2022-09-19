@@ -27,7 +27,7 @@ const KENOMATCH2_DURATION = {
 export class KenoMatch1 extends KenoMatch {
   constructor(props) {
     super(props);
-    this.gameName = "Keno Match";
+    this.gameName = "Keno Soccer";
   }
 
   umHandler(data: any): void {
@@ -188,7 +188,7 @@ export class KenoMatch1 extends KenoMatch {
 export class KenoMatch2 extends KenoMatch {
   constructor(props) {
     super(props);
-    this.gameName = "Keno Match MD5";
+    this.gameName = "Keno Soccer 2";
   }
 
   umHandler(data: any): void {

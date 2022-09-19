@@ -18,7 +18,7 @@ export class KenoPower1 extends KenoPower {
 export class KenoPower2 extends KenoPower {
   constructor(props) {
     super(props);
-    this.gameName = "Keno Power MD5";
+    this.gameName = "Keno Power 2";
   }
 
   get totalTimeInRound(): number {
