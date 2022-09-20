@@ -29,6 +29,7 @@ import {
   KenoPower2,
 } from "../components/game-monitoring/keno-power";
 import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
+import FruitSlot from "../components/game-monitoring/fruit-slot";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -354,6 +355,13 @@ export const gameMapper = {
     socket: "admin/minisedie4",
     socketRoute: "minisedie/socket.io",
     ...getInfoByGameKey("MiniSeDie4"),
+  },
+  59: {
+    name: "fruitslot",
+    component: FruitSlot,
+    socket: "admin/fruitslot",
+    socketRoute: "socket.io",
+    ...getInfoByGameKey("FruitSlot"),
   },
 };
 
