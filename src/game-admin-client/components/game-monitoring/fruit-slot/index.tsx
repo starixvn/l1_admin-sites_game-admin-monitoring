@@ -1,58 +1,11 @@
 import React from "react";
-import { Col, Container, Row } from "reactstrap";
-import configs from "../../../configs.json";
-import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
-import TimeModel from "../../common/model/TimeModel";
+import { Button, Col, Container, Row } from "reactstrap";
 import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import { GameState } from "../../shared/common/GameState";
-import RoundNum from "../../shared/round-num/round-num";
 import TimeCounter from "../../shared/time-counter/time-counter";
+import { fruitSlotConstant } from "./fruit-slot-constant";
+import { FruitSlotDropdownlistModel, FruitSlotState } from "./fruit-slot-model";
 import styles from "./fruit-slot.module.scss";
-
-const fruitSlotConstant = {
-  maxLuckySymbol: 2,
-  bigSmall: {
-    min: 1,
-    max: 16
-  },
-  defaultSymbols: {
-    bar: false,
-    bar25: false,
-    bar50: false,
-    tripleSeven: false,
-    tripleSeven3: false,
-    watermelon: false,
-    watermelon3: false,
-    star: false,
-    star3: false,
-    bell: false,
-    bell3: false,
-    orange: false,
-    orange3: false,
-    lemon: false,
-    lemon3: false,
-    cherry: false,
-    cherry3: false
-  }
-};
-
-class FruitSlotState extends BaseMonitoringState {
-  roundNumber: number;
-  time: TimeModel;
-  gameState: number;
-  symbolsRender: any;
-  isLucky: boolean;
-  symbols: Array<string>;
-  bigSmall: number;
-
-  constructor() {
-    super();
-    this.time = new TimeModel();
-    this.gameState = 0;
-    this.symbols = [];
-    this.symbolsRender = { ...fruitSlotConstant.defaultSymbols };
-  }
-}
 
 export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonitoringProps>  {
   public state: FruitSlotState;
@@ -64,56 +17,73 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
     this.handleSymbol = this.handleSymbol.bind(this);
     this.handleLuckySymbol = this.handleLuckySymbol.bind(this);
     this.handleBigSmallValueChange = this.handleBigSmallValueChange.bind(this);
+    this.handleNumberOfLuckySymbolsChange = this.handleNumberOfLuckySymbolsChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSymbol(event, symbol: string) {
-    const { symbolsRender, symbols, isLucky } = this.state;
+  handleSymbol(symbol: string) {
+    const { symbolsRender, symbols, isLucky, numberOfLuckySymbols } = this.state;
 
     let symbolsRenderTmp = { ...symbolsRender };
+    let symbolsTmp = [];
 
-    if (symbolsRender[symbol]) {
-      symbolsRenderTmp[symbol] = !symbolsRender[symbol];
+    if (symbols.includes(symbol)) {
+      symbolsTmp = symbols.filter(item => item !== symbol);
     }
     else {
       if (isLucky) {
-        if (symbols.length > fruitSlotConstant.maxLuckySymbol) {
-          symbolsRenderTmp[symbols[0]] = false;
-        }
+        symbolsTmp = symbols.length >= numberOfLuckySymbols ? symbols.slice(1, numberOfLuckySymbols) : [...symbols];
       }
-      else {
-        symbolsRenderTmp = { ...fruitSlotConstant.defaultSymbols };
-      }
-      symbolsRenderTmp[symbol] = true;
+
+      symbolsTmp = symbolsTmp.concat([symbol]);
     }
 
-    this.setState({ symbols: Object.keys(symbolsRender).filter((symbol) => symbolsRenderTmp[symbol]), symbolsRender: symbolsRenderTmp });
+    symbolsRenderTmp = { ...fruitSlotConstant.defaultSymbols };
+    symbolsTmp.forEach(item => {
+      symbolsRenderTmp[item] = true;
+    });
+
+    this.setState({ symbols: symbolsTmp, symbolsRender: symbolsRenderTmp });
   }
 
   get totalTimeInRound(): number {
-    return 30;
+    return fruitSlotConstant.totalTimeInRound;
   }
 
   get waitingTime(): number {
-    return 12;
+    return fruitSlotConstant.waitingTime;
   }
 
-  handleLuckySymbol(event) {
+  handleLuckySymbol(event: React.ChangeEvent<HTMLInputElement>) {
     const isLucky = event.target.checked;
+
     this.setState({ isLucky });
 
     if (!isLucky) {
-      this.setState({ symbolsRender: fruitSlotConstant.defaultSymbols, symbols: [] });
+      this.resetSymbols();
     }
   }
 
-  handleBigSmallValueChange(event) {
+  handleBigSmallValueChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ bigSmall: parseInt(event.target.value) });
   }
 
-  handleSubmit(event) {
+  handleNumberOfLuckySymbolsChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const numberOfLuckySymbols = parseInt(event.target.value);
+    this.setState({ numberOfLuckySymbols });
+
+    const { symbols } = this.state;
+    if (symbols.length >= numberOfLuckySymbols) {
+      this.handleSymbol(symbols[0]);
+    }
+  }
+
+  resetSymbols() {
+    this.setState({ symbolsRender: fruitSlotConstant.defaultSymbols, symbols: [] });
+  }
+
+  handleSubmit() {
     const { isLucky, symbols, bigSmall } = this.state;
-    console.log(this.state);
 
     this.props.sendMessage({
       set_result: {
@@ -123,82 +93,108 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
         result: { isLucky, symbols, bigSmall }
       }
     });
+
+    this.resetSymbols();
+  }
+
+  renderDropdownlist(model: FruitSlotDropdownlistModel) {
+    let options = [];
+    const { min, max } = model;
+    for (let index = min; index <= max; index++) {
+      options.push(<option value={index} key={index}>{index}</option>);
+    }
+    return options;
   }
 
   render() {
     const { roundNumber, time, isLucky, symbols, gameState, symbolsRender } = this.state;
-
-    let dropdownlist = [];
-    const { min, max } = fruitSlotConstant.bigSmall;
-    for (let i = min; i <= max; i++) {
-      dropdownlist.push(<option value={i} key={i} >{i}</option>);
-    }
+    const { resources } = fruitSlotConstant;
 
     return (
-      <Container className={styles["fruit-slot"]} style={{ background: "white", marginTop: "200px", paddingLeft: "20px" }}>
+      <Container className={styles["fruit-slot"]}>
         <Row>
-          <Col className={styles.timecounter}>
-            <div className={styles.title}>Fish Prawn Crab</div>
+          <Col><h2>{resources.FruitSlot}</h2></Col>
+        </Row>
+        <Row>
+          <Col className={styles["time-counter"]}>
             <TimeCounter
               remainingTime={time.remainingTime}
               gameState={gameState}
             ></TimeCounter>
-            {/* <RoundNum roundNumber={roundNumber} /> */}
           </Col>
-          <Col> Fruit Slot</Col></Row>
-        <Row>
-          <Col>
-            <label>RoundId: {roundNumber} </label>
-            <label style={{ marginLeft: "10px" }}>{isLucky}</label>
-          </Col>
-
         </Row>
         <Row>
-          <Col>  <label>Big Small Result</label>
-            <select style={{ marginLeft: "10px" }} onChange={(event) => this.handleBigSmallValueChange(event)}>
-              {dropdownlist}
+          <Col>
+            <label>{resources.RoundId}</label> <label className={styles["round-id"]}>{roundNumber} </label>
+            <label className={styles["margin-left"]}>{isLucky}</label>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <label>{resources.BigSmallValue} </label>
+            <select
+              className={styles["margin-left"]}
+              onChange={(event) => this.handleBigSmallValueChange(event as any)}>
+              {this.renderDropdownlist(fruitSlotConstant.bigSmall)}
             </select>
           </Col>
         </Row>
-        <Row style={{ lineHeight: "70px" }}>
+        <Row >
+          <Col className={styles["lucky-symbol"]}>
+            <div>
+              <label>{resources.LuckySymbol}</label>
+              <input
+                className={styles["margin-left"]}
+                type="checkbox"
+                defaultChecked={isLucky}
+                onChange={(event) => this.handleLuckySymbol(event)} />
+            </div>
+            {
+              isLucky && <div className={styles["last-child"]}>
+                <label>{resources.MaxSymbols}</label>
+                <select
+                  className={styles["margin-left"]}
+                  onChange={(event) => this.handleNumberOfLuckySymbolsChange(event as any)}>
+                  {this.renderDropdownlist(fruitSlotConstant.luckySymbol)}
+                </select>
+              </div>
+            }
+          </Col>
+        </Row>
+        <Row className={styles["symbol-result"]}>
           <Col>
-            <label>Symbol Result:</label>
+            <label>{resources.SymbolResult} </label>
             {
               symbols.map((symbol, index) => <img
-                src={`${configs.RootUrl}/game-admin/images/fruitslot/${symbol}.png`}
+                className={styles["margin-left"]}
+                src={`${fruitSlotConstant.rootImageUrl}${symbol}.png`}
                 alt={`${symbol}`}
                 key={index}
-                style={{ marginLeft: "10px" }}
               />)
             }
           </Col>
-          <Col>
-            <input
-              style={{ marginLeft: "10px" }}
-              type="checkbox"
-              defaultChecked={isLucky}
-              onChange={(event) => this.handleLuckySymbol(event)} /> Lucky Symbol
-          </Col>
         </Row>
         <Row >
-          <Col style={{ border: "1px solid black", marginRight: "10px" }}>
+          <Col className={styles["symbols"]}>
             {
               Object.keys(symbolsRender).map((symbol, index) => <img
-                src={`${configs.RootUrl}/game-admin/images/fruitslot/${symbol}.png`}
+                src={`${fruitSlotConstant.rootImageUrl}${symbol}.png`}
                 alt={`${symbol}`}
                 key={index}
-                style={{ marginLeft: "10px", cursor: "pointer", border: `2px solid ${symbolsRender[symbol] ? 'red' : 'white'}` }}
-                onClick={(event) => this.handleSymbol(event, symbol)} />)
+                className={`${styles["item"]} ${symbolsRender[symbol] ? styles["chosen"] : ''}`}
+                onClick={() => this.handleSymbol(symbol)} />)
             }
           </Col>
         </Row>
         <Row>
           <Col>
-            <input
-              style={{ float: "right", marginRight: "50px" }}
-              type="submit"
-              value={"Submit"}
-              onClick={(event) => this.handleSubmit(event)} />
+            <Button
+              color="primary"
+              className={styles["submit"]}
+              onClick={this.handleSubmit}
+              disabled={symbols.length === 0}>
+              {resources.Submit}
+            </Button>
           </Col>
         </Row>
       </Container>

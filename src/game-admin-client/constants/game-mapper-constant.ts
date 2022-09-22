@@ -360,7 +360,7 @@ export const gameMapper = {
     name: "fruitslot",
     component: FruitSlot,
     socket: "admin/fruitslot",
-    socketRoute: "socket.io",
+    socketRoute: "fruitslot/socket.io",
     ...getInfoByGameKey("FruitSlot"),
   },
 };

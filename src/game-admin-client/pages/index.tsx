@@ -45,7 +45,7 @@ export class Home extends React.Component<Props, State> {
     const env = configs.Env.toLocaleUpperCase();
     const token = env === "DEV" ? configs.DefaultToken : Cookies.get("token");
 
-    this.protocol = "ws";
+    this.protocol = "wss";
     this.isProduction = env === "PRO";
     this.messageTransmitter = MessageTransmitter();
 
@@ -60,7 +60,6 @@ export class Home extends React.Component<Props, State> {
   }
 
   initSocket(gameId: number) {
-    console.log(gameId);
     const subPath = configs.SubPath === "" ? "" : `/${configs.SubPath}`;
 
     const socket = new SocketIO(
@@ -69,7 +68,6 @@ export class Home extends React.Component<Props, State> {
       configs.EnableMsgpack
     );
 
-    console.log(socket);
     socket.onDisconnected(this.showWebSocketDisconnected.bind(this));
     socket.addOrReplaceObserver(
       "sessionTimeout",
