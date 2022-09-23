@@ -21,6 +21,7 @@ class FruitSlotState extends BaseMonitoringState {
     symbols: Array<string>;
     bigSmall: number;
     numberOfLuckySymbols: number;
+    isUpdateMessage: boolean;
 
     constructor() {
         super();
@@ -29,6 +30,7 @@ class FruitSlotState extends BaseMonitoringState {
         this.symbols = [];
         this.symbolsRender = { ...fruitSlotConstant.defaultSymbols };
         this.numberOfLuckySymbols = fruitSlotConstant.luckySymbol.min;
+        this.isUpdateMessage = false;
     }
 }
 

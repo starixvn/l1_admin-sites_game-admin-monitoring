@@ -94,7 +94,12 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
       }
     });
 
-    this.resetSymbols();
+    this.setState({ isUpdateMessage: true });
+    setTimeout(() => {
+      this.setState({ isUpdateMessage: false });
+      this.resetSymbols();
+    }, 2000);
+
   }
 
   renderDropdownlist(model: FruitSlotDropdownlistModel) {
@@ -107,7 +112,7 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
   }
 
   render() {
-    const { roundNumber, time, isLucky, symbols, gameState, symbolsRender } = this.state;
+    const { roundNumber, time, isLucky, symbols, gameState, symbolsRender, isUpdateMessage } = this.state;
     const { resources } = fruitSlotConstant;
 
     return (
@@ -161,7 +166,7 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
             }
           </Col>
         </Row>
-        <Row className={styles["symbol-result"]}>
+        <Row className={`${styles["symbol-result"]} ${isUpdateMessage ? 'alert alert-success' : ''}`}>
           <Col>
             <label>{resources.SymbolResult} </label>
             {
@@ -171,6 +176,13 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
                 alt={`${symbol}`}
                 key={index}
               />)
+            }
+          </Col>
+          <Col>
+            {
+              isUpdateMessage && <div>
+                <span>{resources.SuccessfullyMessage}</span>
+              </div>
             }
           </Col>
         </Row>

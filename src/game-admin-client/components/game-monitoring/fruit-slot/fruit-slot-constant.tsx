@@ -5,7 +5,7 @@ export const fruitSlotConstant = {
     luckySymbol: new FruitSlotDropdownlistModel(2, 3),
     bigSmall: new FruitSlotDropdownlistModel(1, 16),
     totalTimeInRound: 30,
-    waitingTime: 12,
+    waitingTime: 13,
     defaultSymbols: {
         bar: false,
         bar25: false,
@@ -32,7 +32,8 @@ export const fruitSlotConstant = {
         SymbolResult: "Symbols Result:",
         LuckySymbol: "Lucky Symbol",
         MaxSymbols: "Max symbols",
-        Submit: "Submit"
+        Submit: "Submit",
+        SuccessfullyMessage: "Update successfuly!"
     },
     rootImageUrl: `${configs.RootUrl}/game-admin/images/fruitslot/`
 };
