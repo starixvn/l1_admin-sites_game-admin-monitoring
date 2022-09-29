@@ -6,6 +6,7 @@ import TimeCounter from "../../shared/time-counter/time-counter";
 import { fruitSlotConstant } from "./fruit-slot-constant";
 import { FruitSlotDropdownlistModel, FruitSlotState } from "./fruit-slot-model";
 import styles from "./fruit-slot.module.scss";
+import Chance from "chance";
 
 export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonitoringProps>  {
   public state: FruitSlotState;
@@ -65,7 +66,14 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
   }
 
   handleBigSmallValueChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ bigSmall: parseInt(event.target.value) });
+    const value = parseInt(event.target.value);
+    const { betchoiceName } = fruitSlotConstant;
+    this.setState({
+      bigSmall: {
+        choice: value < 8 ? betchoiceName.small : betchoiceName.big,
+        value: value
+      }
+    });
   }
 
   handleNumberOfLuckySymbolsChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -84,13 +92,24 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
 
   handleSubmit() {
     const { isLucky, symbols, bigSmall } = this.state;
+    const { symbolPositonsMapper } = fruitSlotConstant;
+
+    const chance = new Chance();
+    const symbolPositons: number[] = symbols.map((choice) => {
+      return chance.pickone(symbolPositonsMapper[choice]);
+    });
 
     this.props.sendMessage({
       set_result: {
         roundId: this.state.gameState == GameState.running
           ? this.state.roundNumber
           : this.state.roundNumber + 1,
-        result: { isLucky, symbols, bigSmall }
+        result: {
+          isLucky,
+          symbols,
+          bigSmall,
+          symbolPositons: isLucky ? [chance.pickone(symbolPositonsMapper["lucky"])].concat(symbolPositons) : symbolPositons,
+        }
       }
     });
 

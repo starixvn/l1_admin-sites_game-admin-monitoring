@@ -12,6 +12,11 @@ class FruitSlotDropdownlistModel {
     }
 }
 
+type FruitSlotBigSmall = {
+    choice: string;
+    value: number;
+}
+
 class FruitSlotState extends BaseMonitoringState {
     roundNumber: number;
     time: TimeModel;
@@ -19,7 +24,7 @@ class FruitSlotState extends BaseMonitoringState {
     symbolsRender: any;
     isLucky: boolean;
     symbols: Array<string>;
-    bigSmall: number;
+    bigSmall: FruitSlotBigSmall;
     numberOfLuckySymbols: number;
     isUpdateMessage: boolean;
 
@@ -31,6 +36,10 @@ class FruitSlotState extends BaseMonitoringState {
         this.symbolsRender = { ...fruitSlotConstant.defaultSymbols };
         this.numberOfLuckySymbols = fruitSlotConstant.luckySymbol.min;
         this.isUpdateMessage = false;
+        this.bigSmall = {
+            choice: "small",
+            value: 1
+        }
     }
 }
 

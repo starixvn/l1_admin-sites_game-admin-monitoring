@@ -35,5 +35,29 @@ export const fruitSlotConstant = {
         Submit: "Submit",
         SuccessfullyMessage: "Update successfuly!"
     },
+    symbolPositonsMapper: {
+        bar: [5],
+        bar25: [3],
+        bar50: [4],
+        tripleSeven: [16],
+        tripleSeven3: [15],
+        watermelon: [8],
+        watermelon3: [9],
+        star: [20],
+        star3: [21],
+        bell: [2],
+        bell3: [0],
+        orange: [1, 13],
+        orange3: [12],
+        lemon: [7, 19],
+        lemon3: [18],
+        cherry: [11, 17, 23],
+        cherry3: [6],
+        lucky: [10, 22],
+    },
+    betchoiceName: {
+        big: "big",
+        small: "small"
+    },
     rootImageUrl: `${configs.RootUrl}/game-admin/images/fruitslot/`
 };
