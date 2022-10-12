@@ -307,7 +307,7 @@ export default class extends React.Component<Props, State> {
       .substr(3);
     this.setState({ result: list, resultText, isShowSetResultPanel: false });
     this.props.sendMessage({
-      set_result: { result: list, roundId: this.state.roundId },
+      set_result: { result: list, roundId: this.state.roundId + 1 },
     });
   }
 
