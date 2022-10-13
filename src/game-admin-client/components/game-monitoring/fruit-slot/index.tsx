@@ -92,11 +92,11 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
 
   handleSubmit() {
     const { isLucky, symbols, bigSmall } = this.state;
-    const { symbolPositonsMapper } = fruitSlotConstant;
+    const { symbolPositionsMapper } = fruitSlotConstant;
 
     const chance = new Chance();
-    const symbolPositons: number[] = symbols.map((choice) => {
-      return chance.pickone(symbolPositonsMapper[choice]);
+    const symbolPositions: number[] = symbols.map((choice) => {
+      return chance.pickone(symbolPositionsMapper[choice]);
     });
 
     this.props.sendMessage({
@@ -108,7 +108,7 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
           isLucky,
           symbols,
           bigSmall,
-          symbolPositons: isLucky ? [chance.pickone(symbolPositonsMapper["lucky"])].concat(symbolPositons) : symbolPositons,
+          symbolPositions: isLucky ? [chance.pickone(symbolPositionsMapper["lucky"])].concat(symbolPositions) : symbolPositions,
         }
       }
     });

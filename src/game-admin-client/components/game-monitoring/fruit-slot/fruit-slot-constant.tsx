@@ -35,7 +35,7 @@ export const fruitSlotConstant = {
         Submit: "Submit",
         SuccessfullyMessage: "Update successfuly!"
     },
-    symbolPositonsMapper: {
+    symbolPositionsMapper: {
         bar: [5],
         bar25: [3],
         bar50: [4],
