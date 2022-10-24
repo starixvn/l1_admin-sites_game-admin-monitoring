@@ -6,6 +6,7 @@ export const fruitSlotConstant = {
     bigSmall: new FruitSlotDropdownlistModel(1, 16),
     totalTimeInRound: 30,
     waitingTime: 13,
+    luckyRoundDuration: 4,
     defaultSymbols: {
         bar: false,
         bar25: false,

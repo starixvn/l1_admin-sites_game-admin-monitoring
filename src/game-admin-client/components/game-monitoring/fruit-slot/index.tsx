@@ -10,10 +10,13 @@ import Chance from "chance";
 
 export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonitoringProps>  {
   public state: FruitSlotState;
+  private extraRound: number;
+
   constructor(props: BaseMonitoringProps) {
     super(props);
 
     this.state = new FruitSlotState();
+    this.extraRound = 0;
 
     this.handleSymbol = this.handleSymbol.bind(this);
     this.handleLuckySymbol = this.handleLuckySymbol.bind(this);
@@ -52,7 +55,7 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
   }
 
   get waitingTime(): number {
-    return fruitSlotConstant.waitingTime;
+    return fruitSlotConstant.waitingTime + (this.extraRound * fruitSlotConstant.luckyRoundDuration);
   }
 
   handleLuckySymbol(event: React.ChangeEvent<HTMLInputElement>) {
@@ -88,6 +91,11 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
 
   resetSymbols() {
     this.setState({ symbolsRender: fruitSlotConstant.defaultSymbols, symbols: [] });
+  }
+
+  finishHandler({ finish }) {
+    this.extraRound = finish.result.isLucky ? finish.result.symbols.length : 0;
+    super.finishHandler({ finish });
   }
 
   handleSubmit() {
