@@ -30,6 +30,7 @@ import {
 } from "../components/game-monitoring/keno-power";
 import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
 import FruitSlot from "../components/game-monitoring/fruit-slot";
+import FanTan from "../components/game-monitoring/fan-tan";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -362,6 +363,13 @@ export const gameMapper = {
     socket: "admin/fruitslot",
     socketRoute: "fruitslot/socket.io",
     ...getInfoByGameKey("FruitSlot"),
+  },
+  60: {
+    name: "fantan",
+    component: FanTan,
+    socket: "admin/fantan",
+    socketRoute: "fantan/socket.io",
+    ...getInfoByGameKey("FanTan"),
   },
 };
 

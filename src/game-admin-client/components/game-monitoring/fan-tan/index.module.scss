@@ -1,0 +1,67 @@
+.title {
+  color: #ffffff;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.result{
+  color: white;
+  display: inline-block;
+  width: 200px;
+  height: 100px;
+  border: 5px solid #ee9b22;
+  text-align: center;
+  line-height: 85px;
+  font-size: 50px;
+  font-weight: 700;
+  margin: 1px;
+  color: #fff;
+}
+
+.fantan-container {
+  max-width: 100%;
+  padding: 0;
+}
+
+.fantan-timmer {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 35%;
+  flex-basis: 35%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.fantan-betList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.col-plateodd,
+.col-plateeven {
+  flex-basis: 50%;
+  max-width: 50%;
+}
+
+.game-control-panel {
+  width: 200px;
+
+  & > div {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #411212;
+    border: 5px solid #660f10;
+    border-radius: 20px;
+    z-index: 99;
+    padding: 5px;
+  }
+
+  div[class^="dice_dice"] {
+    margin: 0;
+  }
+}

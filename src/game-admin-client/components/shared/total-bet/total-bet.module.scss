@@ -444,3 +444,9 @@
 @include totalBet("blueSmall", "white", "Blue Small");
 @include totalBet("redBig", "white", "Red Big");
 @include totalBet("redSmall", "white", "Red Small");
+
+@include totalBet("fantanOdd", "white", "Odd");
+@include totalBet("fantanEven", "white", "Even");
+@include totalBet("fantanFan", "white", "Fan");
+@include totalBet("fantanKwok", "white", "Kwok");
+@include totalBet("fantanChun", "white", "Chun");
