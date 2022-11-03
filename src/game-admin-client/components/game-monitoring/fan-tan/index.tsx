@@ -6,11 +6,12 @@ import { Col, Container, Modal, Row } from "reactstrap";
 import BetList from "../../shared/bet-list/bet-list";
 import RoundNum from "../../shared/round-num/round-num";
 import { FanTanModel, FanTanBetList } from "../../common/model/FantanModel";
-import Chance from "chance";
 import BaseMonitoring, {
   BaseMonitoringProps,
 } from "../../shared/base-monitoring/base-monitoring";
 import _ from "lodash";
+
+const MinBeads = 29;
 
 export default class FanTan extends BaseMonitoring<
   FanTanModel,
@@ -23,7 +24,7 @@ export default class FanTan extends BaseMonitoring<
   }
 
   get totalTimeInRound(): number {
-    return 30;
+    return 50;
   }
 
   get waitingTime(): number {
@@ -55,19 +56,15 @@ export default class FanTan extends BaseMonitoring<
   }
 
   handleChangeResult(value) {
-    const chance = new Chance();
-    const randomResult = chance.integer({ min: 29, max: 36 });
-    const result = randomResult - (randomResult % 4) + value;
-
     this.setState({
-      result: result,
+      result: value,
       isOpenControlResultModal: false,
-      nextRoundResult: result,
+      nextRoundResult: value,
     });
 
     this.props.sendMessage({
       set_result: {
-        result: result,
+        result: value,
         roundId: this.state.roundNumber + 1,
       },
     });
@@ -97,13 +94,19 @@ export default class FanTan extends BaseMonitoring<
         toggle={() => this.toggleModal()}
         className={styles["game-control-panel"]}
       >
-        <Row>
-          {[1, 2, 3, 4].map((result) => (
-            <button onClick={() => this.handleChangeResult(result)}>
-              {result}
-            </button>
-          ))}
-        </Row>
+        {[1, 2, 3].map((row) => (
+          <Row>
+            {[1, 2, 3, 4].map((col) => {
+              const value = MinBeads + (row - 1) * 4 + col - 1;
+
+              return (
+                <button onClick={() => this.handleChangeResult(value)}>
+                  {value}
+                </button>
+              );
+            })}
+          </Row>
+        ))}
       </Modal>
     );
   }
