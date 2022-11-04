@@ -32,7 +32,10 @@ export default class FanTan extends BaseMonitoring<
   }
 
   get defaultResult(): any {
-    return 0;
+    return {
+      totalBeads: 0,
+      finalBeads: 0,
+    };
   }
 
   get defaultBetList(): {} {
@@ -56,15 +59,20 @@ export default class FanTan extends BaseMonitoring<
   }
 
   handleChangeResult(value) {
+    const formattedResult = {
+      totalBeads: value,
+      finalBeads: value % 4 === 0 ? 4 : value % 4,
+    };
+
     this.setState({
-      result: value,
+      result: formattedResult,
       isOpenControlResultModal: false,
       nextRoundResult: value,
     });
 
     this.props.sendMessage({
       set_result: {
-        result: value,
+        result: formattedResult,
         roundId: this.state.roundNumber + 1,
       },
     });
@@ -113,7 +121,6 @@ export default class FanTan extends BaseMonitoring<
 
   renderMonitor() {
     const { betList, roundNumber, time, result, gameState } = this.state;
-    const finalResult = result % 4 === 0 ? 4 : result % 4;
 
     return (
       <Container className={styles["fantan-container"]}>
@@ -127,7 +134,9 @@ export default class FanTan extends BaseMonitoring<
               <div className={styles.title}>Fan Tan</div>
               <RoundNum roundNumber={roundNumber} />
               <div onClick={() => this.openModal()} className={styles.result}>
-                {result > 0 ? `${result} - ${finalResult} ` : ""}
+                {result.totalBeads > 0
+                  ? `${result.totalBeads} - ${result.finalBeads} `
+                  : ""}
               </div>
             </div>
           </Col>

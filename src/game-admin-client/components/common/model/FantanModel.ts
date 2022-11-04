@@ -36,9 +36,19 @@ class FanTanBetList {
   }
 }
 
+class FanTanResult {
+  totalBeads: number;
+  finalBeads: number;
+
+  constructor() {
+    this.totalBeads = 0;
+    this.finalBeads = 0;
+  }
+}
+
 export default class FanTanModel extends BaseMonitoringState {
   betList: FanTanBetList;
-  result: number;
+  result: FanTanResult;
   isOpenControlResultModal: boolean;
   currentDiceNumber: number;
   isHandleNextRoundResult: boolean;
@@ -47,7 +57,10 @@ export default class FanTanModel extends BaseMonitoringState {
   constructor() {
     super();
 
-    this.result = 0;
+    this.result = {
+      totalBeads: 0,
+      finalBeads: 0,
+    };
     this.betList = new FanTanBetList();
     this.time = new TimeModel();
     this.gameState = 0;
