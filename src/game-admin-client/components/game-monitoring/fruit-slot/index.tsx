@@ -217,7 +217,7 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
           <Col className={styles["symbols"]}>
             {
               Object.keys(symbolsRender).map((symbol, index) => <img
-                src={`${fruitSlotConstant.rootImageUrl}${symbol}.png`}
+                src={`${fruitSlotConstant.rootImageUrl}${symbol === "bar" ? "bar100" : symbol}.png`}
                 alt={`${symbol}`}
                 key={index}
                 className={`${styles["item"]} ${symbolsRender[symbol] ? styles["chosen"] : ''}`}
