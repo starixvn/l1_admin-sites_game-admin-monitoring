@@ -13,6 +13,23 @@ import _ from "lodash";
 
 const MinBeads = 29;
 
+const DisplayChoiceMapper = {
+  even: "Even",
+  odd: "Odd",
+  fan1: "Fan1",
+  fan2: "Fan2",
+  fan3: "Fan3",
+  fan4: "Fan4",
+  kwok12: "Kwok12",
+  kwok23: "Kwok23",
+  kwok34: "Kwok34",
+  kwok41: "Kwok41",
+  chun123: "Chun123",
+  chun124: "Chun124",
+  chun134: "Chun134",
+  chun234: "Chun234",
+};
+
 export default class FanTan extends BaseMonitoring<
   FanTanModel,
   BaseMonitoringProps
@@ -40,6 +57,10 @@ export default class FanTan extends BaseMonitoring<
 
   get defaultBetList(): {} {
     return new FanTanBetList();
+  }
+
+  getChoiceDisplay(key) {
+    return DisplayChoiceMapper[key];
   }
 
   getResult(data) {
@@ -232,7 +253,7 @@ export default class FanTan extends BaseMonitoring<
         </Col>
         <Col className="col-2">
           <BetList
-            titles={[<div className={styles.bondo}>Knok</div>]}
+            titles={[<div className={styles.bondo}>Kwok</div>]}
             type="withchoice"
             dataList={betList.kwok12.dataList.concat(
               betList.kwok23.dataList,
