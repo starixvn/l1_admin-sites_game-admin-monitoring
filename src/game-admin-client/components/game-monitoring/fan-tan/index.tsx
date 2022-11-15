@@ -41,11 +41,11 @@ export default class FanTan extends BaseMonitoring<
   }
 
   get totalTimeInRound(): number {
-    return 50;
+    return 30;
   }
 
   get waitingTime(): number {
-    return 8;
+    return 21;
   }
 
   get defaultResult(): any {
