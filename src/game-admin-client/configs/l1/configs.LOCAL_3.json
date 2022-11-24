@@ -1,7 +1,7 @@
 {
   "Env": "LOCAL_3",
   "SystemType": "SC1",
-  "Partners": ["ONEworks1", "SBO"],
+  "Partners": ["ONEworks1", "SBO", "ONEworks_VG"],
   "I18nConfigPath": "/locales/i18n.config.json",
   "DefaultToken": "",
   "RootUrl": "https://l1-proxy3.lumigame.com/monitoring",

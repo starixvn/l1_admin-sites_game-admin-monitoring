@@ -1,7 +1,7 @@
 {
   "Env": "LOCAL_2",
   "SystemType": "SC1",
-  "Partners": ["ONEworks1", "SBO"],
+  "Partners": ["ONEworks1", "SBO", "ONEworks_VG"],
   "DefaultToken": "",
   "RootUrl": "https://l1-proxy2.lumigame.com/monitoring",
   "EnableMsgpack": false,

@@ -1,7 +1,7 @@
 {
   "Env": "UAT",
   "SystemType": "VG2",
-  "Partners": ["ONEworksVGCash"],
+  "Partners": ["ONEworksVGCash", "ONEworks_VG"],
   "DefaultToken": "",
   "RootUrl": "https://l2uatproxy.sgamesuat.com/uat/monitoring",
   "EnableMsgpack": true,

@@ -16,12 +16,14 @@ export enum SystemVG2Id {
 export const PartnersSC1 = {
   ONEworks1: "1W",
   SBO: "SPart",
+  ONEworks_VG: "VG_Credit",
 };
 
 export const PartnersVG2 = {
-  ONEworksVGCash: "VG",
+  ONEworksVGCash: "1W",
   ONEworksVG2: "VG2",
   SBO: "SBO_VG2",
+  ONEworks_VG: "VG_Credit",
 };
 
 export default class BetItem {
