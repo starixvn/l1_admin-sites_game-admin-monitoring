@@ -9,6 +9,10 @@ import style from "./base.module.scss";
 import KenoResultUpdater from "../../shared/keno-result-updater/keno-result-updater";
 import gameSettings from "./game-settings";
 import { SystemSC1Id } from "../../common/model/BetItem";
+import { getBetAmountOnSystem } from "../../util/util";
+import configs from "../../../configs.json";
+
+const VG2BaseCurrency = "INH";
 
 type Props = {
   onMessage: Function;
@@ -67,12 +71,14 @@ export default class extends React.Component<Props, State> {
   private isFirstLoad: boolean;
   private currencyExchangeRate: Object;
   private betList: Array<BetChoice>;
+  private baseMultiplier: number;
 
   constructor(props: Props) {
     super(props);
 
     this.isFirstLoad = true;
     this.currencyExchangeRate = {};
+    this.baseMultiplier = 1;
     const choices = gameSettings.choices.map(
       (choice) => new BetChoice([], choice, false)
     );
@@ -184,12 +190,20 @@ export default class extends React.Component<Props, State> {
               .reverse()
               .map((bet) => {
                 const rate = this.currencyExchangeRate[bet.currency] || 0;
+
                 const baseBetAmount = parseFloat(
                   (bet.betTracks[choice.name] * rate).toFixed(2)
                 );
+
+                const betAmount = getBetAmountOnSystem(
+                  configs.SystemType,
+                  baseBetAmount,
+                  this.baseMultiplier
+                );
+
                 return {
                   name: bet.name.toString(),
-                  bet: baseBetAmount,
+                  bet: betAmount,
                   partnerId: bet.partnerId,
                   system: bet.system,
                 };
@@ -230,6 +244,10 @@ export default class extends React.Component<Props, State> {
               : 1;
 
             result[currency.name] = multiplier * exchangeRate;
+
+            if (currency.name === VG2BaseCurrency) {
+              this.baseMultiplier = currency.multiplier;
+            }
 
             return result;
           }, {});
