@@ -12,6 +12,7 @@
         public const string WayToGoalValue = "waytogoal";
 
         public const string HiLoValue = "hilo";
+        public const string FortuneCatValue = "fortunecat";
 
 
         public static readonly Game FourGuardians = new Game(FourGuardiansValue, "Four Guardians", GameId.FourGuardians);
@@ -24,6 +25,7 @@
         public static readonly Game TreasureIsland = new Game(TreasureIslandValue, "Treasure Island", GameId.NightClub);
         public static readonly Game HiLo = new Game(HiLoValue, "Hi-Lo", GameId.HiLo);
         public static readonly Game WayToGoal = new Game(WayToGoalValue, "Way To Goal", GameId.WayToGoal);
+        public static readonly Game FortuneCat = new Game(FortuneCatValue, "Fortune Cat", GameId.FortuneCat);
 
 
         public Game()
