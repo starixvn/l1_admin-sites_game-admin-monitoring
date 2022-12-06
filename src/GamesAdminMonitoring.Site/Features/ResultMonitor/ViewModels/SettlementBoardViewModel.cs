@@ -21,7 +21,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 
         public byte[][] FormattedBoard { get; }
 
-        public string WinningPaylines => string.Join(", ", Board?.Paylines?.Where(x => x.Odds > 0)?.Select(x => x.Payline) ?? Enumerable.Empty<byte>());
+        public string WinningPaylines => string.Join(", ", Board?.Paylines?.Where(x => x.Odds > 0)?.Select(x => ++x.Payline) ?? Enumerable.Empty<byte>());
 
         public byte NumberOfFreeSpins => (byte)(IsError ? 0 : Board?.FreeSpins?.Odds ?? 0);
 
