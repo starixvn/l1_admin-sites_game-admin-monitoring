@@ -31,6 +31,7 @@ import {
 import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
 import FruitSlot from "../components/game-monitoring/fruit-slot";
 import FanTan from "../components/game-monitoring/fan-tan";
+import Win3Cards from "../components/game-monitoring/win-3-cards";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -370,6 +371,13 @@ export const gameMapper = {
     socket: "admin/fantan",
     socketRoute: "fantan/socket.io",
     ...getInfoByGameKey("FanTan"),
+  },
+  61: {
+    name: "winthreecards",
+    component: Win3Cards,
+    socket: "admin/winthreecards",
+    socketRoute: "winthreecards/socket.io",
+    ...getInfoByGameKey("WinThreeCards"),
   },
 };
 
