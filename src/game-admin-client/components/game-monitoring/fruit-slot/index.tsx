@@ -142,6 +142,11 @@ export default class FruitSlot extends BaseMonitoring<FruitSlotState, BaseMonito
     const { roundNumber, time, isLucky, symbols, gameState, symbolsRender, isUpdateMessage } = this.state;
     const { resources } = fruitSlotConstant;
 
+    if (this.props.isProduction) {
+      return <Container className={styles["fruit-slot"]}> <Row>
+        <Col><h2>{resources.unauthorized}</h2></Col>
+      </Row></Container>
+    }
     return (
       <Container className={styles["fruit-slot"]}>
         <Row>

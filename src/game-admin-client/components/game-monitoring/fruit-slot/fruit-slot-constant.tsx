@@ -34,7 +34,8 @@ export const fruitSlotConstant = {
         LuckySymbol: "Lucky Symbol",
         MaxSymbols: "Max symbols",
         Submit: "Submit",
-        SuccessfullyMessage: "Update successfuly!"
+        SuccessfullyMessage: "Update successfuly!",
+        unauthorized: "You are not authorized to perform this operation."
     },
     symbolPositionsMapper: {
         bar: [5],
