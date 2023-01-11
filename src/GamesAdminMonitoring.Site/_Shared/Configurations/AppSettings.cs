@@ -9,6 +9,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
     {
         string ApiHost { get; }
 
+        string StaticResourceHost { get; }
+
         IdentityServerAuth IdentityServerAuth { get; }
 
         string Env { get; }
@@ -27,6 +29,7 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             this.configuration = configuration;
 
             ApiHost = GetValue<string>(nameof(ApiHost));
+            StaticResourceHost = GetValue<string>(nameof(StaticResourceHost));
             IdentityServerAuth = configuration.GetSection(nameof(IdentityServerAuth)).Get<IdentityServerAuth>();
             Env = GetValue<string>(nameof(Env));
             SubPath = GetValue<string>(nameof(SubPath));
@@ -34,6 +37,8 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         }
 
         public string ApiHost { get; }
+
+        public string StaticResourceHost { get; }
 
         public IdentityServerAuth IdentityServerAuth { get; }
 
