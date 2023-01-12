@@ -59,7 +59,7 @@ else
                                     <tr>
                                         @for (var column = 0; column < Model.FormattedBoard[row].Length; column++)
                                         {
-                                            <td><img class="symbol" src="@appSettings.StaticResourceHost/@Model.GameName/@(GetSymbolImage(Model.FormattedBoard[row][column])).png?v=2" /></td>
+                                            <td><img class="symbol" src="@appSettings.StaticResourceHost/@Model.GameName/symbol-@(GetSymbolImage(Model.FormattedBoard[row][column])).png?v=2" /></td>
                                         }
                                     </tr>
 
