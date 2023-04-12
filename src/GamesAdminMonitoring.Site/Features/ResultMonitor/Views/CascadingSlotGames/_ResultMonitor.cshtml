@@ -1,5 +1,8 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
+
 @model SettlementCascadingSlotResultViewModel
+
+@inject GamesAdminMonitoring.Site._Shared.Configurations.IAppSettings appSettings
 
 @if (!Model.IsValid)
 {
@@ -48,7 +51,7 @@ else
                                 }
                                 else
                                 {
-                                    <img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(symbols[subRowIndex].index).png" />
+                                    <img class="symbol" src="@appSettings.StaticResourceHost/@Model.GameName/symbol-@(symbols[subRowIndex].index).png?v=1" />
                                 }
                             </td>
                             <td class="text-center">
@@ -70,7 +73,7 @@ else
                                             <div class="board-row">
                                                 @for (int y = 0; y < boardColumns; y++)
                                                 {
-                                                    <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(Int32.Parse(tumble.Matrix[x,y])).png" /></div>
+                                                    <div class="board-column"><img class="symbol" src="@appSettings.StaticResourceHost/@Model.GameName/symbol-@(Int32.Parse(tumble.Matrix[x,y])).png?v=1" /></div>
                                                 }
                                             </div>
                                         }
@@ -83,7 +86,7 @@ else
                     {
                         <tr>
                             <td class="text-center">
-                                <img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(symbols[subRowIndex].index).png" />
+                                <img class="symbol" src="@appSettings.StaticResourceHost/@Model.GameName/symbol-@(symbols[subRowIndex].index).png?v=1" />
                             </td>
                             <td class="text-center">
                                 @symbols[subRowIndex].count

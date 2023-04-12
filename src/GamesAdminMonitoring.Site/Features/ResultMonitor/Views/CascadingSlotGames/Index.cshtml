@@ -1,8 +1,9 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 @model CascadingSlotResultViewModel
+@inject GamesAdminMonitoring.Site._Shared.Configurations.IAppSettings appSettings
 
 @{
-    ViewData["Title"] = $"{Model.DisplayGameName} Result Controller";
+    ViewData["Title"] = $"{Model.GameName.ToUpper()} Result Controller";
     var requiredBoardSymbols = 30;
     var multiplerSymbolIndex = 10;
 }
@@ -60,7 +61,7 @@
                 {
                     var onChangeFnc = index == multiplerSymbolIndex ? "cascadingSlotGameResult.addMultiplier(event)" : "cascadingSlotGameResult.changeNumberOfSymbol(event)";
                     <div class="board-row">
-                        <div class="board-column"><img class="symbol" src="~/images/cascading-slot-icons/@Model.GameName/@(index ).png" /></div>
+                        <div class="board-column"><img class="symbol" src="@appSettings.StaticResourceHost/@Model.GameName/symbol-@(index ).png" /></div>
                         <div class="board-number-multipler">
                             <select id="Item-@index" data-no="@index" onchange="@onChangeFnc">
                                 @for (decimal j = 0; j <= requiredBoardSymbols; j++)
