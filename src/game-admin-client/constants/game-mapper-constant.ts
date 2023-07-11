@@ -3,23 +3,13 @@ import _ from "lodash";
 import Baccarat from "../components/game-monitoring/baccarat";
 import BigSmallTurbo from "../components/game-monitoring/big-small-turbo/big-small-turbo";
 import BigSmall from "../components/game-monitoring/big-small/big-small";
-import DragonTiger from "../components/game-monitoring/dragon-tiger/dragon-tiger";
-import FishPrawnCrab from "../components/game-monitoring/fish-prawn-crab/fish-prawn-crab";
-import KenoProMax from "../components/game-monitoring/keno-pro-max/keno-pro-max";
-import MiniKeno from "../components/game-monitoring/mini-keno";
-import MiniSedie from "../components/game-monitoring/mini-sedie";
-import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
-import Roulette from "../components/game-monitoring/roulette";
-import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
-import SpecialSeDie from "../components/game-monitoring/special-sedie";
-import VipBaccarat from "../components/game-monitoring/vip-baccarat";
-import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/vip-fish-prawn-crab";
-import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
-import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
-import SicBo from "../components/game-monitoring/sic-bo";
-import Lottery from "../components/game-monitoring/lottery";
-import ThreeCards from "../components/game-monitoring/three-cards";
 import BitcoinMaster from "../components/game-monitoring/bitcoin-master";
+import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
+import DragonTigerFight from "../components/game-monitoring/dragon-tiger-fight";
+import DragonTiger from "../components/game-monitoring/dragon-tiger/dragon-tiger";
+import FanTan from "../components/game-monitoring/fan-tan";
+import FishPrawnCrab from "../components/game-monitoring/fish-prawn-crab/fish-prawn-crab";
+import FruitSlot from "../components/game-monitoring/fruit-slot";
 import {
   KenoMatch1,
   KenoMatch2,
@@ -28,9 +18,20 @@ import {
   KenoPower1,
   KenoPower2,
 } from "../components/game-monitoring/keno-power";
-import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
-import FruitSlot from "../components/game-monitoring/fruit-slot";
-import FanTan from "../components/game-monitoring/fan-tan";
+import KenoProMax from "../components/game-monitoring/keno-pro-max/keno-pro-max";
+import Lottery from "../components/game-monitoring/lottery";
+import MiniKeno from "../components/game-monitoring/mini-keno";
+import MiniSedie from "../components/game-monitoring/mini-sedie";
+import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
+import Roulette from "../components/game-monitoring/roulette";
+import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
+import SicBo from "../components/game-monitoring/sic-bo";
+import SpecialSeDie from "../components/game-monitoring/special-sedie";
+import ThreeCards from "../components/game-monitoring/three-cards";
+import VipBaccarat from "../components/game-monitoring/vip-baccarat";
+import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/vip-fish-prawn-crab";
+import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
+import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 
 const getObjectOfGame =
@@ -378,6 +379,13 @@ export const gameMapper = {
     socket: "admin/winthreecards",
     socketRoute: "winthreecards/socket.io",
     ...getInfoByGameKey("WinThreeCards"),
+  },
+  67: {
+    name: "dragontigerfight",
+    component: DragonTigerFight,
+    socket: "admin/dragontigerfight",
+    socketRoute: "dragontigerfight/socket.io",
+    ...getInfoByGameKey("DragonTigerFight"),
   },
 };
 

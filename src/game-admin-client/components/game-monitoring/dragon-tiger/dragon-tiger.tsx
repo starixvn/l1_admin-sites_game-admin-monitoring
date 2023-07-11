@@ -14,7 +14,9 @@ import DragonTigerModel, {
 import { upperFirstLetter } from "../../util/util";
 import { GameState } from "../../shared/common/GameState";
 import DeskOfCards from "../baccarat//desk-of-cards";
-import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
+import BaseMonitoring, {
+  BaseMonitoringProps,
+} from "../../shared/base-monitoring/base-monitoring";
 
 const TYPES = ["dragon", "tie", "tiger"];
 const TOTAL_TIME = 30;
@@ -25,7 +27,10 @@ enum CardResultMapping {
   tiger,
 }
 
-export default class DragonTigerState extends BaseMonitoring<DragonTigerModel, BaseMonitoringProps> {
+export default class DragonTigerState extends BaseMonitoring<
+  DragonTigerModel,
+  BaseMonitoringProps
+> {
   constructor(props) {
     super(props);
 
@@ -37,6 +42,7 @@ export default class DragonTigerState extends BaseMonitoring<DragonTigerModel, B
 
     this.showDeskOfCards = this.showDeskOfCards.bind(this);
     this.onPickCard = this.onPickCard.bind(this);
+    this.updaterDeskOfCardsToggle = this.updaterDeskOfCardsToggle.bind(this);
   }
 
   get defaultBetList(): {} {

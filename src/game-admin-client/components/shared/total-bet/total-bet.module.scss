@@ -457,3 +457,7 @@
 @include totalBet("straightFlush", "white", "Straight Flush");
 @include totalBet("flush", "white", "Flush");
 @include totalBet("straight", "white", "Straight");
+@include totalBet("blackDragon", "white", "Black");
+@include totalBet("redDragon", "white", "Red");
+@include totalBet("blackTiger", "white", "Black");
+@include totalBet("redTiger", "white", "Red");
