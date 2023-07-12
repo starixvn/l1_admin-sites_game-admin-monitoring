@@ -17,6 +17,8 @@ RUN npm run export --prefix ../game-admin-client
 RUN dotnet publish -r linux-x64 --self-contained false -o /app 
 
 FROM hub.lumigame.com/base/dotnet/core/aspnet:3.1-buster-slim AS base
+RUN useradd admin_monitoring_user
+USER admin_monitoring_user 
 
 WORKDIR /app
 COPY --from=builder /app .
