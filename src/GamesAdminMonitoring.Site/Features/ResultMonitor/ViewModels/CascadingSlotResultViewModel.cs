@@ -10,16 +10,17 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
         }
 
-        public CascadingSlotResultViewModel(string name)
+        public CascadingSlotResultViewModel(string name, string displayName)
         {
             GameName = name;
+            DisplayGameName = displayName;
         }
 
         public string GameName { get; }
 
         public string Token { get; }
 
-        public string DisplayGameName => Enumeration.Enumeration.FromValue<Game>(GameName).DisplayName;
+        public string DisplayGameName { get; }
 
         public string Nickname { get; set; }
 

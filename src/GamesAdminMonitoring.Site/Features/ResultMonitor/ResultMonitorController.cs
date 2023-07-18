@@ -32,11 +32,11 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpGet]
-        public async Task<IActionResult> SlotResult(string token, string gameConfigName)
+        public async Task<IActionResult> SlotResult(string token, string gameConfigName, string displayName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            return model.IsValid ? View("SlotGames/Index", new SlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+            return model.IsValid ? View("SlotGames/Index", new SlotResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
@@ -76,11 +76,11 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             => PartialView("HiLo/_HiLoResult", await mediator.Send(new SetHiLoResultRequest(viewModel.Nickname, viewModel.Result.Split(";"))));
 
         [HttpGet]
-        public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName)
+        public async Task<IActionResult> CascadingSlotResult(string token, string gameConfigName, string displayName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
-            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName)) : RedirectToRestrictedPage(model.Message);
+            return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]

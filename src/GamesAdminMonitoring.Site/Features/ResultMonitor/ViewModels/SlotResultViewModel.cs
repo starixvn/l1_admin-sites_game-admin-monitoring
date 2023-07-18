@@ -8,14 +8,15 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
         }
 
-        public SlotResultViewModel(string name)
+        public SlotResultViewModel(string name, string displayName)
         {
             GameName = name;
+            DisplayGameName = displayName;
         }
 
         public string GameName { get; set; }
 
-        public string DisplayGameName => Enumeration.Enumeration.FromValue<Game>(GameName).DisplayName;
+        public string DisplayGameName { get; set; }
 
         public string Nickname { get; set; }
 
