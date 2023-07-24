@@ -119,7 +119,7 @@ export const gameMapper = {
   },
   9: {
     name: "minisedie",
-    component: MiniSedie("Mini SeDie"),
+    component: MiniSedie("Mini Se Die"),
     socket: "admin/minisedie",
     socketRoute: "minisedie/socket.io",
     ...getInfoByGameKey("MiniSeDie"),
