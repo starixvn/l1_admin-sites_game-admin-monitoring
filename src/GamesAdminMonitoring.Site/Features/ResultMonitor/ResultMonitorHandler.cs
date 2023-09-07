@@ -14,7 +14,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<SetHoldemPokerResultRequest, HoldemPokerResultControl>,
         IRequestHandler<SetHiLoResultRequest, IEnumerable<HiloCard>>,
         IRequestHandler<GameSettingsRequest, GameSettingsViewModel>,
-        IRequestHandler<SetCascadingSlotResultRequest, SettlementCascadingSlotResultViewModel>
+        IRequestHandler<SetCascadingSlotResultRequest, SettlementCascadingSlotResultViewModel>,
+        IRequestHandler<SetPontoonResultRequest, bool>
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
@@ -50,5 +51,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<SettlementCascadingSlotResultViewModel> Handle(SetCascadingSlotResultRequest request, CancellationToken cancellationToken)
             => new SettlementCascadingSlotResultViewModel(request.gameConfigName, await service.SetCascadingSlotResult(request), request.IsValid);
+
+        public async Task<bool> Handle(SetPontoonResultRequest request, CancellationToken cancellationToken)
+           => await service.SetPontoonResult(request);
     }
 }

@@ -10,6 +10,7 @@
         NightClub = 46,
         TreasureIsland = 47,
         WayToGoal = 49,
-        FortuneCat = 62
+        FortuneCat = 62,
+        Pontoon = 72    
     }
 }

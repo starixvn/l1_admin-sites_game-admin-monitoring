@@ -25,6 +25,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/cascadingslot/set_result")]
         Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult([FromBody] SetCascadingSlotResultRequest request);
+
+        [Post("/game_server/pontoon/set_result")]
+        Task<bool> SetPontoonResult([FromBody] SetPontoonResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -38,6 +41,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<IEnumerable<HiloCard>> SetHiLoResult(SetHiLoResultRequest request);
 
         Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult(SetCascadingSlotResultRequest request);
+
+        Task<bool> SetPontoonResult(SetPontoonResultRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
@@ -63,5 +68,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult(SetCascadingSlotResultRequest request)
             => api.SetCascadingSlotResult(request);
+
+        public async Task<bool> SetPontoonResult(SetPontoonResultRequest request)
+           => await api.SetPontoonResult(request);
     }
 }

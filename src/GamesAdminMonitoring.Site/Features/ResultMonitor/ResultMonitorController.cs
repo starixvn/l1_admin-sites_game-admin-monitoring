@@ -118,6 +118,19 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> PontoonResult(string token, string gameConfigName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("Pontoon/Index", new PontoonResultViewModel()) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<bool> SetPontoonResult(SetPontoonResultRequest request)      
+            => await mediator.Send(request);
+
         private IActionResult RedirectToRestrictedPage(string message)
             => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));
 
