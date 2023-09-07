@@ -6,4 +6,11 @@
 
         public byte suit { get; set; }
     }
+
+    public class PontoonCard
+    {
+        public string rank { get; set; }
+
+        public byte suit { get; set; }
+    }
 }

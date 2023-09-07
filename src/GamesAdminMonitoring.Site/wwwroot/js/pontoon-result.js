@@ -72,10 +72,9 @@
             return hands;
         },
 
-        parseCard: function(card) {
-            const parts = card.split("-");
-            const rank = parts[0];
-            const suit = parts[1];
+        parseCard: function (card) {
+            const rank = card.slice(0, -1);
+            const suit = card.slice(-1);
             return { "rank": rank, "suit": cardSuits[suit] };
         }
     };
