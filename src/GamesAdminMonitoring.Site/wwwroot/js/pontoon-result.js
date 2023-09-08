@@ -73,9 +73,9 @@
         },
 
         parseCard: function (card) {
-            const rank = card.slice(0, -1);
+            const rank = card.slice(0, -1).toUpperCase();
             const suit = card.slice(-1);
-            return { "rank": rank, "suit": cardSuits[suit] };
+            return { "rank": rank, "suit": cardSuits[suit] ?? 0 };
         }
     };
 })();
