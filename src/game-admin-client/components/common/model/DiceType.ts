@@ -1,7 +1,8 @@
 enum DiceType {
-    BauCua = 1,
-    XocXoc,
-    TaiXiu
+  BauCua = 1,
+  XocXoc,
+  TaiXiu,
+  ColorGame,
 }
 
 export default DiceType;

@@ -33,6 +33,7 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
+import ColorGame from "../components/game-monitoring/color-game/color-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -386,6 +387,13 @@ export const gameMapper = {
     socket: "admin/dragontigerfight",
     socketRoute: "dragontigerfight/socket.io",
     ...getInfoByGameKey("DragonTigerFight"),
+  },
+  71: {
+    name: "colorgame",
+    component: ColorGame,
+    socket: "admin/colorgame",
+    socketRoute: "colorgame/socket.io",
+    ...getInfoByGameKey("ColorGame"),
   },
 };
 

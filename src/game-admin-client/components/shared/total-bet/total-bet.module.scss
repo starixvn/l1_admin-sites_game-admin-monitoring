@@ -325,6 +325,42 @@
   }
 }
 
+@mixin colorgame($col) {
+  $width: 90px;
+  $height: 60px;
+
+  .#{$col}ColorGameBg {
+    text-align: center;
+    margin: 5px;
+    margin-top: 0;
+
+    .bg {
+      width: $width;
+      height: $height;
+
+      .innerBg {
+        width: $height;
+        height: $height;
+        margin: 0 auto;
+        background: #faf6f4
+          url("/game-admin/images/dice/colorgame/dice-#{$col}.png") no-repeat;
+        background-size: contain;
+        border-radius: 10px;
+        border: 3px solid #e1b94e;
+        box-shadow: inset 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+      }
+
+      @media screen and (max-width: 740px) {
+        width: 50px;
+
+        .innerBg {
+          width: 50px;
+        }
+      }
+    }
+  }
+}
+
 @include bigsmall("big", "tai", "113px", "50px");
 @include bigsmall("small", "xiu", "180px", "50px");
 @include bigsmall("chan", "chan", "140px", "50px");
@@ -461,3 +497,12 @@
 @include totalBet("redDragon", "white", "Red");
 @include totalBet("blackTiger", "white", "Black");
 @include totalBet("redTiger", "white", "Red");
+
+@include colorgame("yellow");
+@include colorgame("red");
+@include colorgame("pink");
+@include colorgame("white");
+@include colorgame("blue");
+@include colorgame("green");
+@include totalBet("hot", "white", "Hot");
+@include totalBet("cold", "white", "Cold");

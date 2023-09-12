@@ -9,13 +9,12 @@ type DiceProps = {
   isSmall: boolean;
   id?: string;
   onClickHandle?: Function;
+  isColorGame?: boolean;
 };
 
 export default function Dice(props: DiceProps) {
-  const { diceModel, isSmall, onClickHandle, id } = props;
+  const { diceModel, isSmall, onClickHandle, id, isColorGame } = props;
   const { value, type } = diceModel;
-
-  const BauCuaDice = ["nai", "bau", "ga", "ca", "cua", "tom"];
 
   const getDiceIconURL = (value, type) => {
     const rootPath = configs.RootUrl;
@@ -30,11 +29,15 @@ export default function Dice(props: DiceProps) {
 
     switch (type) {
       case DiceType.BauCua:
+        const BauCuaDice = ["nai", "bau", "ga", "ca", "cua", "tom"];
         return rootURL.replace("{0}", BauCuaDice[value]);
       case DiceType.XocXoc:
         return rootURL.replace("{0}", value == true ? "red" : "white");
       case DiceType.TaiXiu:
         return rootURL.replace("{0}", value);
+      case DiceType.ColorGame:
+        const ColorGameDice = ["yellow", "red", "pink", "white", "blue", "green"];
+        return rootURL.replace("{0}", ColorGameDice[value]);
       default:
         return unknowDiceURL;
     }
@@ -45,9 +48,9 @@ export default function Dice(props: DiceProps) {
       return (
         <div
           id={id}
-          className={`${styles.dice} ${styles[DiceType[type]]} ${
-            isSmall ? styles.small : ""
-          }`}
+          className={`${styles.dice} ${styles[DiceType[type]]} ${isSmall ? styles.small : ""
+            } ${isColorGame ? styles["color-game"] : ""
+            }`}
           onClick={() => onClickHandle(id, value)}
         >
           <img
@@ -61,9 +64,9 @@ export default function Dice(props: DiceProps) {
     return (
       <div
         id={id}
-        className={`${styles.dice} ${styles[DiceType[type]]} ${
-          isSmall ? styles.small : ""
-        }`}
+        className={`${styles.dice} ${styles[DiceType[type]]} ${isSmall ? styles.small : ""
+          }  ${isColorGame ? styles["color-game"] : ""
+          }`}
       >
         <img
           className={styles["dice-value"]}

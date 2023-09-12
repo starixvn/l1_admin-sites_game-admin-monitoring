@@ -6,10 +6,11 @@ import DiceModel from "../../common/model/DiceModel";
 type DiceResultProps = {
   dices: Array<DiceModel>;
   diceClickHandle?: Function;
+  isColorGame?: boolean;
 };
 
 export default function DiceResult(props: DiceResultProps) {
-  const { dices, diceClickHandle } = props;
+  const { dices, diceClickHandle, isColorGame } = props;
 
   return (
     <div className={styles["dice-result"]}>
@@ -18,6 +19,7 @@ export default function DiceResult(props: DiceResultProps) {
           id={"dice-0"}
           diceModel={dices[0] != undefined ? dices[0] : new DiceModel()}
           isSmall={false}
+          isColorGame={isColorGame}
           onClickHandle={diceClickHandle != undefined ? diceClickHandle : null}
         />
       </div>
@@ -27,6 +29,7 @@ export default function DiceResult(props: DiceResultProps) {
             id={"dice-1"}
             diceModel={dices[1]}
             isSmall={false}
+            isColorGame={isColorGame}
             onClickHandle={
               diceClickHandle != undefined ? diceClickHandle : null
             }
@@ -37,6 +40,7 @@ export default function DiceResult(props: DiceResultProps) {
             id={"dice-2"}
             diceModel={dices[2]}
             isSmall={false}
+            isColorGame={isColorGame}
             onClickHandle={
               diceClickHandle != undefined ? diceClickHandle : null
             }

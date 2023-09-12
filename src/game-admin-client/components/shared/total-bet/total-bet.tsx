@@ -62,6 +62,12 @@ const classNames = {
   bankerRed3: "bankerRed3Bg",
   bankerWhite3: "bankerWhite3Bg",
   bankerWhite4: "bankerWhite4Bg",
+  yellow: "yellowColorGameBg",
+  red: "redColorGameBg",
+  pink: "pinkColorGameBg",
+  white: "whiteColorGameBg",
+  blue: "blueColorGameBg",
+  green: "greenColorGameBg",
 };
 
 export default function TotalBet(props: {
@@ -75,9 +81,8 @@ export default function TotalBet(props: {
   const amount = total.toLocaleString("en-US");
   return (
     <div
-      className={`${style.wrapper} ${style[className]} ${
-        isWin ? style.win : ""
-      }`}
+      className={`${style.wrapper} ${style[className]} ${isWin ? style.win : ""
+        }`}
     >
       <div className={`${style.bg} `}>
         <div className={`${style.outerBg}`}></div>

@@ -32,6 +32,17 @@
     }
   }
 
+  &.color-game {
+    height: 30px;
+    width: 30px;
+    
+    .dice-value {
+      width: 20px;
+      height: 20px;
+      margin-top: 0;
+    }
+  }
+
   @media screen and (max-width: 1023px) {
     height: 35px;
     width: 35px;
