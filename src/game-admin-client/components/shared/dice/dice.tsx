@@ -16,12 +16,17 @@ export default function Dice(props: DiceProps) {
   const { diceModel, isSmall, onClickHandle, id, isColorGame } = props;
   const { value, type } = diceModel;
 
+  const getUnknowDiceImageRoot = (type) => {
+    return isColorGame ? `/${DiceType[type].toLocaleLowerCase()}` : "";
+  }
+
   const getDiceIconURL = (value, type) => {
     const rootPath = configs.RootUrl;
     let rootURL = `${rootPath}/game-admin/images/dice/${DiceType[
       type
     ].toLocaleLowerCase()}/dice-{0}.png`;
-    const unknowDiceURL = `${rootPath}/game-admin/images/dice/dice-unknow.png`;
+
+    const unknowDiceURL = `${rootPath}/game-admin/images/dice${getUnknowDiceImageRoot(type)}/dice-unknow.png`;
 
     if (value == undefined || type == undefined || value == -1) {
       return unknowDiceURL;

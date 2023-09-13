@@ -35,10 +35,11 @@
   &.color-game {
     height: 30px;
     width: 30px;
-    
+    background: none !important;
+
     .dice-value {
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
       margin-top: 0;
     }
   }

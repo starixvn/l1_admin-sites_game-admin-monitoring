@@ -7,7 +7,7 @@ import {
   ColorGameBetList,
   ColorGameModel,
   ColorGameSettlementResult,
-} from "../../common/model/ColorGameModel";
+} from "./color-game-model";
 import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import BetList from "../../shared/bet-list/bet-list";
 import { GameState } from "../../shared/common/GameState";
@@ -20,14 +20,8 @@ import TotalBet from "../../shared/total-bet/total-bet";
 import GameTemplate from "../game-template/game-template";
 import styles from "./color-game.module.scss";
 
-enum ColorGameDice {
-  yellow = 0,
-  red,
-  pink,
-  white,
-  blue,
-  green,
-}
+const colorRows = [["yellow", "red", "pink"], ["white", "blue", "green"]];
+const inferableChoices = ["hot", "cold"];
 
 export default class ColorGame extends BaseMonitoring<ColorGameModel, BaseMonitoringProps> {
   constructor(props) {
@@ -63,14 +57,16 @@ export default class ColorGame extends BaseMonitoring<ColorGameModel, BaseMonito
     return new ColorGameSettlementResult();
   }
 
+  capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   getResult(dices) {
-    const result = new Array<DiceModel>();
-
-    result.push(new DiceModel(dices.dice1, DiceType.ColorGame));
-    result.push(new DiceModel(dices.dice2, DiceType.ColorGame));
-    result.push(new DiceModel(dices.dice3, DiceType.ColorGame));
-
-    return result;
+    return [
+      new DiceModel(dices.dice1, DiceType.ColorGame),
+      new DiceModel(dices.dice2, DiceType.ColorGame),
+      new DiceModel(dices.dice3, DiceType.ColorGame),
+    ];;
   }
 
   handleChangeResult(id, value) {
@@ -118,8 +114,7 @@ export default class ColorGame extends BaseMonitoring<ColorGameModel, BaseMonito
   }
 
   renderMonitor() {
-    const { betList, roundNumber, time, result, gameState, settlementResult } =
-      this.state;
+    const { betList, roundNumber, time, result, gameState, settlementResult } = this.state;
 
     return (
       <Container>
@@ -140,56 +135,35 @@ export default class ColorGame extends BaseMonitoring<ColorGameModel, BaseMonito
             </Row>
           </Col>
           <Col align="center" className="col-4">
-            <Row className="justify-content-center">
-              <TotalBet
-                total={betList.yellow.total}
-                type="yellow"
-                isWin={settlementResult.yellow}
-              ></TotalBet>
-              <TotalBet
-                total={betList.red.total}
-                type="red"
-                isWin={settlementResult.red}
-              ></TotalBet>
-              <TotalBet
-                total={betList.pink.total}
-                type="pink"
-                isWin={settlementResult.pink}
-              ></TotalBet>
-            </Row>
-            <Row className="justify-content-center">
-              <TotalBet
-                total={betList.white.total}
-                type="white"
-                isWin={settlementResult.white}
-              ></TotalBet>
-              <TotalBet
-                total={betList.blue.total}
-                type="blue"
-                isWin={settlementResult.blue}
-              ></TotalBet>
-              <TotalBet
-                total={betList.green.total}
-                type="green"
-                isWin={settlementResult.green}
-              ></TotalBet>
-            </Row>
+            {
+              colorRows.map((row, rowIndex) => {
+                return <Row className="justify-content-center" key={rowIndex}>
+                  {
+                    row.map((color, index) => {
+                      return <TotalBet
+                        key={index}
+                        total={betList[color].total}
+                        type={color}
+                        isWin={settlementResult[color]}
+                      />
+                    })
+                  }
+                </Row>
+              })
+            }
           </Col>
           <Col align="center" className="col-2">
-            <Row className="justify-content-center">
-              <TotalBet
-                total={betList.hot.total}
-                type="hot"
-                isWin={settlementResult.hot}
-              />
-            </Row>
-            <Row className="justify-content-center">
-              <TotalBet
-                total={betList.cold.total}
-                type="cold"
-                isWin={settlementResult.cold}
-              />
-            </Row>
+            {
+              inferableChoices.map((choice, rowIndex) => {
+                return <Row className="justify-content-center" key={rowIndex}>
+                  <TotalBet
+                    total={betList[choice].total}
+                    type={choice}
+                    isWin={settlementResult[choice]}
+                  />
+                </Row>
+              })
+            }
           </Col>
         </Row>
       </Container>
@@ -201,70 +175,30 @@ export default class ColorGame extends BaseMonitoring<ColorGameModel, BaseMonito
 
     return (
       <React.Fragment>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.yellow.dataList}
-            titles={[this.renderBetListColor(ColorGameDice.yellow)]}
-            isWin={settlementResult.yellow}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.red.dataList}
-            titles={[this.renderBetListColor(ColorGameDice.red)]}
-            isWin={settlementResult.red}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.pink.dataList}
-            titles={[this.renderBetListColor(ColorGameDice.pink)]}
-            isWin={settlementResult.pink}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.white.dataList}
-            titles={[this.renderBetListColor(ColorGameDice.white)]}
-            isWin={settlementResult.white}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.blue.dataList}
-            titles={[this.renderBetListColor(ColorGameDice.blue)]}
-            isWin={settlementResult.blue}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.green.dataList}
-            titles={[this.renderBetListColor(ColorGameDice.green)]}
-            isWin={settlementResult.green}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.hot.dataList}
-            titles={[<div className="text-center">Hot</div>]}
-            isWin={settlementResult.hot}
-          />
-        </Col>
-        <Col className="col-4 col-lg">
-          <BetList
-            type="simple"
-            dataList={betList.cold.dataList}
-            titles={[<div className="text-center">Cold</div>]}
-            isWin={settlementResult.cold}
-          />
-        </Col>
+        {
+          colorRows.flat().map((color, index) => {
+            return <Col className="col-4 col-lg" key={index}>
+              <BetList
+                type="simple"
+                dataList={betList[color].dataList}
+                titles={[this.renderBetListColor(index)]}
+                isWin={settlementResult[color]}
+              />
+            </Col>
+          })
+        }
+        {
+          inferableChoices.map((choice, rowIndex) => {
+            return <Col className="col-4 col-lg" key={rowIndex}>
+              <BetList
+                type="simple"
+                dataList={betList[choice].dataList}
+                titles={[<div className="text-center">{this.capitalizeFirstLetter(choice)}</div>]}
+                isWin={settlementResult[choice]}
+              />
+            </Col>
+          })
+        }
       </React.Fragment>
     );
   }
@@ -285,42 +219,17 @@ export default class ColorGame extends BaseMonitoring<ColorGameModel, BaseMonito
         className={styles["game-control-panel"]}
       >
         <Row>
-          <Dice
-            diceModel={new DiceModel(0, DiceType.ColorGame)}
-            isSmall={false}
-            isColorGame={true}
-            onClickHandle={this.handleChangeResult}
-          />
-          <Dice
-            diceModel={new DiceModel(1, DiceType.ColorGame)}
-            isSmall={false}
-            isColorGame={true}
-            onClickHandle={this.handleChangeResult}
-          />
-          <Dice
-            diceModel={new DiceModel(2, DiceType.ColorGame)}
-            isSmall={false}
-            isColorGame={true}
-            onClickHandle={this.handleChangeResult}
-          />
-          <Dice
-            diceModel={new DiceModel(3, DiceType.ColorGame)}
-            isSmall={false}
-            isColorGame={true}
-            onClickHandle={this.handleChangeResult}
-          />
-          <Dice
-            diceModel={new DiceModel(4, DiceType.ColorGame)}
-            isSmall={false}
-            isColorGame={true}
-            onClickHandle={this.handleChangeResult}
-          />
-          <Dice
-            diceModel={new DiceModel(5, DiceType.ColorGame)}
-            isSmall={false}
-            isColorGame={true}
-            onClickHandle={this.handleChangeResult}
-          />
+          {
+            colorRows.flat().map((color, index) => {
+              return <Dice
+                key={index}
+                diceModel={new DiceModel(index, DiceType.ColorGame)}
+                isSmall={false}
+                isColorGame={true}
+                onClickHandle={this.handleChangeResult}
+              />
+            })
+          }
         </Row>
       </Modal>
     );

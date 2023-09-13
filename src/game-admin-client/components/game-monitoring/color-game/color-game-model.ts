@@ -1,8 +1,8 @@
-import BaseMonitoringState from "./BaseMonitoringModel";
-import BetList from "./BetList";
-import DiceModel from "./DiceModel";
-import DiceType from "./DiceType";
-import TimeModel from "./TimeModel";
+import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
+import BetList from "../../common/model/BetList";
+import DiceModel from "../../common/model/DiceModel";
+import DiceType from "../../common/model/DiceType";
+import TimeModel from "../../common/model/TimeModel";
 
 class ColorGameBetList {
   yellow: BetList;
