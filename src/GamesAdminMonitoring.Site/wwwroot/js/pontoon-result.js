@@ -50,11 +50,13 @@
             });
         },
         transformDealer: function (data) {
-            const dealerCards = data.split(",");
             const dealer = [];
-            $.each(dealerCards, (_, card) => {
-                dealer.push(this.parseCard(card));
-            });
+            if (data !== "") {
+                const dealerCards = data.split(",");
+                $.each(dealerCards, (_, card) => {
+                    dealer.push(this.parseCard(card));
+                });
+            }        
             return dealer;
         }, 
 
