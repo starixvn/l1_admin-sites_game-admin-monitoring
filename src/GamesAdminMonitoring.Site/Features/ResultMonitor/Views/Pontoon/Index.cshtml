@@ -34,7 +34,7 @@
     <div class="form-row col-auto">
         <div class="col-auto set-result">
             <label class="control-label">Dealer</label>
-            <input type="text" class="form-control" id="dealer">
+            <input type="text" class="form-control" id="dealer" onkeyup="pontoonResult.onInputDealerCards(event)">
         </div>
     </div>
     <div class="form-row col-auto">
@@ -69,12 +69,13 @@
         </div>
     </div>
     <div class="form-row col-auto mt-5">
-        <button type="submit" class="btn-submit" onclick="pontoonResult.submit(event)">Submit</button>
+        <button type="button" class="btn-submit" onclick="pontoonResult.submit(event)">Submit</button>
         <div id="spinner" class="spinner-border mt-3 ml-2" style="display: none">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
     <div class="form-row col-auto set-result">
+        <div class="message-error hidden-cls" id="error-dealer"></i><span>Please input dealer cards !</span></div>
         <div class="message-success hidden-cls" id="success"></i><span>Set result successfully</span></div>
         <div class="message-error hidden-cls" id="fail"></i><span>Set result Unsuccessfully</span></div>
     </div>

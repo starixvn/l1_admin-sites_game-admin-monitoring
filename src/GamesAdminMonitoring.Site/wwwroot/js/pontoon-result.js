@@ -7,6 +7,13 @@
                 $('.error').addClass('hidden');
             }
         },
+
+        onInputDealerCards: function (event) {
+            event.preventDefault();
+            if (event.currentTarget.value !== "") {
+                $('#error-dealer').hide();
+            }
+        },
     
         reset: function (e) {
             e.preventDefault();
@@ -17,13 +24,21 @@
             $('#success').hide();
             $('#fail').hide();
             $("#spinner").show();
+           
             var nickame = $("#nickname").val();
+            var dealerVal = $("#dealer").val();
             if (nickame === "") {
                 $('.error').removeClass('hidden');
                 $("#spinner").hide();
                 return;
             }
-            var dealerVal = $("#dealer").val();
+
+            if (dealerVal === "") {
+                $('#error-dealer').show();
+                $("#spinner").hide();
+                return;
+            }
+
             var hands = [];
             for (var i = 1; i <= 6; i++) {
                 var handInput = $("#hand" + i).val();
