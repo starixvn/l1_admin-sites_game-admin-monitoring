@@ -1,16 +1,10 @@
 include:
-  - project: "ci/repos-ci/pentagon_l1_admin_monitoring_site"
-    ref: master
-    file: "gitlab-ci.yml"
-
-  - project: "ci/repos-ci/pentagon_l2_admin_monitoring_site"
-    ref: master
-    file: "gitlab-ci-mixing.yml"
+  - project: "ci/core-cicd"
+    ref: main
+    file: luminet.gitlab-ci.yml
 
 .base_transform_config_script: &base_transform_config_script
   stage: transform-config
-  extends:
-    - .build:image:l1_admin_monitoring_site:rules
   tags:
     - docker
 
@@ -25,14 +19,3 @@ include:
     paths:
       - ./src/game-admin-client/configs.json
     expire_in: 1 day
-
-.base_transform_config_l1_admin_monitoring_site:
-  <<: *base_transform_config_script
-  extends:
-    - .deploy_vars_l1_admin_monitoring_site
-    - .build:image:l1_admin_monitoring_site:rules
-.base_transform_config_l2_admin_monitoring_site:
-  <<: *base_transform_config_script
-  extends:
-    - .deploy_vars_l2_admin_monitoring_site
-    - .build:image:l2_admin_monitoring_site:rules
