@@ -3,7 +3,7 @@ include:
     ref: main
     file: luminet.gitlab-ci.yml
 
-.base_transform_config_script: &base_transform_config
+.base_transform_config:
   stage: transform-config
   tags:
     - docker

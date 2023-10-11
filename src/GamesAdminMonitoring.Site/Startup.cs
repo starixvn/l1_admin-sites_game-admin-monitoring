@@ -27,7 +27,6 @@ namespace GamesAdminMonitoring.Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var testDeployed = "testDeployed";
             services.AddMediatR(typeof(Startup));
             services.AddAutoMapper(typeof(Startup));
 
