@@ -34,6 +34,7 @@ import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import ColorGame from "../components/game-monitoring/color-game/color-game";
+import BandarQiuQiu from "../components/game-monitoring/bandar-qiu-qiu/bandar-qiu-qiu-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -394,6 +395,13 @@ export const gameMapper = {
     socket: "admin/colorgame",
     socketRoute: "colorgame/socket.io",
     ...getInfoByGameKey("ColorGame"),
+  },
+  75: {
+    name: "BandarQiuQiu",
+    component: BandarQiuQiu,
+    socket: "admin/bandarqiuqiu",
+    socketRoute: "bandarqiuqiu/socket.io",
+    ...getInfoByGameKey("BandarQiuQiu"),
   },
 };
 
