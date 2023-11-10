@@ -16,3 +16,9 @@ export const BandarQiuQiuResources = {
   disabledMessage: "Game is disabled.",
   updateSuccessful: "Success! Your result has been set."
 }
+
+export const BandarQiuQiuConstant = {
+  totalTimeInRound: 39,
+  waitingTime: 13,
+  showedSucceedMessegeTimebyMillisecond: 2000
+}

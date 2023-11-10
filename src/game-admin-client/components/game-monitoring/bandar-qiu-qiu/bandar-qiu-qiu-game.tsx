@@ -1,69 +1,12 @@
 import React from "react";
 import { Button, Col, Container, Row } from "reactstrap";
-
 import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 import { GameState } from "../../shared/common/GameState";
 import { Notice } from "../../shared/notice/notice";
 import styles from "./bandar-qiu-qiu.module.scss";
-import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
 import configs from "../../../configs.json";
-import { BandarQiuQiuResources, Dominoes } from "./bandar-qiu-qiu-constants";
-
-function findDuplicates(input_array): any {
-  const duplicates = input_array.filter((item, index) => { return input_array.indexOf(item) !== index });
-  return Array.from(new Set(duplicates));
-}
-
-class HankModel {
-  name: string;
-  values: Array<string>;
-  validedDominoes: Array<string>;
-  duplicatedItems: Array<string>;
-
-  constructor(name: string, values: Array<string>) {
-    this.name = name;
-    this.values = values;
-    this.duplicatedItems = [];
-    this.validedDominoes = [];
-  }
-
-  isValid() {
-    this.validedDominoes = this.values.filter((item) => {
-      return Dominoes.indexOf(item) !== -1
-    })
-
-    return this.validedDominoes.length === 4 && this.duplicatedItems.length === 0;
-  }
-}
-
-class BandarQiuQiuGameModel extends BaseMonitoringState {
-  roundNumber: number;
-  isHandleNextRoundResult: boolean;
-  gameState: number;
-  isValidResult: boolean;
-
-  hanks: Array<HankModel>;
-  flatHanks: Array<string>;
-  duplicatedItems: Array<string>;
-  isSubmited: boolean;
-
-  constructor() {
-    super();
-    this.isHandleNextRoundResult = false;
-    this.gameState = 0;
-    this.isValidResult = true;
-    this.isSubmited = false;
-    this.duplicatedItems = [];
-
-    this.hanks = [
-      new HankModel("Banker", ["00", "01", "02", "03"]),
-      new HankModel("Spade", ["11", "12", "13", "14"]),
-      new HankModel("Heart", ["22", "23", "24", "25"]),
-      new HankModel("Club", ["33", "34", "35", "36"]),
-      new HankModel("Diamond", ["44", "45", "46", "55"]),
-    ];
-  }
-}
+import { BandarQiuQiuConstant, BandarQiuQiuResources, Dominoes } from "./bandar-qiu-qiu-constants";
+import { BandarQiuQiuGameModel } from "./bandar-qiu-qiu-model";
 
 export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameModel, BaseMonitoringProps> {
   constructor(props: BaseMonitoringProps) {
@@ -77,17 +20,20 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
   }
 
   get totalTimeInRound(): number {
-    return 39;
+    return BandarQiuQiuConstant.totalTimeInRound;
   }
 
   get waitingTime(): number {
-    return 13;
+    return BandarQiuQiuConstant.waitingTime;
   }
-
 
   inGameHandler({ inGame }) {
   }
 
+  findDuplicates(input_array: Array<string>) {
+    const duplicates = input_array.filter((item, index) => input_array.indexOf(item) !== index);
+    return Array.from(new Set(duplicates));
+  }
 
   handleChangeResult(event, index: number) {
     const clonedHanks = [...this.state.hanks];
@@ -103,10 +49,10 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
       return accumulatedArray.concat(hank.values);
     }, []);
 
-    const duplicates = findDuplicates(flatHanks);
+    const duplicates = this.findDuplicates(flatHanks);
 
     clonedHanks.forEach(hank => {
-      hank.duplicatedItems = findDuplicates(hank.values.concat(duplicates));
+      hank.duplicatedItems = this.findDuplicates(hank.values.concat(duplicates));
     })
 
     this.setState({
@@ -134,7 +80,7 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
       this.setState({
         isSubmited: false
       });
-    }, 2000);
+    }, BandarQiuQiuConstant.showedSucceedMessegeTimebyMillisecond);
   }
 
   render() {
@@ -146,11 +92,11 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
 
     return (
       <Container className={styles["bandar-qiu-qiu"]}>
-        <Row className={`${styles["bold"]}`}>
-          <Col> <h2>{BandarQiuQiuResources.gameName}</h2></Col>
+        <Row >
+          <Col className={`${styles["bold"]}`}> <h2>{BandarQiuQiuResources.gameName}</h2></Col>
         </Row>
-        <Row className={`${styles["bold"]}`}>
-          <Col >
+        <Row >
+          <Col className={`${styles["bold"]}`}>
             {BandarQiuQiuResources.nextRound} {roundNumber > 0 && `#${roundNumber + 1}`}
           </Col>
         </Row>

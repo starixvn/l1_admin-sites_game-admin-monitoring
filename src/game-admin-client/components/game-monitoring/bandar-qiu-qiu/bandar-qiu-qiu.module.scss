@@ -1,43 +1,42 @@
 $red-color: red;
 $white-color: white;
 
-.bandar-qiu-qiu{
+.bandar-qiu-qiu {
   background: $white-color !important;
   padding: 40px;
-  
-  div{
+
+  div {
     min-height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .invalid{
+
+  .invalid {
     color: $red-color;
-  
-    input{
+
+    input {
       color: $red-color;
     }
   }
-  
-  .duplicated{
+
+  .duplicated {
     border: 2px $red-color solid;
   }
-  
-  .bold{
+
+  .bold {
     font-weight: bold;
   }
-  
+
   .success-message {
-    background-color: #4caf50; 
-    color: $white-color; 
-    padding: 10px; 
-    border-radius: 5px; 
+    background-color: #4caf50;
+    color: $white-color;
+    padding: 10px;
+    border-radius: 5px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin: 10px 0;
     transition: opacity 0.3s;
     font-size: 16px;
   }
-  
 }
-
