@@ -131,6 +131,22 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public async Task<bool> SetPontoonResult(SetPontoonResultRequest request)      
             => await mediator.Send(request);
 
+        [HttpGet]
+        public async Task<IActionResult> CrashGameResult(string token, string gameConfigName, string displayName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("CrashGames/Index", new CrashGameResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCrashGameResult([Bind] CrashGameResultViewModel viewModel)
+        {
+            var model = await mediator.Send(new SetCrashGameResultRequest(viewModel.GameName, viewModel.Result));
+            return PartialView("CrashGames/_ResultMonitor", new CrashGameResultControl(model));
+        }
+        
+
         private IActionResult RedirectToRestrictedPage(string message)
             => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));
 

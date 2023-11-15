@@ -15,7 +15,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<SetHiLoResultRequest, IEnumerable<HiloCard>>,
         IRequestHandler<GameSettingsRequest, GameSettingsViewModel>,
         IRequestHandler<SetCascadingSlotResultRequest, SettlementCascadingSlotResultViewModel>,
-        IRequestHandler<SetPontoonResultRequest, bool>
+        IRequestHandler<SetPontoonResultRequest, bool>,
+        IRequestHandler<SetCrashGameResultRequest, bool>
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
@@ -54,5 +55,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> Handle(SetPontoonResultRequest request, CancellationToken cancellationToken)
            => await service.SetPontoonResult(request);
+
+        public async Task<bool> Handle(SetCrashGameResultRequest request, CancellationToken cancellationToken)
+          => await service.SetCrashGameResult(request);
     }
 }

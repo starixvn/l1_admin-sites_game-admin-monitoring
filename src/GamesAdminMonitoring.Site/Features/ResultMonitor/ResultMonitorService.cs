@@ -28,6 +28,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/pontoon/set_result")]
         Task<bool> SetPontoonResult([FromBody] SetPontoonResultRequest request);
+
+        [Post("/game_server/crashgame/set_result")]
+        Task<bool> SetCrashGameResult([FromBody] SetCrashGameResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -43,6 +46,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<IEnumerable<SettlementCascadingSlotResult>> SetCascadingSlotResult(SetCascadingSlotResultRequest request);
 
         Task<bool> SetPontoonResult(SetPontoonResultRequest request);
+
+        Task<bool> SetCrashGameResult(SetCrashGameResultRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
@@ -71,5 +76,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> SetPontoonResult(SetPontoonResultRequest request)
            => await api.SetPontoonResult(request);
+
+        public async Task<bool> SetCrashGameResult(SetCrashGameResultRequest request)
+           => await api.SetCrashGameResult(request);
     }
 }
