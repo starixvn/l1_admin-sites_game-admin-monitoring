@@ -175,7 +175,7 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
             </Row>
           })
         }
-        <Row>
+        {/* <Row>
           <Col>
             <Button
               color="primary"
@@ -186,7 +186,7 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
             </Button>
           </Col>
 
-        </Row>
+        </Row> */}
         <Row>
           <Col>
             <Button
