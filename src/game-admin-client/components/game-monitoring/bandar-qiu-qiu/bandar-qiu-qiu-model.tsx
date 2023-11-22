@@ -38,16 +38,17 @@ export class BandarQiuQiuGameModel extends BaseMonitoringState {
     super();
     this.isHandleNextRoundResult = false;
     this.gameState = 0;
-    this.isValidResult = true;
+    this.isValidResult = false;
     this.isSubmited = false;
     this.duplicatedItems = [];
+    this.flatHanks = [];
 
     this.hanks = [
-      new HankModel("Banker", ["00", "01", "02", "03"]),
-      new HankModel("Spade", ["11", "12", "13", "14"]),
-      new HankModel("Heart", ["22", "23", "24", "25"]),
-      new HankModel("Club", ["33", "34", "35", "36"]),
-      new HankModel("Diamond", ["44", "45", "46", "55"]),
+      new HankModel("Banker", []),
+      new HankModel("Spade", []),
+      new HankModel("Heart", []),
+      new HankModel("Club", []),
+      new HankModel("Diamond", []),
     ];
   }
 }

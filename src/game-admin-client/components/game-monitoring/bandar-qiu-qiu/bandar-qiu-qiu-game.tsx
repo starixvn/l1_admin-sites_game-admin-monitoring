@@ -5,7 +5,7 @@ import { GameState } from "../../shared/common/GameState";
 import { Notice } from "../../shared/notice/notice";
 import styles from "./bandar-qiu-qiu.module.scss";
 import configs from "../../../configs.json";
-import { BandarQiuQiuConstant, BandarQiuQiuResources, Dominoes } from "./bandar-qiu-qiu-constants";
+import { BandarQiuQiuConstant, BandarQiuQiuResources, Dominoes, defaultResult } from "./bandar-qiu-qiu-constants";
 import { BandarQiuQiuGameModel } from "./bandar-qiu-qiu-model";
 
 export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameModel, BaseMonitoringProps> {
@@ -17,6 +17,8 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
 
     this.handleChangeResult = this.handleChangeResult.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.setDefaultResult = this.setDefaultResult.bind(this);
+    this.fillOutResult = this.fillOutResult.bind(this);
   }
 
   get totalTimeInRound(): number {
@@ -36,8 +38,13 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
   }
 
   handleChangeResult(event, index: number) {
+    this.rebuildState(event.target.value.split(",").filter(item => item.trim() !== ''), index);
+  }
+
+  rebuildState(values: string[], index: number) {
+    // console.log(`rebuildState: ${values}; length: ${values.length}`);
     const clonedHanks = [...this.state.hanks];
-    clonedHanks[index].values = event.target.value.split(",");
+    clonedHanks[index].values = values;
 
     let invalidDominoes = [];
     const flatHanks = clonedHanks.reduce((accumulatedArray, hank) => {
@@ -61,6 +68,49 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
       duplicatedItems: duplicates,
       isValidResult: clonedHanks.every(hank => hank.isValid())
     });
+  }
+
+  pickRandomItem(list) {
+    const randomIndex = Math.floor(Math.random() * list.length);
+    return list[randomIndex];
+  }
+
+  fillOutResult() {
+    let copiedDominoes = [...Dominoes];
+
+    this.state.flatHanks.forEach(hank => {
+      const indexToRemove = copiedDominoes.indexOf(hank);
+      copiedDominoes.splice(indexToRemove, 1);
+    })
+
+    const clonedHanks = [...this.state.hanks];
+    // console.log(clonedHanks);
+    clonedHanks.forEach(hank => {
+      const length = hank.validedDominoes.length;
+      // console.log(`length: ${length}`);
+      if (length < 4) {
+        for (let i = 0; i < 4 - length; i++) {
+          const randomItem = this.pickRandomItem(copiedDominoes);
+          // console.log(randomItem);
+
+          hank.values.push(randomItem);
+
+          const indexToRemove = copiedDominoes.indexOf(randomItem);
+          copiedDominoes.splice(indexToRemove, 1);
+        }
+      }
+    })
+
+    clonedHanks.forEach((hank, index) => {
+      this.rebuildState(hank.values, index);
+    })
+
+  }
+
+  setDefaultResult() {
+    defaultResult.forEach((hank, index) => {
+      this.rebuildState(hank.values, index);
+    })
   }
 
   handleSubmit() {
@@ -125,6 +175,29 @@ export default class BandarQiuQiuGame extends BaseMonitoring<BandarQiuQiuGameMod
             </Row>
           })
         }
+        <Row>
+          <Col>
+            <Button
+              color="primary"
+              onClick={this.setDefaultResult}
+              className={styles["custom-button"]}
+            >
+              {BandarQiuQiuResources.setDefaultResult}
+            </Button>
+          </Col>
+
+        </Row>
+        <Row>
+          <Col>
+            <Button
+              color="primary"
+              onClick={this.fillOutResult}
+              className={styles["custom-button"]}
+            >
+              {BandarQiuQiuResources.fillOutResult}
+            </Button>
+          </Col>
+        </Row>
         <Row>
           <Col>
             <Button
