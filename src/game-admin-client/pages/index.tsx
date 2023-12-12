@@ -62,8 +62,12 @@ export class Home extends React.Component<Props, State> {
   initSocket(gameId: number) {
     const subPath = configs.SubPath === "" ? "" : `/${configs.SubPath}`;
 
+    const domain = configs.CloudSettings?.CloudGameIds?.includes(+gameId)
+      ? configs.CloudSettings?.ServiceDomain
+      : configs.Domain;
+
     const socket = new SocketIO(
-      `${this.protocol}://${configs.Domain}/${gameMapper[gameId].socket}`,
+      `${this.protocol}://${domain}/${gameMapper[gameId].socket}`,
       `${subPath}/${gameMapper[gameId].socketRoute}`,
       configs.EnableMsgpack
     );
