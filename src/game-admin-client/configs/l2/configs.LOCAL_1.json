@@ -7,5 +7,9 @@
   "RootUrl": "https://l2-proxy1.lumigame.com/monitoring",
   "EnableMsgpack": false,
   "Domain": "l2-proxy1.lumigame.com",
-  "SubPath": ""
+  "SubPath": "",
+  "CloudSettings": {
+    "ServiceDomain": "l2-services1.lumigame.com",
+    "CloudGameIds": [75]
+  }
 }

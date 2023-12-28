@@ -6,5 +6,9 @@
   "RootUrl": "https://l2uatproxy.sgamesuat.com/sit/monitoring",
   "EnableMsgpack": true,
   "Domain": "l2uatproxy.sgamesuat.com",
-  "SubPath": "sit"
+  "SubPath": "sit",
+  "CloudSettings": {
+    "ServiceDomain": "l2uatservices.sgamesuat.com",
+    "CloudGameIds": [75]
+  }
 }

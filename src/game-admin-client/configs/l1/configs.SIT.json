@@ -1,19 +1,14 @@
 {
   "Env": "SIT",
   "SystemType": "SC1",
-  "Partners": [
-    "ONEworks1",
-    "SBO"
-  ],
+  "Partners": ["ONEworks1", "SBO"],
   "DefaultToken": "",
   "RootUrl": "https://l1uatproxy.sgamesuat.com/sit/monitoring",
   "EnableMsgpack": true,
   "Domain": "l1uatproxy.sgamesuat.com",
   "SubPath": "sit",
   "CloudSettings": {
-    "ServiceDomain": "",
-    "CloudGameIds": [
-      75
-    ]
+    "ServiceDomain": "l1uatservices.sgamesuat.com",
+    "CloudGameIds": [75]
   }
 }
