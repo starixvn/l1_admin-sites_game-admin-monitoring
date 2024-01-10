@@ -1,0 +1,80 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+
+@model ChineseBlackjackResultViewModel;
+
+@{
+    ViewData["Title"] = "Chinese Blackjack Result Controller";
+}
+
+@section Styles {
+    <link href="~/css/pontoon-result.min.css" rel="stylesheet" asp-append-version="true" />
+}
+<div class="form filter pontoon">
+    <div class="form-row col-auto nickname">
+        <label class="control-label bold">Nickname:</label>
+        <input type="text" class="form-control" id="nickname" onkeyup="chineseBlackjackResult.onInputNickname(event)">
+        <div class="error hidden">Please input nickname !</div>
+        <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameName" />
+    </div>
+    <div class="form-row col-auto">
+        <div class="col-auto set-result">
+            <label class="control-label bold">Set Results </label>
+            <label class="control-label bold">( h:<img style="width:20px" class="img" src="~/images/card_0.png" />, </label>
+            <label class="control-label bold">d:<img style="width:20px" class="img" src="~/images/card_1.png" />, </label>
+            <label class="control-label bold">c:<img style="width:20px" class="img" src="~/images/card_2.png" />, </label>
+            <label class="control-label bold">s:<img style="width:20px" class="img" src="~/images/card_3.png" /> )</label>
+        </div>   
+    </div>
+    <div class="form-row col-auto">
+        <div class="col-auto">
+            <label class="control-label">Example: </label>
+            <label class="control-label">10h,Jd,4c,As</label>
+        </div>
+    </div>
+    <div class="form-row col-auto">
+        <div class="col-auto set-result">
+            <label class="control-label">Dealer</label>
+            <input type="text" class="form-control" id="dealer" onkeyup="chineseBlackjackResult.onInputDealerCards(event)">
+        </div>
+    </div>
+    <div class="form-row col-auto">
+        <div class="col-auto set-result">
+            <label class="control-label">Hand 1</label>
+            <input type="text" class="form-control" id="hand1">
+        </div>
+    </div>
+    <div class="form-row col-auto">
+        <div class="col-auto set-result">
+            <label class="control-label">Hand 2</label>
+            <input type="text" class="form-control" id="hand2">
+        </div>
+    </div>
+
+    <div class="form-row col-auto">
+        <div class="col-auto set-result">
+            <label class="control-label">Hand 3</label>
+            <input type="text" class="form-control" id="hand3">
+        </div>
+    </div>
+    <div class="form-row col-auto mt-5">
+        <button type="button" class="btn-submit" onclick="chineseBlackjackResult.submit(event)">Submit</button>
+        <div id="spinner" class="spinner-border mt-3 ml-2" style="display: none">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="form-row col-auto set-result">
+        <div class="message-error hidden-cls" id="error-dealer"></i><span>Please input dealer cards !</span></div>
+        <div class="message-error hidden-cls" id="error-format"></i><span>Please check input cards !</span></div>
+        <div class="message-success hidden-cls" id="success"></i><span>Set result successfully</span></div>
+        <div class="message-error hidden-cls" id="fail"></i><span>Set result Unsuccessfully</span></div>
+    </div>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/chinese-blackjack-result.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/chinese-blackjack-result.min.js" asp-append-version="true"></script>
+    </environment>
+}

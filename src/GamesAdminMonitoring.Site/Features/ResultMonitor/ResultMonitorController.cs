@@ -118,7 +118,6 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             return PartialView("CascadingSlotGames/_ResultMonitor", await mediator.Send(request));
         }
 
-
         [HttpGet]
         public async Task<IActionResult> PontoonResult(string token, string gameConfigName)
         {
@@ -128,7 +127,19 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpPost]
-        public async Task<bool> SetPontoonResult(SetPontoonResultRequest request)      
+        public async Task<bool> SetPontoonResult(SetPontoonResultRequest request)
+            => await mediator.Send(request);
+
+        [HttpGet]
+        public async Task<IActionResult> ChineseBlackjackResult(string token, string gameConfigName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("ChineseBlackjack/Index", new ChineseBlackjackResultViewModel()) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<bool> SetChineseBlackjackResult(SetChineseBlackjackResultRequest request)
             => await mediator.Send(request);
 
         [HttpGet]

@@ -11,6 +11,7 @@
         TreasureIsland = 47,
         WayToGoal = 49,
         FortuneCat = 62,
-        Pontoon = 72    
+        Pontoon = 72,
+        ChineseBlackjack = 77
     }
 }

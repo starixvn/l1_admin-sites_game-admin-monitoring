@@ -31,6 +31,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/crashgame/set_result")]
         Task<bool> SetCrashGameResult([FromBody] SetCrashGameResultRequest request);
+
+        [Post("/game_server/chineseblackjack/set_result")]
+        Task<bool> SetChineseBlackjackResult([FromBody] SetChineseBlackjackResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -48,6 +51,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<bool> SetPontoonResult(SetPontoonResultRequest request);
 
         Task<bool> SetCrashGameResult(SetCrashGameResultRequest request);
+
+        Task<bool> SetChineseBlackjackResult(SetChineseBlackjackResultRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
@@ -79,5 +84,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> SetCrashGameResult(SetCrashGameResultRequest request)
            => await api.SetCrashGameResult(request);
+
+        public async Task<bool> SetChineseBlackjackResult(SetChineseBlackjackResultRequest request)
+            => await api.SetChineseBlackjackResult(request);
     }
 }

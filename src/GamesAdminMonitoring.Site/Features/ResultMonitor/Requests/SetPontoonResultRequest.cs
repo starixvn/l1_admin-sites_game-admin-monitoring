@@ -7,7 +7,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
     {
         public string name { get; set; }
 
-        public PontoonCard[] dealer { get; set; }
+        public BlackjackCard[] dealer { get; set; }
 
         public Hands[] hands { get; set; }
     }
@@ -16,6 +16,6 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
     {
         public byte pos { get; set; }
 
-        public PontoonCard[] cards { get; set; }
+        public BlackjackCard[] cards { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         public byte suit { get; set; }
     }
 
-    public class PontoonCard
+    public class BlackjackCard
     {
         public string rank { get; set; }
 
