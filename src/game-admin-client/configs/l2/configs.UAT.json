@@ -9,6 +9,6 @@
   "SubPath": "uat",
   "CloudSettings": {
     "ServiceDomain": "l2uatservices.sgamesuat.com",
-    "CloudGameIds": [75]
+    "CloudGameIds": []
   }
 }

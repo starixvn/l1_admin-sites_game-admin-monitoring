@@ -9,6 +9,6 @@
   "SubPath": "",
   "CloudSettings": {
     "ServiceDomain": "l2-services.lumigame.com",
-    "CloudGameIds": [75]
+    "CloudGameIds": []
   }
 }
