@@ -35,6 +35,7 @@ import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import ColorGame from "../components/game-monitoring/color-game/color-game";
 import BandarQiuQiu from "../components/game-monitoring/bandar-qiu-qiu/bandar-qiu-qiu-game";
+import BacBall from "../components/game-monitoring/bacball/bacball-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -403,6 +404,13 @@ export const gameMapper = {
     socketRoute: "bandarqiuqiu/socket.io",
     ...getInfoByGameKey("BandarQiuQiu"),
   },
+  1001: {
+    name: "BacBall",
+    component: BacBall,
+    socket: "admin/bacball",
+    socketRoute: "bacball/socket.io",
+    ...getInfoByGameKey("BacBall"),
+  },
 };
 
 export const getGameName = (gameName: string) =>
@@ -410,3 +418,4 @@ export const getGameName = (gameName: string) =>
     (key) =>
       gameMapper[key].name.toLocaleLowerCase() === gameName.toLocaleLowerCase()
   );
+
