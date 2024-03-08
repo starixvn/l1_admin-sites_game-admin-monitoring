@@ -22,6 +22,16 @@ export default class BacBallGame extends BaseMonitoring<
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  inGameHandler({ inGame }) {}
+
+  remainingTimeHandler({ remainingTime, roundId, result }) {
+    this.setState({ nextDrawId: result[result.length - 1].drawId + 1 });
+  }
+
+  finishHandler({ finish }) {
+    this.setState({ nextDrawId: finish.drawId + 1 });
+  }
+
   get totalTimeInRound(): number {
     return BacBallConstant.totalTimeInRound;
   }
@@ -29,8 +39,6 @@ export default class BacBallGame extends BaseMonitoring<
   get waitingTime(): number {
     return BacBallConstant.waitingTime;
   }
-
-  inGameHandler({ inGame }) {}
 
   findDuplicates(input_array: Array<string>) {
     const duplicates = input_array.filter(
@@ -40,18 +48,14 @@ export default class BacBallGame extends BaseMonitoring<
   }
 
   handleSubmit() {
-    const { roundNumber, player, banker } = this.state;
-    console.log("player", player);
-    console.log("banker", banker);
+    const { player, banker, nextDrawId } = this.state;
 
-    /*
     this.props.sendMessage({
       set_result: {
-        roundId: roundNumber + 1,
-        result: { player, banker },
+        roundId: nextDrawId,
+        result: { player: +player, banker: +banker },
       },
     });
-    */
 
     this.setState({
       isSubmited: true,
@@ -90,7 +94,8 @@ export default class BacBallGame extends BaseMonitoring<
       return <>{BacBallResources.unauthorized}</>;
     }
 
-    const { roundNumber, isSubmited, gameState, player, banker } = this.state;
+    const { roundNumber, isSubmited, gameState, player, banker, nextDrawId } =
+      this.state;
     const isValid = this.validate();
 
     return (
@@ -103,8 +108,7 @@ export default class BacBallGame extends BaseMonitoring<
         </Row>
         <Row>
           <Col className={`${styles["bold"]}`}>
-            {BacBallResources.nextRound}{" "}
-            {roundNumber > 0 && `#${roundNumber + 1}`}
+            {BacBallResources.nextRound} {nextDrawId > 0 && `#${nextDrawId}`}
           </Col>
         </Row>
 

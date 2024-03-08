@@ -8,6 +8,7 @@ export class BacBallGameModel extends BaseMonitoringState {
   player: string;
   banker: string;
   isSubmited: boolean;
+  nextDrawId: number;
 
   constructor() {
     super();
