@@ -1,0 +1,15 @@
+{
+  "Env": "LOCAL",
+  "SystemType": "GN",
+  "Partners": ["ONEworks1", "SBO", "ONEworks_VG", "ONEworksVGCash"],
+  "DefaultToken": "",
+  "RootUrl": "https://gn-proxy.lumigame.com/monitoring",
+  "EnableMsgpack": false,
+  "Domain": "gn-proxy.lumigame.com",
+  "SubPath": "",
+  "CloudSettings": {
+    "ServiceDomain": "gn-proxy.lumigame.com",
+    "CloudGameIds": []
+  }
+}
+
