@@ -156,7 +156,26 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             var model = await mediator.Send(new SetCrashGameResultRequest(viewModel.GameName, viewModel.Result));
             return PartialView("CrashGames/_ResultMonitor", new CrashGameResultControl(model));
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> FootballDiceResult(string token)
+        {
+            return View("FootballDice/Index", new FootballDiceResultViewModel());
+
+
+            var model = await mediator.Send(new VerifyTokenRequest(token));
+
+            return model.IsValid ? View("FootballDice/Index", new FootballDiceResultViewModel()) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetFootballDiceResult([Bind] FootballDiceResultViewModel viewModel)
+        {
+            var model = await mediator.Send(new SetFootballDiceResultRequest(viewModel.Result));
+            return PartialView("FootballDice/_ResultMonitor", new FootballDiceResultControl(model));
+        }
+
+
 
         private IActionResult RedirectToRestrictedPage(string message)
             => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));

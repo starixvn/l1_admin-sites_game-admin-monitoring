@@ -15,6 +15,7 @@
         public const string FortuneCatValue = "fortunecat";
         public const string PontoonValue = "pontoon";
         public const string ChineseBlackjackValue = "chineseblackjack";
+        public const string FootballDiceValue = "footballdice";
 
 
         public static readonly Game FourGuardians = new Game(FourGuardiansValue, "Four Guardians", GameId.FourGuardians);
@@ -30,6 +31,7 @@
         public static readonly Game FortuneCat = new Game(FortuneCatValue, "Fortune Cat", GameId.FortuneCat);
         public static readonly Game Pontoon = new Game(PontoonValue, "Pontoon", GameId.Pontoon);
         public static readonly Game ChineseBlackjack = new Game(ChineseBlackjackValue, "ChineseBlackjack", GameId.ChineseBlackjack);
+        public static readonly Game FootballDice = new Game(FootballDiceValue, "FootBallDice", GameId.FootballDice);
 
 
         public Game()

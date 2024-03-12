@@ -1,0 +1,10 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+@model FootballDiceResultControl
+
+@if (@Model.IsSucessful)
+{
+    <div class="message-success"><span>Set result successfully</span></div>
+}else
+{
+    <div class="message-error"><span>Set result Unsuccessfully</span></div>
+}

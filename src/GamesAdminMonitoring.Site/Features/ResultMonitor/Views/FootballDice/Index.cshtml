@@ -1,0 +1,37 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+@model FootballDiceResultViewModel
+
+@{
+    ViewData["Title"] = $"Football Dice Result Controller";
+}
+
+@section Styles {
+    <link href="~/css/big-small-reports.min.css" rel="stylesheet" asp-append-version="true" />
+}
+<form class="form filter" data-ajax="true" data-ajax-method="POST" asp-action="SetFootballDiceResult" data-ajax-mode="re place" data-ajax-update="#set-result"
+      data-ajax-loading="#spinner"
+      method="POST">
+    <div class="form-row align-items-center">
+        <input type="hidden" />
+        <div class="col-auto">
+            <label class="control-label">Home</label> 
+
+            <input type="number" class="form-control" asp-for="Result.home[0]" placeholder="Dice #1" required>
+            <input type="number" class="form-control" asp-for="Result.home[1]" placeholder="Dice #2" required>
+        </div>
+        <div class="col-auto">
+            <label class="control-label">Away</label>
+            <input type="number" class="form-control" asp-for="Result.away[0]" placeholder="Dice #1" required>
+            <input type="number" class="form-control" asp-for="Result.away[1]" placeholder="Dice #2" required>
+        </div>
+        <div class="col-auto mt-5">
+            <button type="submit" class="btn-submit">Submit</button>
+            <div id="spinner" class="spinner-border" style="display: none">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="set-result" class="col-sm-12 report-container">
+</div>

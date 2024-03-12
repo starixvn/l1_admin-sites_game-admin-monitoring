@@ -12,6 +12,7 @@
         WayToGoal = 49,
         FortuneCat = 62,
         Pontoon = 72,
-        ChineseBlackjack = 77
+        ChineseBlackjack = 77,
+        FootballDice = 78
     }
 }
