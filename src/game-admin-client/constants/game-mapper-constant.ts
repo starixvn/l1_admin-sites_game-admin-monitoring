@@ -405,11 +405,11 @@ export const gameMapper = {
     ...getInfoByGameKey("BandarQiuQiu"),
   },
   1001: {
-    name: "BacBall",
+    name: "BacBall1",
     component: BacBall,
-    socket: "admin/bacball",
-    socketRoute: "bacball/socket.io",
-    ...getInfoByGameKey("BacBall"),
+    socket: "admin/bacball1",
+    socketRoute: "bacball1/socket.io",
+    ...getInfoByGameKey("BacBall1"),
   },
 };
 
