@@ -1,6 +1,6 @@
-export const BacBallResources = {
+export const BacBall1Resources = {
   unauthorized: "You are not authorized to set result",
-  gameName: "Bac Ball",
+  gameName: "Bac Ball 1",
   nextRound: "Next Draw:",
   submit: "Submit",
   fillOutResult: "Fill Out Result",
@@ -9,7 +9,7 @@ export const BacBallResources = {
   updateSuccessful: "Success! Your result has been set.",
 };
 
-export const BacBallConstant = {
+export const BacBall1Constant = {
   totalTimeInRound: 107,
   waitingTime: 7,
   showedSucceedMessegeTimebyMillisecond: 2000,

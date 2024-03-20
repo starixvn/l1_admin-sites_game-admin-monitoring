@@ -5,17 +5,17 @@ import BaseMonitoring, {
 } from "../../shared/base-monitoring/base-monitoring";
 import { GameState } from "../../shared/common/GameState";
 import { Notice } from "../../shared/notice/notice";
-import { BacBallConstant, BacBallResources } from "./bacball-constants";
-import { BacBallGameModel } from "./bacball-model";
-import styles from "./bacball.module.scss";
+import { BacBall2Constant, BacBall2Resources } from "./bacball2-constants";
+import { BacBall2GameModel } from "./bacball2-model";
+import styles from "./bacball2.module.scss";
 
-export default class BacBallGame extends BaseMonitoring<
-  BacBallGameModel,
+export default class BacBall2Game extends BaseMonitoring<
+  BacBall2GameModel,
   BaseMonitoringProps
 > {
   constructor(props: BaseMonitoringProps) {
     super(props);
-    this.state = new BacBallGameModel();
+    this.state = new BacBall2GameModel();
     const bodyElement = document.body;
     bodyElement.style.background = "none";
 
@@ -33,11 +33,11 @@ export default class BacBallGame extends BaseMonitoring<
   }
 
   get totalTimeInRound(): number {
-    return BacBallConstant.totalTimeInRound;
+    return BacBall2Constant.totalTimeInRound;
   }
 
   get waitingTime(): number {
-    return BacBallConstant.waitingTime;
+    return BacBall2Constant.waitingTime;
   }
 
   findDuplicates(input_array: Array<string>) {
@@ -65,7 +65,7 @@ export default class BacBallGame extends BaseMonitoring<
       this.setState({
         isSubmited: false,
       });
-    }, BacBallConstant.showedSucceedMessegeTimebyMillisecond);
+    }, BacBall2Constant.showedSucceedMessegeTimebyMillisecond);
   }
 
   validateBalls(balls: Array<string>) {
@@ -91,7 +91,7 @@ export default class BacBallGame extends BaseMonitoring<
 
   render() {
     if (this.props.isProduction) {
-      return <>{BacBallResources.unauthorized}</>;
+      return <>{BacBall2Resources.unauthorized}</>;
     }
 
     const { roundNumber, isSubmited, gameState, player, banker, nextDrawId } =
@@ -103,12 +103,12 @@ export default class BacBallGame extends BaseMonitoring<
         <Row>
           <Col className={`${styles["bold"]}`}>
             {" "}
-            <h2>{BacBallResources.gameName}</h2>
+            <h2>{BacBall2Resources.gameName}</h2>
           </Col>
         </Row>
         <Row>
           <Col className={`${styles["bold"]}`}>
-            {BacBallResources.nextRound} {nextDrawId > 0 && `#${nextDrawId}`}
+            {BacBall2Resources.nextRound} {nextDrawId > 0 && `#${nextDrawId}`}
           </Col>
         </Row>
 
@@ -149,7 +149,7 @@ export default class BacBallGame extends BaseMonitoring<
               onClick={this.handleSubmit}
               className={styles["custom-button"]}
             >
-              {BacBallResources.submit}
+              {BacBall2Resources.submit}
             </Button>
           </Col>
         </Row>
@@ -157,13 +157,13 @@ export default class BacBallGame extends BaseMonitoring<
           <Row>
             <Col className="col-10">
               <div className={`${styles["success-message"]}  text-center`}>
-                {BacBallResources.updateSuccessful}
+                {BacBall2Resources.updateSuccessful}
               </div>
             </Col>
           </Row>
         )}
         {gameState == GameState.disabled && (
-          <Notice isOpen={true} message={BacBallResources.disabledMessage} />
+          <Notice isOpen={true} message={BacBall2Resources.disabledMessage} />
         )}
       </Container>
     );

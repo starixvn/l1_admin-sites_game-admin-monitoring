@@ -35,7 +35,8 @@ import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import ColorGame from "../components/game-monitoring/color-game/color-game";
 import BandarQiuQiu from "../components/game-monitoring/bandar-qiu-qiu/bandar-qiu-qiu-game";
-import BacBall from "../components/game-monitoring/bacball/bacball-game";
+import BacBall1Game from "../components/game-monitoring/bacball1/bacball1-game";
+import BacBall2Game from "../components/game-monitoring/bacball2/bacball2-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -406,10 +407,17 @@ export const gameMapper = {
   },
   1001: {
     name: "BacBall1",
-    component: BacBall,
+    component: BacBall1Game,
     socket: "admin/bacball1",
     socketRoute: "bacball1/socket.io",
     ...getInfoByGameKey("BacBall1"),
+  },
+  1002: {
+    name: "BacBall2",
+    component: BacBall2Game,
+    socket: "admin/bacball2",
+    socketRoute: "bacball2/socket.io",
+    ...getInfoByGameKey("BacBall2"),
   },
 };
 

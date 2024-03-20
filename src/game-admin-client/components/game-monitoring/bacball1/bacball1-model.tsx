@@ -1,6 +1,6 @@
 import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
 
-export class BacBallGameModel extends BaseMonitoringState {
+export class BacBall1GameModel extends BaseMonitoringState {
   roundNumber: number;
   isHandleNextRoundResult: boolean;
   gameState: number;
