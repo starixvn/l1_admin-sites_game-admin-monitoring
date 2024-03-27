@@ -1,10 +1,14 @@
 import _ from "lodash";
 
+import BacBall1Game from "../components/game-monitoring/bacball1/bacball1-game";
+import BacBall2Game from "../components/game-monitoring/bacball2/bacball2-game";
 import Baccarat from "../components/game-monitoring/baccarat";
+import BandarQiuQiu from "../components/game-monitoring/bandar-qiu-qiu/bandar-qiu-qiu-game";
 import BigSmallTurbo from "../components/game-monitoring/big-small-turbo/big-small-turbo";
 import BigSmall from "../components/game-monitoring/big-small/big-small";
 import BitcoinMaster from "../components/game-monitoring/bitcoin-master";
 import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
+import ColorGame from "../components/game-monitoring/color-game/color-game";
 import DragonTigerFight from "../components/game-monitoring/dragon-tiger-fight";
 import DragonTiger from "../components/game-monitoring/dragon-tiger/dragon-tiger";
 import FanTan from "../components/game-monitoring/fan-tan";
@@ -22,6 +26,8 @@ import KenoProMax from "../components/game-monitoring/keno-pro-max/keno-pro-max"
 import Lottery from "../components/game-monitoring/lottery";
 import MiniKeno from "../components/game-monitoring/mini-keno";
 import MiniSedie from "../components/game-monitoring/mini-sedie";
+import NextBall1Game from "../components/game-monitoring/nextball1/nextball1-game";
+import NextBall2Game from "../components/game-monitoring/nextball2/nextball1-game";
 import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
 import Roulette from "../components/game-monitoring/roulette";
 import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
@@ -33,10 +39,6 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
-import ColorGame from "../components/game-monitoring/color-game/color-game";
-import BandarQiuQiu from "../components/game-monitoring/bandar-qiu-qiu/bandar-qiu-qiu-game";
-import BacBall1Game from "../components/game-monitoring/bacball1/bacball1-game";
-import BacBall2Game from "../components/game-monitoring/bacball2/bacball2-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -419,6 +421,20 @@ export const gameMapper = {
     socketRoute: "bacball2/socket.io",
     ...getInfoByGameKey("BacBall2"),
   },
+  1003: {
+    name: "NextBall1",
+    component: NextBall1Game,
+    socket: "admin/nextball1",
+    socketRoute: "nextball1/socket.io",
+    ...getInfoByGameKey("NextBall1"),
+  },
+  1004: {
+    name: "NextBall2",
+    component: NextBall2Game,
+    socket: "admin/nextball2",
+    socketRoute: "nextball2/socket.io",
+    ...getInfoByGameKey("NextBall2"),
+  },
 };
 
 export const getGameName = (gameName: string) =>
@@ -426,4 +442,3 @@ export const getGameName = (gameName: string) =>
     (key) =>
       gameMapper[key].name.toLocaleLowerCase() === gameName.toLocaleLowerCase()
   );
-
