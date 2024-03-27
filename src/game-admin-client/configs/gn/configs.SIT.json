@@ -1,0 +1,15 @@
+{
+  "Env": "SIT",
+  "SystemType": "GN",
+  "Partners": ["ONEworksCash", "ONEworksSeal888", "ONEworksCredit", "SabaPlay"],
+  "DefaultToken": "",
+  "RootUrl": "https://gnuatproxy.sgamesuat.com/sit/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "gnuatproxy.sgamesuat.com",
+  "SubPath": "sit",
+  "CloudSettings": {
+    "ServiceDomain": "gnuatservices.sgamesuat.com",
+    "CloudGameIds": []
+  }
+}
+

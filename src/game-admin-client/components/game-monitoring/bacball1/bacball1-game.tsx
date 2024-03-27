@@ -68,18 +68,8 @@ export default class BacBall1Game extends BaseMonitoring<
     }, BacBall1Constant.showedSucceedMessegeTimebyMillisecond);
   }
 
-  validateBalls(balls: Array<string>) {
-    const validBalls = balls.filter((b) => +b >= 1 && +b <= 75);
-
-    return (
-      balls.length == 4 &&
-      validBalls.length == 4 &&
-      this.findDuplicates(balls).length == 0
-    );
-  }
-
   validateBall(ball: string) {
-    return +ball >= 1 && +ball <= 75;
+    return +ball >= 1 && +ball <= 30;
   }
 
   validate() {

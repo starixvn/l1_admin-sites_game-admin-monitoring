@@ -1,0 +1,15 @@
+{
+  "Env": "UAT",
+  "SystemType": "GN",
+  "Partners": ["ONEworksCash", "ONEworksSeal888", "ONEworksCredit", "SabaPlay"],
+  "DefaultToken": "",
+  "RootUrl": "https://gnuatproxy.sgamesuat.com/uat/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "gnuatproxy.sgamesuat.com",
+  "SubPath": "uat",
+  "CloudSettings": {
+    "ServiceDomain": "gnuatservices.sgamesuat.com",
+    "CloudGameIds": []
+  }
+}
+
