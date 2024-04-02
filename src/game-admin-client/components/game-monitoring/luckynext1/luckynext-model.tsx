@@ -1,6 +1,6 @@
 import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
 
-export class NextBallGameModel extends BaseMonitoringState {
+export class LuckyNextGameModel extends BaseMonitoringState {
   isHandleNextRoundResult: boolean;
   gameState: number;
   isValidResult: boolean;
@@ -17,3 +17,4 @@ export class NextBallGameModel extends BaseMonitoringState {
     this.ball = "";
   }
 }
+

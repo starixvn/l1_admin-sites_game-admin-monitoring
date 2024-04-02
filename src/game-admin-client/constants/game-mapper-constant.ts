@@ -26,8 +26,8 @@ import KenoProMax from "../components/game-monitoring/keno-pro-max/keno-pro-max"
 import Lottery from "../components/game-monitoring/lottery";
 import MiniKeno from "../components/game-monitoring/mini-keno";
 import MiniSedie from "../components/game-monitoring/mini-sedie";
-import NextBall1Game from "../components/game-monitoring/nextball1/nextball1-game";
-import NextBall2Game from "../components/game-monitoring/nextball2/nextball1-game";
+import LuckyNext1Game from "../components/game-monitoring/luckynext1/luckynext1-game";
+import LuckyNext2Game from "../components/game-monitoring/luckynext2/luckynext2-game";
 import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
 import Roulette from "../components/game-monitoring/roulette";
 import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
@@ -422,18 +422,18 @@ export const gameMapper = {
     ...getInfoByGameKey("BacBall2"),
   },
   1003: {
-    name: "NextBall1",
-    component: NextBall1Game,
-    socket: "admin/nextball1",
-    socketRoute: "nextball1/socket.io",
-    ...getInfoByGameKey("NextBall1"),
+    name: "LuckyNext1",
+    component: LuckyNext1Game,
+    socket: "admin/luckynext1",
+    socketRoute: "luckynext1/socket.io",
+    ...getInfoByGameKey("LuckyNext1"),
   },
   1004: {
-    name: "NextBall2",
-    component: NextBall2Game,
-    socket: "admin/nextball2",
-    socketRoute: "nextball2/socket.io",
-    ...getInfoByGameKey("NextBall2"),
+    name: "LuckyNext2",
+    component: LuckyNext2Game,
+    socket: "admin/luckynext2",
+    socketRoute: "luckynext2/socket.io",
+    ...getInfoByGameKey("LuckyNext2"),
   },
 };
 
@@ -442,3 +442,4 @@ export const getGameName = (gameName: string) =>
     (key) =>
       gameMapper[key].name.toLocaleLowerCase() === gameName.toLocaleLowerCase()
   );
+

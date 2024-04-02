@@ -1,6 +1,6 @@
-export const NextBall1Resources = {
+export const LuckyNext1Resources = {
   unauthorized: "You are not authorized to set result",
-  gameName: "Next Ball 1",
+  gameName: "Lucky Next 1",
   nextRound: "Next Draw:",
   submit: "Submit",
   fillOutResult: "Fill Out Result",
@@ -9,8 +9,9 @@ export const NextBall1Resources = {
   updateSuccessful: "Success! Your result has been set.",
 };
 
-export const NextBall1Constant = {
+export const LuckyNext1Constant = {
   totalTimeInRound: 107,
   waitingTime: 7,
   showedSucceedMessegeTimebyMillisecond: 2000,
 };
+

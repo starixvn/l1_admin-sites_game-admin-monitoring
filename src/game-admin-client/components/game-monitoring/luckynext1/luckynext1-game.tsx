@@ -5,17 +5,17 @@ import BaseMonitoring, {
 } from "../../shared/base-monitoring/base-monitoring";
 import { GameState } from "../../shared/common/GameState";
 import { Notice } from "../../shared/notice/notice";
-import { NextBall1Constant, NextBall1Resources } from "./nextball-constants";
-import { NextBallGameModel } from "./nextball-model";
-import styles from "./nextball.module.scss";
+import { LuckyNext1Constant, LuckyNext1Resources } from "./luckynext-constants";
+import { LuckyNextGameModel } from "./luckynext-model";
+import styles from "./luckynext.module.scss";
 
-export default class NextBall1Game extends BaseMonitoring<
-  NextBallGameModel,
+export default class LuckyNext1Game extends BaseMonitoring<
+  LuckyNextGameModel,
   BaseMonitoringProps
 > {
   constructor(props: BaseMonitoringProps) {
     super(props);
-    this.state = new NextBallGameModel();
+    this.state = new LuckyNextGameModel();
     const bodyElement = document.body;
     bodyElement.style.background = "none";
 
@@ -33,11 +33,11 @@ export default class NextBall1Game extends BaseMonitoring<
   }
 
   get totalTimeInRound(): number {
-    return NextBall1Constant.totalTimeInRound;
+    return LuckyNext1Constant.totalTimeInRound;
   }
 
   get waitingTime(): number {
-    return NextBall1Constant.waitingTime;
+    return LuckyNext1Constant.waitingTime;
   }
 
   findDuplicates(input_array: Array<string>) {
@@ -64,7 +64,7 @@ export default class NextBall1Game extends BaseMonitoring<
       this.setState({
         isSubmited: false,
       });
-    }, NextBall1Constant.showedSucceedMessegeTimebyMillisecond);
+    }, LuckyNext1Constant.showedSucceedMessegeTimebyMillisecond);
   }
 
   validateBall(ball: string) {
@@ -78,7 +78,7 @@ export default class NextBall1Game extends BaseMonitoring<
     return (
       <Row>
         <Col className={`${styles["bold"]}`}>
-          <h2>{NextBall1Resources.gameName}</h2>
+          <h2>{LuckyNext1Resources.gameName}</h2>
         </Col>
       </Row>
     );
@@ -86,7 +86,7 @@ export default class NextBall1Game extends BaseMonitoring<
 
   render() {
     if (this.props.isProduction) {
-      return <>{NextBall1Resources.unauthorized}</>;
+      return <>{LuckyNext1Resources.unauthorized}</>;
     }
 
     const { isSubmited, gameState, ball, nextDrawId } = this.state;
@@ -97,7 +97,7 @@ export default class NextBall1Game extends BaseMonitoring<
         {this.renderGameName()}
         <Row>
           <Col className={`${styles["bold"]}`}>
-            {NextBall1Resources.nextRound} {nextDrawId > 0 && `#${nextDrawId}`}
+            {LuckyNext1Resources.nextRound} {nextDrawId > 0 && `#${nextDrawId}`}
           </Col>
         </Row>
         <Row className={``}>
@@ -120,7 +120,7 @@ export default class NextBall1Game extends BaseMonitoring<
               onClick={this.handleSubmit}
               className={styles["custom-button"]}
             >
-              {NextBall1Resources.submit}
+              {LuckyNext1Resources.submit}
             </Button>
           </Col>
         </Row>
@@ -128,15 +128,16 @@ export default class NextBall1Game extends BaseMonitoring<
           <Row>
             <Col className="col-10">
               <div className={`${styles["success-message"]}  text-center`}>
-                {NextBall1Resources.updateSuccessful}
+                {LuckyNext1Resources.updateSuccessful}
               </div>
             </Col>
           </Row>
         )}
         {gameState == GameState.disabled && (
-          <Notice isOpen={true} message={NextBall1Resources.disabledMessage} />
+          <Notice isOpen={true} message={LuckyNext1Resources.disabledMessage} />
         )}
       </Container>
     );
   }
 }
+
