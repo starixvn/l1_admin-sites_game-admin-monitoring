@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+using MediatR;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
 {
-    public class SetFootballDiceResultRequest : IRequest<bool>
+    public class SetFootballDiceResultRequest : IRequest<FootballDiceSettlementViewModel>
     {
         public SetFootballDiceResultRequest(FootballDiceResult result)
         {

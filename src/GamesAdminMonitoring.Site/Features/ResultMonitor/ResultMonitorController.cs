@@ -160,9 +160,6 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         [HttpGet]
         public async Task<IActionResult> FootballDiceResult(string token)
         {
-            return View("FootballDice/Index", new FootballDiceResultViewModel());
-
-
             var model = await mediator.Send(new VerifyTokenRequest(token));
 
             return model.IsValid ? View("FootballDice/Index", new FootballDiceResultViewModel()) : RedirectToRestrictedPage(model.Message);
@@ -172,7 +169,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public async Task<IActionResult> SetFootballDiceResult([Bind] FootballDiceResultViewModel viewModel)
         {
             var model = await mediator.Send(new SetFootballDiceResultRequest(viewModel.Result));
-            return PartialView("FootballDice/_ResultMonitor", new FootballDiceResultControl(model));
+            return PartialView("FootballDice/_ResultMonitor", model);
         }
 
 

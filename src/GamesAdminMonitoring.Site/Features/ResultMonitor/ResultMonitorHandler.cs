@@ -18,7 +18,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<SetPontoonResultRequest, bool>,
         IRequestHandler<SetCrashGameResultRequest, bool>,
         IRequestHandler<SetChineseBlackjackResultRequest, bool>,
-        IRequestHandler<SetFootballDiceResultRequest, bool>
+        IRequestHandler<SetFootballDiceResultRequest, FootballDiceSettlementViewModel>
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
@@ -63,7 +63,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> Handle(SetChineseBlackjackResultRequest request, CancellationToken cancellationToken)
             => await service.SetChineseBlackjackResult(request);
-        public async Task<bool> Handle(SetFootballDiceResultRequest request, CancellationToken cancellationToken)
+        public async Task<FootballDiceSettlementViewModel> Handle(SetFootballDiceResultRequest request, CancellationToken cancellationToken)
             => await service.SetFootballDiceResult(request);
     }
 }

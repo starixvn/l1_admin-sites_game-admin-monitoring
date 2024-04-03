@@ -1,9 +1,9 @@
 ﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
-@model FootballDiceResultControl
+@model FootballDiceSettlementViewModel
 
-@if (@Model.IsSucessful)
+@if (@Model.IsSuccessful)
 {
-    <div class="message-success"><span>Set result successfully</span></div>
+    <div class="message-success"><span>Set result successfully for round @Model.RoundId</span></div>
 }else
 {
     <div class="message-error"><span>Set result Unsuccessfully</span></div>

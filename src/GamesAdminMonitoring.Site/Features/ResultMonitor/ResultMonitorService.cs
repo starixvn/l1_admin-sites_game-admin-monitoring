@@ -36,7 +36,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<bool> SetChineseBlackjackResult([FromBody] SetChineseBlackjackResultRequest request);
 
         [Post("/game_server/footballdice/set_result")]
-        Task<bool> SetFootballDiceResult([FromBody] SetFootballDiceResultRequest request);
+        Task<FootballDiceSettlementViewModel> SetFootballDiceResult([FromBody] SetFootballDiceResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -57,7 +57,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         Task<bool> SetChineseBlackjackResult(SetChineseBlackjackResultRequest request);
 
-        Task<bool> SetFootballDiceResult([FromBody] SetFootballDiceResultRequest request);
+        Task<FootballDiceSettlementViewModel> SetFootballDiceResult([FromBody] SetFootballDiceResultRequest request);
 
     }
 
@@ -94,7 +94,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         public async Task<bool> SetChineseBlackjackResult(SetChineseBlackjackResultRequest request)
             => await api.SetChineseBlackjackResult(request);
 
-        public async Task<bool> SetFootballDiceResult(SetFootballDiceResultRequest request)
+        public async Task<FootballDiceSettlementViewModel> SetFootballDiceResult(SetFootballDiceResultRequest request)
             => await api.SetFootballDiceResult(request);
     }
 }
