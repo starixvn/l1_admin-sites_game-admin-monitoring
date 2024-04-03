@@ -12,6 +12,7 @@ WORKDIR /src/GamesAdminMonitoring.Site
 RUN dotnet restore -v diag
 
 COPY ./src/GamesAdminMonitoring.Site .
+RUN node -v
 RUN npm run export --prefix ../game-admin-client
 
 RUN dotnet publish -r linux-x64 --self-contained false -o /app 
