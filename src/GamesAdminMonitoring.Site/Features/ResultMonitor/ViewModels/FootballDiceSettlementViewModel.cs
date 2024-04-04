@@ -2,13 +2,13 @@
 {
     public class FootballDiceSettlementViewModel
     {
-        public FootballDiceSettlementViewModel(bool isSuccessful, byte? roundId)
+        public FootballDiceSettlementViewModel(bool isSuccessful, int roundId)
         {
             RoundId = roundId;
             IsSuccessful = isSuccessful;
         }
 
-        public byte? RoundId { get; set; }
+        public int RoundId { get; set; }
 
         public bool IsSuccessful { get; set; }
     }
