@@ -39,6 +39,7 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
+import FootballSlot from "../components/game-monitoring/football-slot";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -406,6 +407,13 @@ export const gameMapper = {
     socket: "admin/bandarqiuqiu",
     socketRoute: "bandarqiuqiu/socket.io",
     ...getInfoByGameKey("BandarQiuQiu"),
+  },
+  79: {
+    name: "FootballSlot",
+    component: FootballSlot,
+    socket: "admin/footballslot",
+    socketRoute: "footballslot/socket.io",
+    ...getInfoByGameKey("FootballSlot"),
   },
   1001: {
     name: "BacBall1",
