@@ -276,7 +276,7 @@ export default class FootballSlot extends BaseMonitoring<
             {Object.keys(symbolsRender).map((symbol, index) => (
               <img
                 src={`${footballSlotConstant.rootImageUrl}${
-                  symbol === "bar" ? "bar100" : symbol
+                  symbol === "cup" ? "cup100" : symbol
                 }.png`}
                 alt={`${symbol}`}
                 key={index}
