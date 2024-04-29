@@ -8,11 +8,13 @@ import BigSmallTurbo from "../components/game-monitoring/big-small-turbo/big-sma
 import BigSmall from "../components/game-monitoring/big-small/big-small";
 import BitcoinMaster from "../components/game-monitoring/bitcoin-master";
 import BlockchainBaccarat from "../components/game-monitoring/blockchain-baccarat";
+import CoinTossGame from "../components/game-monitoring/cointoss/cointoss-game";
 import ColorGame from "../components/game-monitoring/color-game/color-game";
 import DragonTigerFight from "../components/game-monitoring/dragon-tiger-fight";
 import DragonTiger from "../components/game-monitoring/dragon-tiger/dragon-tiger";
 import FanTan from "../components/game-monitoring/fan-tan";
 import FishPrawnCrab from "../components/game-monitoring/fish-prawn-crab/fish-prawn-crab";
+import FootballSlot from "../components/game-monitoring/football-slot";
 import FruitSlot from "../components/game-monitoring/fruit-slot";
 import {
   KenoMatch1,
@@ -24,10 +26,10 @@ import {
 } from "../components/game-monitoring/keno-power";
 import KenoProMax from "../components/game-monitoring/keno-pro-max/keno-pro-max";
 import Lottery from "../components/game-monitoring/lottery";
-import MiniKeno from "../components/game-monitoring/mini-keno";
-import MiniSedie from "../components/game-monitoring/mini-sedie";
 import LuckyNext1Game from "../components/game-monitoring/luckynext1/luckynext1-game";
 import LuckyNext2Game from "../components/game-monitoring/luckynext2/luckynext2-game";
+import MiniKeno from "../components/game-monitoring/mini-keno";
+import MiniSedie from "../components/game-monitoring/mini-sedie";
 import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
 import Roulette from "../components/game-monitoring/roulette";
 import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
@@ -39,7 +41,6 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
-import FootballSlot from "../components/game-monitoring/football-slot";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -443,6 +444,13 @@ export const gameMapper = {
     socketRoute: "luckynext2/socket.io",
     ...getInfoByGameKey("LuckyNext2"),
   },
+  80: {
+    name: "CoinToss",
+    component: CoinTossGame,
+    socket: "admin/cointoss",
+    socketRoute: "cointoss/socket.io",
+    ...getInfoByGameKey("CoinToss"),
+  },
 };
 
 export const getGameName = (gameName: string) =>
@@ -450,4 +458,3 @@ export const getGameName = (gameName: string) =>
     (key) =>
       gameMapper[key].name.toLocaleLowerCase() === gameName.toLocaleLowerCase()
   );
-
