@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Col, Container, Row } from "reactstrap";
 import BaseMonitoring, {
   BaseMonitoringProps,
@@ -8,6 +7,7 @@ import { Notice } from "../../shared/notice/notice";
 import { Constant, Resources } from "./cointoss-constants";
 import { CoinTossGameModel } from "./cointoss-model";
 import styles from "./cointoss.module.scss";
+import React from "react";
 
 export default class CoinTossGame extends BaseMonitoring<
   CoinTossGameModel,
@@ -45,7 +45,10 @@ export default class CoinTossGame extends BaseMonitoring<
     this.props.sendMessage({
       set_result: {
         roundId: roundNumber + 1,
-        result: selectedChoice,
+        result: {
+          head: selectedChoice === "head",
+          tail: selectedChoice !== "head",
+        },
       },
     });
 
