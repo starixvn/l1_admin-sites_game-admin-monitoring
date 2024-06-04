@@ -95,11 +95,12 @@ export default class CoinTossGame extends BaseMonitoring<
                 this.setState({ selectedChoice: "head" });
               }}
             />
-            <span className={`col-2 ${styles["bold"]} ${styles["red"]}`}>
-              Trump
+            <span className={`col-2 ${styles["bold"]} ${styles["blue"]}`}>
+              Biden
             </span>
           </Col>
         </Row>
+
         <Row className={``}>
           <Col className="col-4 ">
             <input
@@ -111,8 +112,8 @@ export default class CoinTossGame extends BaseMonitoring<
                 this.setState({ selectedChoice: "tail" });
               }}
             />
-            <span className={`col-2 ${styles["bold"]} ${styles["blue"]}`}>
-              Biden
+            <span className={`col-2 ${styles["bold"]} ${styles["red"]}`}>
+              Trump
             </span>
           </Col>
         </Row>
