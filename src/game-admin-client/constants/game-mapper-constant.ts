@@ -42,7 +42,6 @@ import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import SeBallGame from "../components/game-monitoring/seball/seball-game";
-import SeBallGame from "../components/game-monitoring/seball/seball-game";
 import LuckyThreeGame from "../components/game-monitoring/lucky-three/lucky-three-game";
 
 const getObjectOfGame =
