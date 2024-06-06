@@ -1,7 +1,7 @@
 export const Resources = {
   unauthorized: "You are not authorized to set result",
   gameName: "Coin Toss",
-  nextRound: "Next Round:",
+  nextRound: "Round:",
   submit: "Submit",
   fillOutResult: "Fill Out Result",
   setDefaultResult: "Set Default Result",

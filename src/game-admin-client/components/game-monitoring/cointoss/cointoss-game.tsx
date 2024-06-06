@@ -44,7 +44,7 @@ export default class CoinTossGame extends BaseMonitoring<
 
     this.props.sendMessage({
       set_result: {
-        roundId: roundNumber + 1,
+        roundId: roundNumber,
         result: {
           head: selectedChoice === "head",
           tail: selectedChoice !== "head",
@@ -80,7 +80,7 @@ export default class CoinTossGame extends BaseMonitoring<
         </Row>
         <Row>
           <Col className={`${styles["bold"]}`}>
-            {Resources.nextRound} {roundNumber > 0 && `#${roundNumber + 1}`}
+            {Resources.nextRound} {roundNumber > 0 && `#${roundNumber}`}
           </Col>
         </Row>
 
