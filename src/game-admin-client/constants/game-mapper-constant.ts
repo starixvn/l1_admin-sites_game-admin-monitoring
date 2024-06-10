@@ -43,6 +43,7 @@ import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import SeBallGame from "../components/game-monitoring/seball/seball-game";
 import LuckyThreeGame from "../components/game-monitoring/lucky-three/lucky-three-game";
+import SicBallGame from "../components/game-monitoring/sic-ball/sic-ball-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -466,6 +467,13 @@ export const gameMapper = {
     socket: "admin/luckythree",
     socketRoute: "luckythree/socket.io",
     ...getInfoByGameKey("LuckyThree"),
+  },
+  1007: {
+    name: "SicBall",
+    component: SicBallGame,
+    socket: "admin/sicball",
+    socketRoute: "sicball/socket.io",
+    ...getInfoByGameKey("SicBall"),
   },
 };
 
