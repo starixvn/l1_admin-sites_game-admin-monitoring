@@ -86,7 +86,7 @@ export class Home extends React.Component<Props, State> {
     const { query } = this.props.router;
 
     if (query !== prevProps.router.query) {
-      const gameId = (query.gameid || 0).toString();
+      const gameId = (query.gameid || query.gameId || 0).toString();
       const gameName = (query.game || "").toString();
 
       const socket = this.initSocket(

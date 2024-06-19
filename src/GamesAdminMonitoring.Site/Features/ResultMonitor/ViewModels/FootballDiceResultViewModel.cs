@@ -2,16 +2,20 @@
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
 {
-    public class FootballDiceResultViewModel
+    public class BaccaratXResultViewModel
     {
-        public FootballDiceResultViewModel()
+        public BaccaratXResultViewModel()
         {
 
         }
-        public FootballDiceResultViewModel(FootballDiceResult result)
+        public BaccaratXResultViewModel( string gameConfigName, string displayName)
         {
-            Result = result;
+            GameConfigName = gameConfigName;
+            DisplayName = displayName;
         }
-        public FootballDiceResult Result { get; set; }
+
+        public string GameConfigName { get; set; }
+        public string DisplayName { get; set; }
+        public BaccaratXResult Result { get; set; }
     }
 }

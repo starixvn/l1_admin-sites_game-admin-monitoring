@@ -158,7 +158,7 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpGet]
-        public async Task<IActionResult> FootballDiceResult(string token)
+        public async Task<IActionResult> FootballDiceResult(string token, string gameConfigName, string displayName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token));
 
@@ -172,7 +172,20 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             return PartialView("FootballDice/_ResultMonitor", model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> BaccaratXResult(string token, string gameConfigName, string displayName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token));
 
+            return model.IsValid ? View("BaccaratX/Index", new BaccaratXResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetBaccaratXResult([Bind] BaccaratXResultViewModel viewModel)
+        {
+            var model = await mediator.Send(new SetBaccaratXResultRequest(viewModel.Result, viewModel.GameConfigName));
+            return PartialView("BaccaratX/_ResultMonitor", model);
+        }
 
         private IActionResult RedirectToRestrictedPage(string message)
             => View("Features/_Shared/Error.cshtml", new ErrorViewModel(message));

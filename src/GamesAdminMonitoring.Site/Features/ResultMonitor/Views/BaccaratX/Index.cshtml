@@ -1,0 +1,75 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+
+@model BaccaratXResultViewModel;
+
+@{
+    ViewData["Title"] = $"{Model.DisplayName} Result Controller";
+}
+
+@section Styles {
+    <link href="~/css/holdem-poker-result.min.css" rel="stylesheet" asp-append-version="true" />
+}
+<div class="form filter casino-holdem-poker">
+    <div class="form-row col-auto ">
+        <label class="control-label bold">Result Cards:</label>
+        <input type="text" class="form-control" id="cards">
+        <p>Example: 1h,2s,13c,11d == A♥,2♠,K♣,J♦</p>
+    </div>
+    <br />
+    <div class="form-row col-auto nickname">
+        <label class="control-label bold">Cut Card Index:</label>
+        <input type="number" class="form-control" id="cutCardIndex" >
+    </div>
+    <br />
+
+    <div class="form-row col-auto nickname">
+        <label class="control-label bold">Lucky Cards:</label>
+        <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameConfigName" />
+    </div>
+    @for(var i =0; i < 8; i++)
+    {
+        <div class="form-row col-auto nickname">
+            <label class="control-label bold">Card</label>
+            <input type="text" class="form-control" id="cards@(i)">
+            <label class="control-label bold">Multiplier</label>
+            <input type="number" class="form-control" id="multiplier@(i)" pattern="[1-13][♠♣♥♦]" title="Please input correct format !">
+            <div class="error hidden">Please input nickname !</div>
+        </div>
+        <br />
+    }
+ 
+  
+    <div class="form-row  col-auto mt-5">
+        <button type="submit" class="btn-submit"  onclick="baccaratx.submit(event)">Submit</button>
+        <div id="spinner" class="spinner-border" style="display: none">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="holdemPokerResult.reset(event)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="holdemPokerResult.reset(event)">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/baccarat-x.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/baccaratx-x.min.js" asp-append-version="true"></script>
+    </environment>
+}
