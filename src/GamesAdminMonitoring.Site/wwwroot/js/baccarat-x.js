@@ -61,7 +61,7 @@
                 dataType: 'html',
                 success: function (response) {
                     $('#modal').modal('show');
-                    $('.modal-body').html(response);
+                    $('.modal-body').html(response ? "Successful" : "Internal Server Error");
                 }
             });
         }

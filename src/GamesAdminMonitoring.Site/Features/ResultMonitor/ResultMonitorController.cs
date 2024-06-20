@@ -181,10 +181,9 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpPost]
-        public async Task<IActionResult> SetBaccaratXResult([Bind] BaccaratXResultViewModel viewModel)
+        public async Task<bool> SetBaccaratXResult([Bind] BaccaratXResultViewModel viewModel)
         {
-            var model = await mediator.Send(new SetBaccaratXResultRequest(viewModel.Result, viewModel.GameConfigName));
-            return PartialView("BaccaratX/_ResultMonitor", model);
+            return await mediator.Send(new SetBaccaratXResultRequest(viewModel.Result, viewModel.GameConfigName));
         }
 
         private IActionResult RedirectToRestrictedPage(string message)

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor.Requests
 {
-    public class SetBaccaratXResultRequest : IRequest<BaccaratXSettlementViewModel>
+    public class SetBaccaratXResultRequest : IRequest<bool>
     {
         public SetBaccaratXResultRequest(BaccaratXResult result, string gameConfigName)
         {

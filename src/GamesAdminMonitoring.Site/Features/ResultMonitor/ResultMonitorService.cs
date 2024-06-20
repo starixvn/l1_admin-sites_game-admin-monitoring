@@ -39,7 +39,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<FootballDiceSettlementViewModel> SetFootballDiceResult([FromBody] SetFootballDiceResultRequest request);
 
         [Post("/game_server/baccaratx/set_result")]
-        Task<BaccaratXSettlementViewModel> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
+        Task<bool> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -62,7 +62,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         Task<FootballDiceSettlementViewModel> SetFootballDiceResult([FromBody] SetFootballDiceResultRequest request);
 
-        Task<BaccaratXSettlementViewModel> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
+        Task<bool> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
 
 
     }
@@ -103,7 +103,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         public async Task<FootballDiceSettlementViewModel> SetFootballDiceResult(SetFootballDiceResultRequest request)
             => await api.SetFootballDiceResult(request);
 
-        public async Task<BaccaratXSettlementViewModel> SetBaccaratXResult(SetBaccaratXResultRequest request)
+        public async Task<bool> SetBaccaratXResult(SetBaccaratXResultRequest request)
              => await api.SetBaccaratXResult(request);
     }
 }
