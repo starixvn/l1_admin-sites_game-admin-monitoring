@@ -12,13 +12,13 @@
 <div class="form filter casino-holdem-poker">
     <div class="form-row col-auto ">
         <label class="control-label bold">Result Cards:</label>
-        <input type="text" class="form-control" id="cards">
+        <input type="text" class="form-control" id="cards" value="1h,2s,13c,11d">
         <p>Example: 1h,2s,13c,11d == A♥,2♠,K♣,J♦</p>
     </div>
     <br />
     <div class="form-row col-auto nickname">
         <label class="control-label bold">Cut Card Index:</label>
-        <input type="number" class="form-control" id="cutCardIndex" >
+        <input type="number" class="form-control" id="cutCardIndex" value="231">
     </div>
     <br />
 
@@ -30,9 +30,9 @@
     {
         <div class="form-row col-auto nickname">
             <label class="control-label bold">Card</label>
-            <input type="text" class="form-control" id="cards@(i)">
+            <input type="text" class="form-control" id="cards@(i)" value="@(i+1)h">
             <label class="control-label bold">Multiplier</label>
-            <input type="number" class="form-control" id="multiplier@(i)" pattern="[1-13][♠♣♥♦]" title="Please input correct format !">
+            <input type="number" class="form-control" id="multiplier@(i)" value="2" title="Please input correct format !">
             <div class="error hidden">Please input nickname !</div>
         </div>
         <br />
