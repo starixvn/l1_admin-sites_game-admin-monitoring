@@ -1,0 +1,16 @@
+.card {
+  display: flex;
+  margin: 10px;
+  flex-direction: column;
+  background-color: white;
+  width: 100px;
+  font-size: 40px;
+  font-weight: 600;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 20px;
+  align-items: center;
+  div {
+    padding: 0;
+    height: 60px;
+  }
+}
