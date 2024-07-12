@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { DeckData, SortableDeckRef, SortableHandCard } from "./sortable-deck";
 import Style from "./pusoy-game.module.scss";
-import { Button, Input } from "reactstrap";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
 export const PusoyGame = (props: BaseMonitoringProps) => {
+  const [deck, setDeck] = React.useState<DeckData>({} as DeckData);
+  const [playerName, setPlayerName] = React.useState("");
   const deckRef = useRef<SortableDeckRef>(null);
   const handleOnResetDeck = () => {
     const data: number[] = [];
@@ -15,34 +17,47 @@ export const PusoyGame = (props: BaseMonitoringProps) => {
     }
     deckRef.current?.setCards(data);
   };
+  const handleSubmit = () => {
+    const hands = [deck.slot1, deck.slot2, deck.slot3, deck.slot4].map(
+      (hand) => {
+        return convertCards2Hand(hand);
+      }
+    );
+    props.sendMessage({ setResult: { playerName, hands } });
+  };
   useEffect(() => {
     handleOnResetDeck();
   }, []);
   const handleOnCardChanges = (data: DeckData) => {
-    console.log(data);
+    setDeck(data);
   };
   return (
     <div className={Style.container}>
       <div className={Style.form}>
-        <div className={Style.player}>
-          <div>Player:</div>
-          <Input
-            id="exampleSelect"
-            name="select"
-            type="select"
-            style={{ width: "80px" }}
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
-        </div>
-        <div>Round: </div>
-        <Button color="primary" style={{ height: "40px", margin: "auto" }}>
-          Submit
-        </Button>
+        <Row className={Style["mh-3"]}>
+          <Col sm={2} className={`${Style["center-content"]} `}>
+            <div style={{ margin: "auto" }}>Name: </div>
+          </Col>
+          <Col sm={7}>
+            <Input
+              id="playerName"
+              name="text"
+              placeholder="Player Name"
+              type="text"
+              onChange={(e) => setPlayerName(e.target.value)}
+              value={playerName}
+            />
+          </Col>
+          <Col sm={3}>
+            <Button
+              color="primary"
+              style={{ height: "40px", margin: "auto" }}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+          </Col>
+        </Row>
       </div>
       <Button onClick={handleOnResetDeck}>Reset</Button>
       <SortableHandCard
@@ -52,4 +67,12 @@ export const PusoyGame = (props: BaseMonitoringProps) => {
       ></SortableHandCard>
     </div>
   );
+};
+
+const convertCards2Hand = (cards: number[]) => {
+  const front = cards.slice(0, 3);
+  const middle = cards.slice(3, 8);
+  const back = cards.slice(8, 13);
+
+  return { front, middle, back };
 };

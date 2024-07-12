@@ -1,6 +1,5 @@
 import React from "react";
 import { useMemo } from "react";
-import configs from "../../../configs.json";
 import Styles from "./card.module.scss";
 
 const RANKS = [
