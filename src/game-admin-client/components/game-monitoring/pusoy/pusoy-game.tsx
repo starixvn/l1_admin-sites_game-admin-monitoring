@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { DeckData, SortableDeckRef, SortableHandCard } from "./sortable-deck";
 import Style from "./pusoy-game.module.scss";
-import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, Col, Input, Row } from "reactstrap";
 import { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
 
 export const PusoyGame = (props: BaseMonitoringProps) => {
@@ -23,7 +23,7 @@ export const PusoyGame = (props: BaseMonitoringProps) => {
         return convertCards2Hand(hand);
       }
     );
-    props.sendMessage({ setResult: { playerName, hands } });
+    props.sendMessage({ set_result: { result: { playerName, hands } } });
   };
   useEffect(() => {
     handleOnResetDeck();
