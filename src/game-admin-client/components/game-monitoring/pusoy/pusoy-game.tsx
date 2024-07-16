@@ -17,6 +17,34 @@ export const PusoyGame = (props: BaseMonitoringProps) => {
     }
     deckRef.current?.setCards(data);
   };
+  const handleShowJsonDeck = () => {
+    const hands = [deck.slot1, deck.slot2, deck.slot3, deck.slot4].map(
+      (hand) => {
+        return convertCards2Hand(hand);
+      }
+    );
+    const data = JSON.stringify(hands);
+    navigator.clipboard.writeText(data);
+    alert(`Copy successfully: \n${data}`);
+  };
+  const handleImportDeck = () => {
+    const data = prompt("Import deck");
+    try {
+      const cards = JSON.parse(data);
+      deckRef.current?.setCards(
+        cards.reduce(
+          (
+            arr: number[],
+            item: { front: number[]; middle: number[]; back: number[] }
+          ) => arr.concat([...item.front, ...item.middle, ...item.back]),
+          []
+        )
+      );
+      alert(`Import successfully`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const handleSubmit = () => {
     const hands = [deck.slot1, deck.slot2, deck.slot3, deck.slot4].map(
       (hand) => {
@@ -59,7 +87,15 @@ export const PusoyGame = (props: BaseMonitoringProps) => {
           </Col>
         </Row>
       </div>
-      <Button onClick={handleOnResetDeck}>Reset</Button>
+      <div className={Style["fn-buttons"]}>
+        <Button onClick={handleOnResetDeck}>Reset Deck</Button>
+        <Button color="info" onClick={handleShowJsonDeck}>
+          Copy Deck
+        </Button>
+        <Button color="info" onClick={handleImportDeck}>
+          Import Deck
+        </Button>
+      </div>
       <SortableHandCard
         handleOnCardChanges={handleOnCardChanges}
         ref={deckRef}
