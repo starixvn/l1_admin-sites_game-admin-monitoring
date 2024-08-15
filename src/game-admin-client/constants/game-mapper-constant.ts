@@ -32,6 +32,8 @@ import MiniKeno from "../components/game-monitoring/mini-keno";
 import MiniSedie from "../components/game-monitoring/mini-sedie";
 import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
 import Roulette from "../components/game-monitoring/roulette";
+import SeBallGame from "../components/game-monitoring/seball/seball-game";
+import SeDie3 from "../components/game-monitoring/sedie3";
 import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
 import SicBo from "../components/game-monitoring/sic-bo";
 import SpecialSeDie from "../components/game-monitoring/special-sedie";
@@ -41,7 +43,6 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
-import SeBallGame from "../components/game-monitoring/seball/seball-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -458,6 +459,13 @@ export const gameMapper = {
     socket: "admin/seball1",
     socketRoute: "seball1/socket.io",
     ...getInfoByGameKey("SeBall1"),
+  },
+  95: {
+    name: "Sedie3",
+    component: SeDie3,
+    socket: "admin/sedie3",
+    socketRoute: "sedie3/socket.io",
+    ...getInfoByGameKey("SeDie3"),
   },
 };
 

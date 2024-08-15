@@ -361,6 +361,53 @@
   }
 }
 
+@mixin sedie3($col1, $col2) {
+  $width: 90px;
+  $height: 70px;
+
+  .#{$col1}Bg {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+
+    .bg {
+      width: $width;
+      height: $height;
+      margin: 0 auto;
+
+      @media screen and (max-width: 1199px) {
+        width: calc(#{$width} * 0.8);
+        height: calc(#{$height} * 0.8);
+      }
+
+      @media screen and (max-width: 992px) {
+        width: calc(#{$width} * 0.5);
+      }
+
+      .outerBg {
+        width: $width;
+        height: $height;
+        background: url("/game-admin/images/sedie3/#{$col1}.png") center 5px
+          no-repeat;
+        background-size: contain;
+
+        @media screen and (max-width: 1199px) {
+          width: calc(#{$width} * 0.8);
+          height: calc(#{$height} * 0.8);
+        }
+
+        @media screen and (max-width: 992px) {
+          width: calc(#{$width} * 0.5);
+        }
+      }
+    }
+
+    .totalText {
+      margin-top: -40px;
+    }
+  }
+}
+
 @include bigsmall("big", "tai", "113px", "50px");
 @include bigsmall("small", "xiu", "180px", "50px");
 @include bigsmall("chan", "chan", "140px", "50px");
@@ -506,3 +553,10 @@
 @include colorgame("green");
 @include totalBet("hot", "white", "Hot");
 @include totalBet("cold", "white", "Cold");
+
+@include sedie3("red3", "");
+@include sedie3("red2", "");
+@include sedie3("red1", "");
+@include sedie3("white3", "");
+@include plateevenodd("platered", "red", "Red");
+@include plateevenodd("platewhite", "white", "White");
