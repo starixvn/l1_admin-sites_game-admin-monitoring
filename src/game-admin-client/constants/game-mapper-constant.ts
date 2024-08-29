@@ -43,6 +43,7 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
+import KaraKrus from "../components/game-monitoring/kara-krus";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -466,6 +467,13 @@ export const gameMapper = {
     socket: "admin/sedie3",
     socketRoute: "sedie3/socket.io",
     ...getInfoByGameKey("SeDie3"),
+  },
+  96: {
+    name: "KaraKrus",
+    component: KaraKrus,
+    socket: "admin/karakrus",
+    socketRoute: "karakrus/socket.io",
+    ...getInfoByGameKey("KaraKrus"),
   },
 };
 
