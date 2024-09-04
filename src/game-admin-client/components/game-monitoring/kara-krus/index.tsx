@@ -12,7 +12,10 @@ import RoundNum from "../../shared/round-num/round-num";
 import TimeCounter from "../../shared/time-counter/time-counter";
 import TotalBet from "../../shared/total-bet/total-bet";
 import styles from "./kara-krus.module.scss";
-import KaraKrusModel, { KaraKrusBetList, KaraKrusSettlementResult } from "../../common/model/KaraKrusModel";
+import KaraKrusModel, {
+  KaraKrusBetList,
+  KaraKrusSettlementResult,
+} from "../../common/model/KaraKrusModel";
 
 const DefaultResult = [
   new DiceModel(-1, DiceType.KaraKrus),
@@ -159,14 +162,22 @@ export default class KaraKrus extends BaseMonitoring<
             />
             <div>
               <div className={styles.title}>Kara Krus</div>
+
               <Row className={styles.result}>
-                {[0, 1, 2].map((diceIndex) => (
-                  <Dice
-                    diceModel={result[diceIndex]}
-                    isSmall={false}
-                    onClickHandle={() => this.openModal(diceIndex)}
-                  />
-                ))}
+                {[0, 1, 2].map((diceIndex) => {
+                  const diceModel = new DiceModel(
+                    result[diceIndex].value,
+                    DiceType.KaraKrus
+                  );
+                  return (
+                    <Dice
+                      key={diceIndex}
+                      diceModel={diceModel} // If Dice expects DiceModel, pass the object
+                      isSmall={false}
+                      onClickHandle={() => this.openModal(diceIndex)}
+                    />
+                  );
+                })}
               </Row>
               <RoundNum roundNumber={roundNumber} />
             </div>
