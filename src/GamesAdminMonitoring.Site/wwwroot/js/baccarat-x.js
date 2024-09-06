@@ -13,7 +13,6 @@
             e.preventDefault();
             const rawCards = $("#cards").val().split(',')
 
-            debugger
             if (rawCards != '' && rawCards.some(c => !cardPattern.test(c))) {
                 alert(`Result cards is invalid`)
 
@@ -31,18 +30,20 @@
             }
 
 
-            for (let i = 0; i < 8; i++) {
-                const rawCard = $(`#cards${i}`).val();
-                const mul = +$(`#multiplier${i}`).val();
+            if ($("#EnableMultiplier").val() === "true") {
+                for (let i = 0; i < 8; i++) {
+                    const rawCard = $(`#cards${i}`).val();
+                    const mul = +$(`#multiplier${i}`).val();
 
-                if (rawCard && mul && cardPattern.test(rawCard)) {
-                    luckyCards.push({ ...getCard(rawCard), value: mul })
-                } else {
-                    alert(`Lucky card #${i + 1} is invalid`)
-                    return
+                    if (rawCard && mul && cardPattern.test(rawCard)) {
+                        luckyCards.push({ ...getCard(rawCard), value: mul })
+                    } else {
+                        alert(`Lucky card #${i + 1} is invalid`)
+                        return
+                    }
                 }
             }
-       
+
             const data = {
                 GameConfigName: $("#GameConfigName").val(),
                 displayName: $("#GameConfigName").val(),

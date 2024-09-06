@@ -10,6 +10,7 @@
     <link href="~/css/holdem-poker-result.min.css" rel="stylesheet" asp-append-version="true" />
 }
 <div class="form filter casino-holdem-poker">
+    <input type="hidden" asp-for="EnableMultiplier"  />
     <div class="form-row col-auto ">
         <label class="control-label bold">Result Cards:</label>
         <input type="text" class="form-control" id="cards" value="1h,2s,13c,11d">
@@ -26,21 +27,24 @@
         <label class="control-label bold">Lucky Cards:</label>
         <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameConfigName" />
     </div>
-    @for(var i =0; i < 8; i++)
+    @if (Model.EnableMultiplier)
     {
-        <div class="form-row col-auto nickname">
-            <label class="control-label bold">Card</label>
-            <input type="text" class="form-control" id="cards@(i)" value="@(i+1)h">
-            <label class="control-label bold">Multiplier</label>
-            <input type="number" class="form-control" id="multiplier@(i)" value="2" title="Please input correct format !">
-            <div class="error hidden">Please input nickname !</div>
-        </div>
-        <br />
+        for (var i = 0; i < 8; i++)
+        {
+            <div class="form-row col-auto nickname">
+                <label class="control-label bold">Card</label>
+                <input type="text" class="form-control" id="cards@(i)" value="@(i+1)h">
+                <label class="control-label bold">Multiplier</label>
+                <input type="number" class="form-control" id="multiplier@(i)" value="2" title="Please input correct format !">
+                <div class="error hidden">Please input nickname !</div>
+            </div>
+            <br />
+        }
     }
- 
-  
+
+
     <div class="form-row  col-auto mt-5">
-        <button type="submit" class="btn-submit"  onclick="baccaratx.submit(event)">Submit</button>
+        <button type="submit" class="btn-submit" onclick="baccaratx.submit(event)">Submit</button>
         <div id="spinner" class="spinner-border" style="display: none">
             <span class="sr-only">Loading...</span>
         </div>

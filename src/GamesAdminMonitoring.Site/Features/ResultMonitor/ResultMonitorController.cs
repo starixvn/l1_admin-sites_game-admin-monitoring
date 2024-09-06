@@ -173,11 +173,11 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpGet]
-        public async Task<IActionResult> BaccaratXResult(string token, string gameConfigName, string displayName)
+        public async Task<IActionResult> BaccaratXResult(string token, string gameConfigName, string displayName, bool enableMultiplier)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token));
 
-            return model.IsValid ? View("BaccaratX/Index", new BaccaratXResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
+            return model.IsValid ? View("BaccaratX/Index", new BaccaratXResultViewModel(gameConfigName, displayName, enableMultiplier)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]

@@ -8,14 +8,16 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels
         {
 
         }
-        public BaccaratXResultViewModel( string gameConfigName, string displayName)
+        public BaccaratXResultViewModel(string gameConfigName, string displayName, bool enableMultiplier)
         {
             GameConfigName = gameConfigName;
             DisplayName = displayName;
+            EnableMultiplier = enableMultiplier;
         }
 
         public string GameConfigName { get; set; }
         public string DisplayName { get; set; }
         public BaccaratXResult Result { get; set; }
+        public bool EnableMultiplier { get; set; }
     }
 }
