@@ -23,13 +23,15 @@
     </div>
     <br />
 
-    <div class="form-row col-auto nickname">
-        <label class="control-label bold">Lucky Cards:</label>
-        <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameConfigName" />
-    </div>
+   
     @if (Model.EnableMultiplier)
     {
-        for (var i = 0; i < 8; i++)
+        <div class="form-row col-auto nickname">
+            <label class="control-label bold">Lucky Cards:</label>
+            <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameConfigName" />
+        </div>
+
+        @for (var i = 0; i < 8; i++)
         {
             <div class="form-row col-auto nickname">
                 <label class="control-label bold">Card</label>
