@@ -11,6 +11,7 @@
 }
 <div class="form filter casino-holdem-poker">
     <input type="hidden" asp-for="EnableMultiplier"  />
+    <input type="hidden" asp-for="GameConfigName" />
     <div class="form-row col-auto ">
         <label class="control-label bold">Result Cards:</label>
         <input type="text" class="form-control" id="cards" value="1h,2s,13c,11d">
@@ -28,7 +29,6 @@
     {
         <div class="form-row col-auto nickname">
             <label class="control-label bold">Lucky Cards:</label>
-            <input type="hidden" class="form-control" placeholder="Nickname" asp-for="GameConfigName" />
         </div>
 
         @for (var i = 0; i < 8; i++)
