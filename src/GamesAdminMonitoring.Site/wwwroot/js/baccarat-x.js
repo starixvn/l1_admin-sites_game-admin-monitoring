@@ -30,7 +30,7 @@
             }
 
 
-            if ($("#EnableMultiplier").val() === "true") {
+            if ($("#EnableMultiplier").val() === "True") {
                 for (let i = 0; i < 8; i++) {
                     const rawCard = $(`#cards${i}`).val();
                     const mul = +$(`#multiplier${i}`).val();
