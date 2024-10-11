@@ -45,6 +45,7 @@ import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import KaraKrus from "../components/game-monitoring/kara-krus";
 import { PusoyGame } from "../components/game-monitoring/pusoy/pusoy-game";
+import FootballCoinTossGame from "../components/game-monitoring/football-coin-toss/football-coin-toss-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -482,6 +483,13 @@ export const gameMapper = {
     socket: "admin/pusoy",
     socketRoute: "pusoy/socket.io",
     ...getInfoByGameKey("Pusoy"),
+  },
+  93: {
+    name: "FootballCoinToss",
+    component: FootballCoinTossGame,
+    socket: "admin/footballcointoss",
+    socketRoute: "footballcointoss/socket.io",
+    ...getInfoByGameKey("FootballCoinToss"),
   },
 };
 
