@@ -1,24 +1,24 @@
 import React from "react";
-import styles from "./styles.module.scss";
-import TimeCounter from "../../shared/time-counter/time-counter";
-import TotalBet from "../../shared/total-bet/total-bet";
 import { Col, Container, Row } from "reactstrap";
-import GameTemplate from "../game-template/game-template";
-import BetList from "../../shared/bet-list/bet-list";
+import configs from "../../../configs.json";
 import BetItem from "../../common/model/BetItem";
-import RoundNum from "../../shared/round-num/round-num";
-import { GameState } from "../../shared/common/GameState";
 import {
   LotteryBetList,
   LotteryGameResult,
   LotteryModel,
 } from "../../common/model/LotteryModel";
-import { Notice } from "../../shared/notice/notice";
-import LotteryRoundResult from "../../shared/lottery-round-result";
-import generateBoard from "./lottery-number-generator";
 import BaseMonitoring, { BaseMonitoringProps } from "../../shared/base-monitoring/base-monitoring";
-import configs from "../../../configs.json";
+import BetList from "../../shared/bet-list/bet-list";
+import { GameState } from "../../shared/common/GameState";
+import LotteryRoundResult from "../../shared/lottery-round-result";
+import { Notice } from "../../shared/notice/notice";
+import RoundNum from "../../shared/round-num/round-num";
+import TimeCounter from "../../shared/time-counter/time-counter";
+import TotalBet from "../../shared/total-bet/total-bet";
 import { getBetAmountOnSystem } from "../../util/util";
+import GameTemplate from "../game-template/game-template";
+import generateBoard from "./lottery-number-generator";
+import styles from "./styles.module.scss";
 
 export default class Lottery extends BaseMonitoring<LotteryModel, BaseMonitoringProps> {
   constructor(props) {
@@ -184,13 +184,13 @@ export default class Lottery extends BaseMonitoring<LotteryModel, BaseMonitoring
           </Col>
           <Col align="center" className="col-4">
             <Row className="justify-content-center">
-              <TotalBet total={betList["4Sets"].total} type="4Sets" />
+              <TotalBet total={betList["4Sets"].total} type="FourSets" />
               <TotalBet total={betList.special.total} type="special" />
               <TotalBet total={betList.head.total} type="head" />
               <TotalBet total={betList.tail.total} type="tail" />
             </Row>
             <Row className="justify-content-center">
-              <TotalBet total={betList["27Sets"].total} type="27Sets" />
+              <TotalBet total={betList["27Sets"].total} type="TwentySevenSets" />
               <TotalBet total={betList.others.total} type="others" />
             </Row>
             <Row className="justify-content-center">
