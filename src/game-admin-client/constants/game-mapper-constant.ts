@@ -47,6 +47,7 @@ import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
 import FootballCoinTossGame from "../components/game-monitoring/football-coin-toss/football-coin-toss-game";
+import MarbleFootballGame from "../components/game-monitoring/marble-football/marble-football-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -498,6 +499,13 @@ export const gameMapper = {
     socket: "admin/sevenupdown",
     socketRoute: "sevenupdown/socket.io",
     ...getInfoByGameKey("SevenUpDown"),
+  },
+  104: {
+    name: "MarbleFootball",
+    component: MarbleFootballGame,
+    socket: "admin/marblefootball",
+    socketRoute: "marblefootball/socket.io",
+    ...getInfoByGameKey("MarbleFootball"),
   },
 };
 
