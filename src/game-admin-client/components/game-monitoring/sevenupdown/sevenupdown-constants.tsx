@@ -10,8 +10,8 @@ export const Resources = {
 };
 
 export const Constant = {
-  totalTimeInRound: 29,
-  waitingTime: 9,
+  totalTimeInRound: 33,
+  waitingTime: 13,
   showedSucceedMessegeTimebyMillisecond: 2000,
 };
 
