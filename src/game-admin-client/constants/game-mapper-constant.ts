@@ -44,6 +44,9 @@ import Win3Cards from "../components/game-monitoring/win-3-cards";
 import SeBallGame from "../components/game-monitoring/seball/seball-game";
 import LuckyThreeGame from "../components/game-monitoring/lucky-three/lucky-three-game";
 import SicBallGame from "../components/game-monitoring/sic-ball/sic-ball-game";
+import BaccaratNumberGame from "../components/game-monitoring/baccarat-number/baccarat-number-game";
+import SpeedBaccaratNumberGame from "../components/game-monitoring/speed-baccarat-number/speed-baccarat-number-game";
+import VIPBaccaratNumberGame from "../components/game-monitoring/vip-baccarat-number/vip-baccarat-number-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -474,6 +477,27 @@ export const gameMapper = {
     socket: "admin/sicball",
     socketRoute: "sicball/socket.io",
     ...getInfoByGameKey("SicBall"),
+  },
+  1008: {
+    name: "BaccaratNumber",
+    component: BaccaratNumberGame,
+    socket: "admin/baccaratnumber",
+    socketRoute: "baccaratnumber/socket.io",
+    ...getInfoByGameKey("BaccaratNumber"),
+  },
+  1009: {
+    name: "SpeedBaccaratNumber",
+    component: SpeedBaccaratNumberGame,
+    socket: "admin/speedbaccaratnumber",
+    socketRoute: "speedbaccaratnumber/socket.io",
+    ...getInfoByGameKey("SpeedBaccaratNumber"),
+  },
+  1010: {
+    name: "VIPBaccaratNumber",
+    component: VIPBaccaratNumberGame,
+    socket: "admin/vipbaccaratnumber",
+    socketRoute: "vipbaccaratnumber/socket.io",
+    ...getInfoByGameKey("VipBaccaratNumber"),
   },
 };
 
