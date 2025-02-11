@@ -40,6 +40,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/baccaratx/set_result")]
         Task<bool> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
+
+        [Post("/game_server/crashturnbase/set_result")]
+        Task<bool> SetCrashTurnBaseResultRequest([FromBody] SetCrashTurnBaseResultRequest request);
     }
 
     public interface IResultMonitorService
@@ -64,7 +67,7 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         Task<bool> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
 
-
+        Task<bool> SetCrashTurnBaseResult(SetCrashTurnBaseResultRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
@@ -105,5 +108,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> SetBaccaratXResult(SetBaccaratXResultRequest request)
              => await api.SetBaccaratXResult(request);
+
+        public async Task<bool> SetCrashTurnBaseResult(SetCrashTurnBaseResultRequest request)
+           => await api.SetCrashTurnBaseResultRequest(request);
     }
 }

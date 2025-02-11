@@ -19,7 +19,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<SetCrashGameResultRequest, bool>,
         IRequestHandler<SetChineseBlackjackResultRequest, bool>,
         IRequestHandler<SetFootballDiceResultRequest, FootballDiceSettlementViewModel>,
-        IRequestHandler<SetBaccaratXResultRequest, bool>
+        IRequestHandler<SetBaccaratXResultRequest, bool>,
+        IRequestHandler<SetCrashTurnBaseResultRequest, bool>
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
@@ -69,5 +70,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> Handle(SetBaccaratXResultRequest request, CancellationToken cancellationToken)
             => await service.SetBaccaratXResult(request);
+
+        public async Task<bool> Handle(SetCrashTurnBaseResultRequest request, CancellationToken cancellationToken)
+          => await service.SetCrashTurnBaseResult(request);
     }
 }

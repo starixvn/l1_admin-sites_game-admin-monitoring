@@ -158,6 +158,22 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         }
 
         [HttpGet]
+        public async Task<IActionResult> CrashTurnBaseResult(string token, string gameConfigName, string displayName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("CrashTurnBase/Index", new CrashTurnBaseReusltViewModel(gameConfigName, displayName, string.Empty)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCrashTurnBaseResult([Bind] CrashTurnBaseReusltViewModel viewModel)
+        {
+            var model = await mediator.Send(new SetCrashTurnBaseResultRequest(viewModel.GameName, viewModel.Result, viewModel.Nickname));
+            return PartialView("CrashTurnBase/_ResultMonitor", new CrashGameResultControl(model));
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> FootballDiceResult(string token, string gameConfigName, string displayName)
         {
             var model = await mediator.Send(new VerifyTokenRequest(token));
