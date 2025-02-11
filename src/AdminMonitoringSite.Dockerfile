@@ -18,6 +18,7 @@ RUN npm run export --prefix ../game-admin-client
 RUN dotnet publish -r linux-x64 --self-contained false -o /app 
 
 FROM hub.lumigame.com/base/dotnet/core/aspnet:3.1.32-alpine AS base
+RUN apk update && apk upgrade && apk add --no-cache curl
 RUN adduser admin_monitoring_user --disabled-password
 USER admin_monitoring_user 
 
