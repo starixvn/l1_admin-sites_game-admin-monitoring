@@ -14,7 +14,7 @@ namespace GamesAdminMonitoring.Site._Shared.Middlewares
 
             var refitSettings = new RefitSettings
             {
-                AuthorizationHeaderValueGetter = IdentityServerManager.GetAccessToken
+                AuthorizationHeaderValueGetter = async (request, cancellationToken) => await IdentityServerManager.GetAccessToken()
             };
 
             services.AddSingleton(RestService.For<IResultMonitorApi>(appSettings.ApiHost, refitSettings));
