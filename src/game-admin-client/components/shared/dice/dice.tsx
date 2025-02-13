@@ -18,7 +18,7 @@ export default function Dice(props: DiceProps) {
 
   const getUnknowDiceImageRoot = (type) => {
     return isColorGame ? `/${DiceType[type].toLocaleLowerCase()}` : "";
-  }
+  };
 
   const getDiceIconURL = (value, type) => {
     const rootPath = configs.RootUrl;
@@ -26,7 +26,9 @@ export default function Dice(props: DiceProps) {
       type
     ].toLocaleLowerCase()}/dice-{0}.png`;
 
-    const unknowDiceURL = `${rootPath}/game-admin/images/dice${getUnknowDiceImageRoot(type)}/dice-unknow.png`;
+    const unknowDiceURL = `${rootPath}/game-admin/images/dice${getUnknowDiceImageRoot(
+      type
+    )}/dice-unknow.png`;
 
     if (value == undefined || type == undefined || value == -1) {
       return unknowDiceURL;
@@ -41,8 +43,17 @@ export default function Dice(props: DiceProps) {
       case DiceType.TaiXiu:
         return rootURL.replace("{0}", value);
       case DiceType.ColorGame:
-        const ColorGameDice = ["yellow", "red", "pink", "white", "blue", "green"];
+        const ColorGameDice = [
+          "yellow",
+          "red",
+          "pink",
+          "white",
+          "blue",
+          "green",
+        ];
         return rootURL.replace("{0}", ColorGameDice[value]);
+      case DiceType.KaraKrus:
+        return rootURL.replace("{0}", value == true ? "kara" : "krus");
       default:
         return unknowDiceURL;
     }
@@ -53,9 +64,9 @@ export default function Dice(props: DiceProps) {
       return (
         <div
           id={id}
-          className={`${styles.dice} ${styles[DiceType[type]]} ${isSmall ? styles.small : ""
-            } ${isColorGame ? styles["color-game"] : ""
-            }`}
+          className={`${styles.dice} ${styles[DiceType[type]]} ${
+            isSmall ? styles.small : ""
+          } ${isColorGame ? styles["color-game"] : ""}`}
           onClick={() => onClickHandle(id, value)}
         >
           <img
@@ -69,9 +80,9 @@ export default function Dice(props: DiceProps) {
     return (
       <div
         id={id}
-        className={`${styles.dice} ${styles[DiceType[type]]} ${isSmall ? styles.small : ""
-          }  ${isColorGame ? styles["color-game"] : ""
-          }`}
+        className={`${styles.dice} ${styles[DiceType[type]]} ${
+          isSmall ? styles.small : ""
+        }  ${isColorGame ? styles["color-game"] : ""}`}
       >
         <img
           className={styles["dice-value"]}

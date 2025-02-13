@@ -1,0 +1,8 @@
+.deck {
+  display: flex;
+  flex-direction: column;
+  hr {
+    border-top: 5px solid #ee9b22;
+    width: 100%;
+  }
+}

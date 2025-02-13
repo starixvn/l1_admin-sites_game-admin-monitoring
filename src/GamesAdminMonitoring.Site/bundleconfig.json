@@ -65,6 +65,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/js/baccarat-x.min.js",
+    "inputFiles": [
+      "wwwroot/js/baccarat-x.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/scss/pages/pontoon-result.css",
     "inputFiles": [
       "wwwroot/scss/pages/pontoon-result.scss"

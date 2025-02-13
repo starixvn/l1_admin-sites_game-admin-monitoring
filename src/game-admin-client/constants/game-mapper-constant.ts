@@ -16,6 +16,7 @@ import FanTan from "../components/game-monitoring/fan-tan";
 import FishPrawnCrab from "../components/game-monitoring/fish-prawn-crab/fish-prawn-crab";
 import FootballSlot from "../components/game-monitoring/football-slot";
 import FruitSlot from "../components/game-monitoring/fruit-slot";
+import KaraKrus from "../components/game-monitoring/kara-krus";
 import {
   KenoMatch1,
   KenoMatch2,
@@ -31,7 +32,11 @@ import LuckyNext2Game from "../components/game-monitoring/luckynext2/luckynext2-
 import MiniKeno from "../components/game-monitoring/mini-keno";
 import MiniSedie from "../components/game-monitoring/mini-sedie";
 import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
+import { PusoyGame } from "../components/game-monitoring/pusoy/pusoy-game";
 import Roulette from "../components/game-monitoring/roulette";
+import SeBallGame from "../components/game-monitoring/seball/seball-game";
+import SeDie3 from "../components/game-monitoring/sedie3";
+import SevenUpDownGame from "../components/game-monitoring/sevenupdown/sevenupdown-game";
 import ShakeThePlate from "../components/game-monitoring/shake-the-plate/shake-the-plate";
 import SicBo from "../components/game-monitoring/sic-bo";
 import SpecialSeDie from "../components/game-monitoring/special-sedie";
@@ -41,8 +46,9 @@ import VipFishPrawnCrab from "../components/game-monitoring/vip-fish-prawn-crab/
 import VipSeDieWar from "../components/game-monitoring/vip-se-die-war";
 import VipSeDie from "../components/game-monitoring/vip-sedie/vip-sedie";
 import Win3Cards from "../components/game-monitoring/win-3-cards";
-import SeBallGame from "../components/game-monitoring/seball/seball-game";
+import FootballCoinTossGame from "../components/game-monitoring/football-coin-toss/football-coin-toss-game";
 import LuckyThreeGame from "../components/game-monitoring/lucky-three/lucky-three-game";
+import MarbleFootballGame from "../components/game-monitoring/marble-football/marble-football-game";
 import SicBallGame from "../components/game-monitoring/sic-ball/sic-ball-game";
 
 const getObjectOfGame =
@@ -468,12 +474,54 @@ export const gameMapper = {
     socketRoute: "luckythree/socket.io",
     ...getInfoByGameKey("LuckyThree"),
   },
+  95: {
+    name: "Sedie3",
+    component: SeDie3,
+    socket: "admin/sedie3",
+    socketRoute: "sedie3/socket.io",
+    ...getInfoByGameKey("SeDie3"),
+  },
   1007: {
     name: "SicBall",
     component: SicBallGame,
     socket: "admin/sicball",
     socketRoute: "sicball/socket.io",
     ...getInfoByGameKey("SicBall"),
+    },
+  96: {
+    name: "KaraKrus",
+    component: KaraKrus,
+    socket: "admin/karakrus",
+    socketRoute: "karakrus/socket.io",
+    ...getInfoByGameKey("KaraKrus"),
+  },
+  94: {
+    name: "Pusoy",
+    component: PusoyGame,
+    socket: "admin/pusoy",
+    socketRoute: "pusoy/socket.io",
+    ...getInfoByGameKey("Pusoy"),
+  },
+  93: {
+    name: "FootballCoinToss",
+    component: FootballCoinTossGame,
+    socket: "admin/footballcointoss",
+    socketRoute: "footballcointoss/socket.io",
+    ...getInfoByGameKey("FootballCoinToss"),
+  },
+  103: {
+    name: "SevenUpDown",
+    component: SevenUpDownGame,
+    socket: "admin/sevenupdown",
+    socketRoute: "sevenupdown/socket.io",
+    ...getInfoByGameKey("SevenUpDown"),
+  },
+  104: {
+    name: "MarbleFootball",
+    component: MarbleFootballGame,
+    socket: "admin/marblefootball",
+    socketRoute: "marblefootball/socket.io",
+    ...getInfoByGameKey("MarbleFootball"),
   },
 };
 

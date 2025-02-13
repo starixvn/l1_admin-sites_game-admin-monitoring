@@ -3,6 +3,7 @@ enum DiceType {
   XocXoc,
   TaiXiu,
   ColorGame,
+  KaraKrus
 }
 
 export default DiceType;
