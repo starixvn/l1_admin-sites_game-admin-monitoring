@@ -1,0 +1,15 @@
+{
+  "Env": "SIT",
+  "SystemType": "VG2",
+  "Partners": ["ONEworks1", "ONEworksVGCash", "ONEworks_VG"],
+  "DefaultToken": "",
+  "RootUrl": "https://hduatproxy.sgamesuat.com/uat/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "hduatproxy.sgamesuat.com",
+  "SubPath": "uat",
+  "CloudSettings": {
+    "ServiceDomain": "hduatservices.sgamesuat.com",
+    "CloudGameIds": []
+  }
+}
+

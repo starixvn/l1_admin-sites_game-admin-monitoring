@@ -1,0 +1,23 @@
+{
+  "Env": "LOCAL",
+  "SystemType": "VG2",
+  "Partners": [
+    "SBO",
+    "ONEworksVGCash",
+    "ONEworksVG2",
+    "ONEworks_VG",
+    "ONEworks1",
+    "SBO",
+    "ONEworks_VG"
+  ],
+  "DefaultToken": "",
+  "RootUrl": "https://hd-proxy.lumigame.com/monitoring",
+  "EnableMsgpack": false,
+  "Domain": "hd-proxy.lumigame.com",
+  "SubPath": "",
+  "CloudSettings": {
+    "ServiceDomain": "l2-services.lumigame.com",
+    "CloudGameIds": []
+  }
+}
+
