@@ -13,8 +13,6 @@ export type BaseMonitoringProps = {
   partners: Array<string>;
 };
 
-const baseCurrency = "INH";
-
 export default class BaseMonitoring<
   GameStateModel extends BaseMonitoringState,
   GameProps extends BaseMonitoringProps
@@ -172,10 +170,6 @@ export default class BaseMonitoring<
         : 1;
 
       result[currency.name] = multiplier * exchangeRate;
-
-      if (currency.name === baseCurrency) {
-        this.baseMultiplier = currency.multiplier;
-      }
 
       return result;
     }, {});

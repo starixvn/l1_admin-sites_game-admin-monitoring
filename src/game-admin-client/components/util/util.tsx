@@ -50,7 +50,7 @@ export const getBetAmountOnSystem = (
   amount: number,
   baseMultiplier: number
 ) => {
-  const multiplier = systemType === "SC1" ? 1 : baseMultiplier;
+  const multiplier = 1;
   return parseFloat((amount / multiplier).toFixed(2));
 };
 

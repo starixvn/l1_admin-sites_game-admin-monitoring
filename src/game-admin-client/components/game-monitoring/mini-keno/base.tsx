@@ -12,8 +12,6 @@ import { SystemSC1Id } from "../../common/model/BetItem";
 import { getBetAmountOnSystem } from "../../util/util";
 import configs from "../../../configs.json";
 
-const VG2BaseCurrency = "INH";
-
 type Props = {
   onMessage: Function;
   sendMessage: Function;
@@ -244,10 +242,6 @@ export default class extends React.Component<Props, State> {
               : 1;
 
             result[currency.name] = multiplier * exchangeRate;
-
-            if (currency.name === VG2BaseCurrency) {
-              this.baseMultiplier = currency.multiplier;
-            }
 
             return result;
           }, {});
