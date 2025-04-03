@@ -16,11 +16,16 @@ export default class MarbleFootballGame extends BaseMonitoring<
   MarbleFootballGameModel,
   BaseMonitoringProps
 > {
+  constant: typeof MarbleFootballConstant;
+  resources: typeof MarbleFootballResources;
+
   constructor(props: BaseMonitoringProps) {
     super(props);
     this.state = new MarbleFootballGameModel();
     document.body.style.background = "none";
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.constant = MarbleFootballConstant;
+    this.resources = MarbleFootballResources;
   }
 
   inGameHandler({ inGame }) {}
@@ -34,11 +39,11 @@ export default class MarbleFootballGame extends BaseMonitoring<
   }
 
   get totalTimeInRound(): number {
-    return MarbleFootballConstant.totalTimeInRound;
+    return this.constant.totalTimeInRound;
   }
 
   get waitingTime(): number {
-    return MarbleFootballConstant.waitingTime;
+    return this.constant.waitingTime;
   }
 
   findDuplicates(input_array: Array<string>) {
@@ -66,7 +71,7 @@ export default class MarbleFootballGame extends BaseMonitoring<
 
     setTimeout(() => {
       this.setState({ isSubmited: false });
-    }, MarbleFootballConstant.showedSucceedMessegeTimebyMillisecond);
+    }, this.constant.showedSucceedMessegeTimebyMillisecond);
   }
 
   validateHalfResult(firstHalf: string) {
@@ -82,7 +87,7 @@ export default class MarbleFootballGame extends BaseMonitoring<
 
   render() {
     if (this.props.isProduction) {
-      return <>{MarbleFootballResources.unauthorized}</>;
+      return <>{this.resources.unauthorized}</>;
     }
 
     const {
@@ -99,12 +104,9 @@ export default class MarbleFootballGame extends BaseMonitoring<
       <Container className={styles["marble-football"]}>
         <Row className="mb-3">
           <Col>
-            <h2 className={styles["bold"]}>
-              {MarbleFootballResources.gameName}
-            </h2>
+            <h2 className={styles["bold"]}>{this.resources.gameName}</h2>
             <p className={styles["subtitle"]}>
-              {MarbleFootballResources.nextRound}{" "}
-              {nextRoundId > 0 && `#${nextRoundId}`}
+              {this.resources.nextRound} {nextRoundId > 0 && `#${nextRoundId}`}
             </p>
           </Col>
         </Row>
@@ -171,7 +173,7 @@ export default class MarbleFootballGame extends BaseMonitoring<
               onClick={this.handleSubmit}
               className={styles["custom-button"]}
             >
-              {MarbleFootballResources.submit}
+              {this.resources.submit}
             </Button>
           </Col>
         </Row>
@@ -180,20 +182,16 @@ export default class MarbleFootballGame extends BaseMonitoring<
           <Row className="mt-4">
             <Col className="col-10 mx-auto">
               <div className={`${styles["success-message"]}`}>
-                {MarbleFootballResources.updateSuccessful}
+                {this.resources.updateSuccessful}
               </div>
             </Col>
           </Row>
         )}
 
         {gameState === GameState.disabled && (
-          <Notice
-            isOpen={true}
-            message={MarbleFootballResources.disabledMessage}
-          />
+          <Notice isOpen={true} message={this.resources.disabledMessage} />
         )}
       </Container>
     );
   }
 }
-
