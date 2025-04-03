@@ -50,6 +50,7 @@ import FootballCoinTossGame from "../components/game-monitoring/football-coin-to
 import LuckyThreeGame from "../components/game-monitoring/lucky-three/lucky-three-game";
 import MarbleFootballGame from "../components/game-monitoring/marble-football/marble-football-game";
 import SicBallGame from "../components/game-monitoring/sic-ball/sic-ball-game";
+import MarbleFootball2Game from "../components/game-monitoring/marble-football-2/marble-football2-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -522,6 +523,13 @@ export const gameMapper = {
     socket: "admin/marblefootball",
     socketRoute: "marblefootball/socket.io",
     ...getInfoByGameKey("MarbleFootball"),
+  },
+  114: {
+    name: "MarbleFootball2",
+    component: MarbleFootball2Game,
+    socket: "admin/marblefootball2",
+    socketRoute: "marblefootball2/socket.io",
+    ...getInfoByGameKey("MarbleFootball2"),
   },
 };
 
