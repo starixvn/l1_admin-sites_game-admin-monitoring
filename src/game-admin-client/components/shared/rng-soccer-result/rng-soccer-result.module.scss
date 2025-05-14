@@ -1,0 +1,49 @@
+.rngsoccerresult {
+  display: flex;
+  justify-content: space-between;
+
+  .home,
+  .away {
+    margin-bottom: 25px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .home {
+    background-position: -4px -339px;
+    width: 69px;
+    height: 17px;
+  }
+
+  .away {
+    background-position: -76px -340px;
+    width: 47px;
+    height: 16px;
+  }
+
+  .homeCol,
+  .awayCol {
+    width: 70px;
+  }
+
+  .line {
+    height: 110px;
+    width: 2px;
+    background: white;
+  }
+
+  @media screen and (max-width: 640px) {
+
+    .home,
+    .away {
+      display: none;
+    }
+
+    .line {
+      height: 60px;
+      margin-top: -5px;
+    }
+  }
+}
