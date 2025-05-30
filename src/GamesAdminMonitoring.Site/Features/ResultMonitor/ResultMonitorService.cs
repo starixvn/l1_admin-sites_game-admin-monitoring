@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Sentry;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GamesAdmin.Core.Models.SlotGame;
 using GamesAdminMonitoring.Site.Features._Shared;
@@ -6,6 +7,7 @@ using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
+using Newtonsoft.Json;
 
 namespace GamesAdmin.Site.Features.ResultMonitor
 {
@@ -83,7 +85,21 @@ namespace GamesAdmin.Site.Features.ResultMonitor
             => await api.VerifyAdminMonitoringToken(token);
 
         public async Task<SettlementBoard> SetSlotResult(SetSlotResultRequest request)
-            => await api.SetSlotResult(request);
+        {
+            var result = new SettlementBoard();
+            try
+            {
+                result = await api.SetSlotResult(request);
+                SentrySdk.CaptureMessage($"{JsonConvert.SerializeObject(result)}");
+            }
+            catch (ApiException ex)
+            {
+                SentrySdk.CaptureException(ex);
+            }
+
+            return result;
+        }
+
 
         public async Task<HoldemPokerResultControl> SetHoldemPokerResult(SetHoldemPokerResultRequest request)
             => await api.SetHoldemPokerResult(request);
