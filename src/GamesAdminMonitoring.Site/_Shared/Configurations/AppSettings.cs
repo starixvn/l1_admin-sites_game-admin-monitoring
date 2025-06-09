@@ -1,7 +1,9 @@
 ﻿using GamesAdmin.Core.IdentityServer;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace GamesAdminMonitoring.Site._Shared.Configurations
 {
@@ -18,6 +20,10 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
         string SubPath { get; }
 
         string SystemType { get; }
+
+        Dictionary<string, string> GameServers { get; }
+
+        string GetGameServerUrl(string gameName);
     }
 
     public class AppSettings : IAppSettings
@@ -62,6 +68,27 @@ namespace GamesAdminMonitoring.Site._Shared.Configurations
             {
                 throw new InvalidCastException($"Key: {key}", ex);
             }
+        }
+
+        public Dictionary<string, string> GameServers
+        {
+            get
+            {
+                var section = configuration.GetSection("GameServers"); // Corrected to use the IConfiguration instance
+                if (!section.Exists())
+                    return new Dictionary<string, string>();
+
+                return section.GetChildren()
+                    .ToDictionary(x => x.Key, x => x.Value);
+            }
+        }
+
+        public string GetGameServerUrl(string gameName)
+        {
+            if (GameServers.TryGetValue(gameName, out var url))
+                return url;
+
+            return null;
         }
     }
 }

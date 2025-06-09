@@ -34,6 +34,7 @@ import MiniSedie from "../components/game-monitoring/mini-sedie";
 import OddEvenTurbo from "../components/game-monitoring/odd-even-turbo/odd-even-turbo";
 import { PusoyGame } from "../components/game-monitoring/pusoy/pusoy-game";
 import Roulette from "../components/game-monitoring/roulette";
+import MiniRouletteRedirect from "../components/game-monitoring/mini-roulette";
 import SeBallGame from "../components/game-monitoring/seball/seball-game";
 import SeDie3 from "../components/game-monitoring/sedie3";
 import SevenUpDownGame from "../components/game-monitoring/sevenupdown/sevenupdown-game";
@@ -211,6 +212,13 @@ export const gameMapper = {
     socket: "admin/roulette",
     socketRoute: "roulette/socket.io",
     ...getInfoByGameKey("Roulette"),
+  },
+  134: {
+    name: "miniroulette",
+    component: MiniRouletteRedirect,
+    socket: null, // No WebSocket needed for redirect
+    socketRoute: null, // No WebSocket needed for redirect
+    ...getInfoByGameKey("MiniRoulette"),
   },
   22: {
     name: "vipsedie",

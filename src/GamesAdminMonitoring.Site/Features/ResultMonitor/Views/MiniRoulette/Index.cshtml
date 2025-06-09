@@ -1,0 +1,37 @@
+﻿@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+@model MiniRouletteResultViewModel
+
+@{
+    ViewData["Title"] = "Mini Roulette Result Controller";
+}
+
+@section Styles {
+    <link href="~/css/report.min.css" rel="stylesheet" asp-append-version="true" />
+}
+<form class="form filter" data-ajax="true" data-ajax-method="POST" asp-action="SetMiniRouletteResult" data-ajax-mode="replace" data-ajax-update="#set-result"
+      data-ajax-loading="#spinner"
+      method="POST">
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <label asp-for="PlayerName" class="control-label">Player name</label>
+            <input type="text" class="form-control" placeholder="Player name" asp-for="PlayerName">
+        </div>
+        <div class="col-auto">
+            <label asp-for="Result" class="control-label">Result</label>
+            <input type="text" class="form-control" asp-for="Result">
+        </div>
+        <div class="col-auto mt-5">
+            <button type="submit" class="btn-submit">Submit</button>
+            <div id="spinner" class="spinner-border" style="display: none">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="set-result" class="col-sm-12 report-container">
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>
+}

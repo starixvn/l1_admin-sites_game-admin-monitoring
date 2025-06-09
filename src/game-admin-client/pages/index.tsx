@@ -89,13 +89,18 @@ export class Home extends React.Component<Props, State> {
       const gameId = (query.gameid || query.gameId || 0).toString();
       const gameName = (query.game || "").toString();
 
-      const socket = this.initSocket(
-        parseInt(gameId) > 0
-          ? parseInt(gameId)
-          : parseInt(getGameName(gameName))
-      );
+      const actualGameId = parseInt(gameId) > 0
+        ? parseInt(gameId)
+        : parseInt(getGameName(gameName));
 
-      await socket.connect();
+      // Check if the game requires socket connection
+      const gameConfig = gameMapper[actualGameId];
+      let socket = null;
+
+      if (gameConfig && gameConfig.socket && gameConfig.socketRoute) {
+        socket = this.initSocket(actualGameId);
+        await socket.connect();
+      }
 
       this.changeLoadingState(false);
       this.setState({ gameId, gameName, socket });
@@ -110,6 +115,20 @@ export class Home extends React.Component<Props, State> {
     const { gameId, socket } = this.state;
     const { onMessage, selector, initialMessage, endMessage, generateMessage } =
       info;
+
+    // If no socket connection is needed (e.g., for mini roulette redirect)
+    if (!socket) {
+      return (
+        <info.component
+          sendMessage={() => {}} // Empty function for games that don't need messaging
+          onMessage={() => {}} // Empty function for games that don't need messaging
+          onStopReceiveMessage={() => {}} // Empty function for games that don't need messaging
+          isProduction={this.isProduction}
+          partners={this.partners}
+        />
+      );
+    }
+
     const key = `game-monitoring:${gameId}`;
     const onStopReceiveMessage = () => {
       socket.send(endMessage);
@@ -161,7 +180,10 @@ export class Home extends React.Component<Props, State> {
 
     const info = getGameInfoByGameId(gameId) || getGameInfoByGameName(gameName);
 
-    socket && socket.login({ jwt: token });
+    // Only login if socket exists
+    if (socket) {
+      socket.login({ jwt: token });
+    }
 
     return info
       ? this.renderGameMonitoringComponent(info)

@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
@@ -200,6 +201,22 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
         public async Task<bool> SetBaccaratXResult([Bind] BaccaratXResultViewModel viewModel)
         {
             return await mediator.Send(new SetBaccaratXResultRequest(viewModel.Result, viewModel.GameConfigName));
+        }
+
+        [HttpGet]
+        public IActionResult MiniRouletteResult(string token)
+        {
+            return View("MiniRoulette/Index", new MiniRouletteResultViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetMiniRouletteResult([Bind] MiniRouletteResultViewModel viewModel)
+        {
+            var request = new SetMiniRouletteResultRequest(viewModel.PlayerName, viewModel.Result);
+            var response = await mediator.Send(request);
+
+            return PartialView("MiniRoulette/_ResultMonitor",
+                new MiniRouletteResultControl(response.IsSuccessful));
         }
 
         private IActionResult RedirectToRestrictedPage(string message)
