@@ -1,0 +1,10 @@
+{
+  "Env": "PRO",
+  "SystemType": "VG2",
+  "Partners": ["ONEworksVGCash", "ONEworks_VG"],
+  "DefaultToken": "",
+  "RootUrl": "https://proxy.vgaming88.net/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "proxy.vgaming88.net",
+  "SubPath": ""
+}
