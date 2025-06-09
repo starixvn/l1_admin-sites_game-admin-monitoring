@@ -9,7 +9,7 @@ type Props = {
 
 export default function MiniRouletteRedirect(props: Props) {
   if (typeof window !== 'undefined') {
-    window.location.href = "/ResultMonitor/MiniRouletteResult";
+    window.location.href = "/monitoring/ResultMonitor/MiniRouletteResult";
   }
 
   return null;
