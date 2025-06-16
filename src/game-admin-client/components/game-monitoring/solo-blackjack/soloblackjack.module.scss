@@ -1,0 +1,65 @@
+$red-color: red;
+$white-color: white;
+$blue-color: blue;
+
+.center-container {
+  background: $white-color !important;
+  padding: 40px;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  .invalid {
+    color: $red-color;
+
+    input {
+      color: $red-color;
+    }
+  }
+
+  .duplicated {
+    border: 2px $red-color solid;
+  }
+
+  .bold {
+    font-weight: bold;
+    margin-right: 12px;
+  }
+
+  .success-message {
+    background-color: #4caf50;
+    color: $white-color;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 10px 0;
+    transition: opacity 0.3s;
+    font-size: 16px;
+  }
+
+  .red {
+    color: $red-color;
+    margin-right: 12px;
+  }
+
+  .blue {
+    color: $blue-color;
+    margin-right: 12px;
+  }
+}
+
+.row{
+  margin-left: 0px;
+}
+.card {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 15px;
+}

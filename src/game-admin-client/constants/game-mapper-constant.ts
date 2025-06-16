@@ -49,6 +49,7 @@ import Win3Cards from "../components/game-monitoring/win-3-cards";
 import FootballCoinTossGame from "../components/game-monitoring/football-coin-toss/football-coin-toss-game";
 import MarbleFootballGame from "../components/game-monitoring/marble-football/marble-football-game";
 import MarbleFootball2Game from "../components/game-monitoring/marble-football-2/marble-football2-game";
+import SoloBlackjackGame from "../components/game-monitoring/solo-blackjack/soloblackjack-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -514,6 +515,13 @@ export const gameMapper = {
     socket: "admin/marblefootball2",
     socketRoute: "marblefootball2/socket.io",
     ...getInfoByGameKey("MarbleFootball2"),
+  },
+  115: {
+    name: "SoloBlackjack",
+    component: SoloBlackjackGame,
+    socket: null,
+    socketRoute: null,
+    ...getInfoByGameKey("SoloBlackjack"),
   },
 };
 
