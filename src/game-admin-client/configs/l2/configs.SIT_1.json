@@ -1,0 +1,14 @@
+{
+  "Env": "SIT",
+  "SystemType": "VG2",
+  "Partners": ["ONEworksVGCash", "ONEworks_VG"],
+  "DefaultToken": "",
+  "RootUrl": "https://l2proxy.playonesit.com/sit/monitoring",
+  "EnableMsgpack": true,
+  "Domain": "l2proxy.playonesit.com",
+  "SubPath": "sit",
+  "CloudSettings": {
+    "ServiceDomain": "l2uatservices.sgamesuat.com",
+    "CloudGameIds": []
+  }
+}
