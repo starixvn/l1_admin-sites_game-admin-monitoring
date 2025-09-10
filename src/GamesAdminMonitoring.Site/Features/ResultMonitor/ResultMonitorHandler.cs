@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
@@ -43,7 +45,10 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         }
 
         public async Task<SettlementBoardViewModel> Handle(SetSlotResultRequest request, CancellationToken cancellationToken)
-            => new SettlementBoardViewModel(request.GameConfigName, await service.SetSlotResult(request));
+        {
+            Console.WriteLine("SetSlotResultRequest: " + JsonSerializer.Serialize(request));
+            return new SettlementBoardViewModel(request.GameConfigName, await service.SetSlotResult(request));
+        }
 
         public async Task<HoldemPokerResultControl> Handle(SetHoldemPokerResultRequest request, CancellationToken cancellationToken)
             => await service.SetHoldemPokerResult(request);
