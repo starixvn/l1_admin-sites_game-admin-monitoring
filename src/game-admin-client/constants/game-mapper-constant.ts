@@ -50,6 +50,7 @@ import FootballCoinTossGame from "../components/game-monitoring/football-coin-to
 import MarbleFootballGame from "../components/game-monitoring/marble-football/marble-football-game";
 import MarbleFootball2Game from "../components/game-monitoring/marble-football-2/marble-football2-game";
 import RNGSoccer from "../components/game-monitoring/rng-soccer/rng-soccer";
+import SoccerPinGoal from "../components/game-monitoring/soccer-pingoal/soccer-pingoal-game";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -522,6 +523,13 @@ export const gameMapper = {
     socket: "admin/rngsoccer",
     socketRoute: "rngsoccer/socket.io",
     ...getInfoByGameKey("RNGSoccer"),
+  },
+  156: {
+    name: "SoccerPinGoal",
+    component: SoccerPinGoal,
+    socket: "admin/soccerpingoal",
+    socketRoute: "soccerpingoal/socket.io",
+    ...getInfoByGameKey("SoccerPinGoal"),
   },
 };
 
