@@ -7,15 +7,14 @@ export class SoccerPinGoalGameModel extends BaseMonitoringState {
   red: number;
   blue: number;
   playerName: string;
-  isSubmited: boolean;
-  nextRoundId: number;
+  isSubmitted: boolean;
 
   constructor() {
     super();
     this.isHandleNextRoundResult = false;
     this.gameState = 0;
     this.isValidResult = false;
-    this.isSubmited = false;
+    this.isSubmitted = false;
     this.red = 0;
     this.blue = 0;
     this.playerName = "";

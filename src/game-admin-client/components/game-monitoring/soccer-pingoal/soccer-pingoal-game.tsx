@@ -12,6 +12,8 @@ import {
 import { SoccerPinGoalGameModel } from "./soccer-pingoal-model";
 import styles from "./soccer-pingoal.module.scss";
 
+const inputContainerStyle = styles["input-container"];
+
 export default class SoccerPinGoalGame extends BaseMonitoring<
   SoccerPinGoalGameModel,
   BaseMonitoringProps
@@ -30,27 +32,15 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
 
   inGameHandler({ inGame }) {}
 
-  remainingTimeHandler({ remainingTime, roundId, result }) {
-    this.setState({ nextRoundId: roundId + 1 });
-  }
+  remainingTimeHandler({ remainingTime, roundId, result }) {}
 
-  finishHandler({ finish }) {
-    this.setState({ nextRoundId: finish.roundId + 1 });
-  }
-
-  findDuplicates(input_array: Array<string>) {
-    const duplicates = input_array.filter(
-      (item, index) => input_array.indexOf(item) !== index
-    );
-    return Array.from(new Set(duplicates));
-  }
+  finishHandler({ finish }) {}
 
   handleSubmit() {
-    const { red, blue, nextRoundId, playerName } = this.state;
+    const { red, blue, playerName } = this.state;
 
     this.props.sendMessage({
       set_result: {
-        roundId: nextRoundId,
         result: {
           red,
           blue,
@@ -59,21 +49,20 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
       },
     });
 
-    this.setState({ isSubmited: true });
+    this.setState({ isSubmitted: true });
 
     setTimeout(() => {
-      this.setState({ isSubmited: false });
+      this.setState({ isSubmitted: false });
     }, this.constant.showedSucceedMessegeTimebyMillisecond);
   }
 
-  validateResult(value: number) {
+  validateValue(value: number) {
     return value >= this.constant.minValue && value <= this.constant.maxValue;
   }
 
   validate() {
     return (
-      this.validateResult(this.state.red) &&
-      this.validateResult(this.state.blue)
+      this.validateValue(this.state.red) && this.validateValue(this.state.blue)
     );
   }
 
@@ -82,18 +71,18 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
       return <>{this.resources.unauthorized}</>;
     }
 
-    const { isSubmited, gameState, red, blue, nextRoundId, playerName } =
-      this.state;
-    const isValid = this.validate();
+    const { isSubmitted, gameState, red, blue, playerName } = this.state;
+    const isValueValid = this.validate();
 
     return (
       <Container className={styles["soccer-pingoal"]}>
+        {gameState === GameState.disabled && (
+          <Notice isOpen={true} message={this.resources.disabledMessage} />
+        )}
+
         <Row className="mb-3">
           <Col>
             <h2 className={styles["bold"]}>{this.resources.gameName}</h2>
-            <p className={styles["subtitle"]}>
-              {this.resources.nextRound} {nextRoundId > 0 && `#${nextRoundId}`}
-            </p>
           </Col>
         </Row>
 
@@ -101,7 +90,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
           <Col xs="3" className={`${styles["label"]} ${styles["black"]}`}>
             Player Name
           </Col>
-          <Col xs="4" className={styles["input-container"]}>
+          <Col xs="4" className={inputContainerStyle}>
             <Input
               type="text"
               value={playerName}
@@ -117,7 +106,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
           <Col xs="3" className={`${styles["label"]} ${styles["red"]}`}>
             Red
           </Col>
-          <Col xs="4" className={styles["input-container"]}>
+          <Col xs="4" className={inputContainerStyle}>
             <Input
               type="number"
               value={red}
@@ -125,7 +114,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
               onChange={(event) =>
                 this.setState({ red: parseInt(event.target.value) })
               }
-              className={`${!this.validateResult(red) && styles["invalid"]}`}
+              className={`${!this.validateValue(red) && styles["invalid"]}`}
             />
           </Col>
         </Row>
@@ -134,7 +123,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
           <Col xs="3" className={`${styles["label"]} ${styles["blue"]}`}>
             Blue
           </Col>
-          <Col xs="4" className={styles["input-container"]}>
+          <Col xs="4" className={inputContainerStyle}>
             <Input
               type="number"
               value={blue}
@@ -142,7 +131,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
               onChange={(event) =>
                 this.setState({ blue: parseInt(event.target.value) })
               }
-              className={`${!this.validateResult(blue) && styles["invalid"]}`}
+              className={`${!this.validateValue(blue) && styles["invalid"]}`}
             />
           </Col>
         </Row>
@@ -151,7 +140,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
           <Col>
             <Button
               color="primary"
-              disabled={gameState === GameState.waiting || !isValid}
+              disabled={gameState === GameState.waiting || !isValueValid}
               onClick={this.handleSubmit}
               className={styles["custom-button"]}
             >
@@ -160,7 +149,7 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
           </Col>
         </Row>
 
-        {isSubmited && (
+        {isSubmitted && (
           <Row className="mt-4">
             <Col className="col-10 mx-auto">
               <div className={`${styles["success-message"]}`}>
@@ -168,10 +157,6 @@ export default class SoccerPinGoalGame extends BaseMonitoring<
               </div>
             </Col>
           </Row>
-        )}
-
-        {gameState === GameState.disabled && (
-          <Notice isOpen={true} message={this.resources.disabledMessage} />
         )}
       </Container>
     );
