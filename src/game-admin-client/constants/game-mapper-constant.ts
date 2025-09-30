@@ -525,11 +525,11 @@ export const gameMapper = {
     ...getInfoByGameKey("RNGSoccer"),
   },
   156: {
-    name: "SoccerPinGoal",
+    name: "SoccerPingoal",
     component: SoccerPinGoal,
     socket: "admin/soccerpingoal",
     socketRoute: "soccerpingoal/socket.io",
-    ...getInfoByGameKey("SoccerPinGoal"),
+    ...getInfoByGameKey("SoccerPingoal"),
   },
 };
 
