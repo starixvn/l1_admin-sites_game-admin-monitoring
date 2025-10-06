@@ -52,6 +52,7 @@ import MarbleFootballGame from "../components/game-monitoring/marble-football/ma
 import MarbleFootball2Game from "../components/game-monitoring/marble-football-2/marble-football2-game";
 import RNGSoccer from "../components/game-monitoring/rng-soccer/rng-soccer";
 import BaccaratMultiplayer from "../components/game-monitoring/baccarat-multiplayer";
+import Plinko from "../components/game-monitoring/plinko";
 
 const getObjectOfGame =
   (path: string) => (onMessage: Function) => (message: any) => {
@@ -539,6 +540,13 @@ export const gameMapper = {
     socketRoute: "baccaratmultiplayer/socket.io",
     ...getInfoByGameKey("BaccaratMultiplayer"),
   },
+  145: {
+    name: "Plinko",
+    component: Plinko,
+    socket: "admin/plinko",
+    socketRoute: "plinko/socket.io",
+    ...getInfoByGameKey("Plinko"),
+  }
 };
 
 export const getGameName = (gameName: string) =>
