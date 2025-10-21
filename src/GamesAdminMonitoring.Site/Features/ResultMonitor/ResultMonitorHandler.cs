@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
@@ -20,7 +21,8 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         IRequestHandler<SetChineseBlackjackResultRequest, bool>,
         IRequestHandler<SetFootballDiceResultRequest, FootballDiceSettlementViewModel>,
         IRequestHandler<SetBaccaratXResultRequest, bool>,
-        IRequestHandler<SetCrashTurnBaseResultRequest, bool>
+        IRequestHandler<SetCrashTurnBaseResultRequest, bool>,
+        IRequestHandler<SetCascadingClusterSlotRequest, JsonNode>
     {
         private readonly IResultMonitorService service;
         private readonly IAppSettings appSettings;
@@ -73,5 +75,10 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> Handle(SetCrashTurnBaseResultRequest request, CancellationToken cancellationToken)
           => await service.SetCrashTurnBaseResult(request);
+
+        public async Task<JsonNode> Handle(SetCascadingClusterSlotRequest request, CancellationToken cancellationToken)
+        {
+            return await service.SetCascadingClusterSlotResult(request);
+        }
     }
 }

@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using GamesAdmin.Core.Models.SlotGame;
 using GamesAdminMonitoring.Site.Features._Shared;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Refit;
 
 namespace GamesAdmin.Site.Features.ResultMonitor
@@ -43,6 +47,9 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         [Post("/game_server/crashturnbase/set_result")]
         Task<bool> SetCrashTurnBaseResultRequest([FromBody] SetCrashTurnBaseResultRequest request);
+
+        [Post("/game_server/cascadingclusterslot/set_result")]
+        Task<JsonNode> SetCascadingClusterSlotResult([FromBody] SetCascadingClusterSlotRequest request);
     }
 
     public interface IResultMonitorService
@@ -68,15 +75,19 @@ namespace GamesAdmin.Site.Features.ResultMonitor
         Task<bool> SetBaccaratXResult([FromBody] SetBaccaratXResultRequest request);
 
         Task<bool> SetCrashTurnBaseResult(SetCrashTurnBaseResultRequest request);
+
+        Task<JsonNode> SetCascadingClusterSlotResult(SetCascadingClusterSlotRequest request);
     }
 
     public class ResultMonitorService : IResultMonitorService
     {
         private readonly IResultMonitorApi api;
+        private readonly ILogger<ResultMonitorService> logger;
 
-        public ResultMonitorService(IResultMonitorApi api)
+        public ResultMonitorService(IResultMonitorApi api, ILogger<ResultMonitorService> logger)
         {
             this.api = api;
+            this.logger = logger;
         }
 
         public async Task<bool> VerifyToken(string token)
@@ -111,5 +122,19 @@ namespace GamesAdmin.Site.Features.ResultMonitor
 
         public async Task<bool> SetCrashTurnBaseResult(SetCrashTurnBaseResultRequest request)
            => await api.SetCrashTurnBaseResultRequest(request);
+
+        public async Task<JsonNode> SetCascadingClusterSlotResult(SetCascadingClusterSlotRequest request)
+        {
+            try
+            {
+                return await api.SetCascadingClusterSlotResult(request);
+            }
+            catch (ApiException ex)
+            {
+                logger.LogError("Refit API Error - StatusCode: {StatusCode}, ReasonPhrase: {ReasonPhrase}, Message: {Message}",
+                    ex.StatusCode, ex.ReasonPhrase, ex.Message);
+                throw;
+            }
+        }
     }
 }

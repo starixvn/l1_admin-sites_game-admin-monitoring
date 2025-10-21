@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using GamesAdminMonitoring.Site._Shared.Configurations;
 using GamesAdminMonitoring.Site.Features.ResultMonitor.Requests;
@@ -9,8 +11,10 @@ using GamesAdminMonitoring.Site.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Refit;
 
 namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 {
@@ -18,11 +22,13 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
     {
         private readonly IMediator mediator;
         private readonly IAppSettings appSettings;
+        private readonly ILogger<ResultMonitorController> logger;
 
-        public ResultMonitorController(IMediator mediator, IAppSettings appSettings)
+        public ResultMonitorController(IMediator mediator, IAppSettings appSettings, ILogger<ResultMonitorController> logger)
         {
             this.mediator = mediator;
             this.appSettings = appSettings;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -82,6 +88,14 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
             var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
 
             return model.IsValid ? View("CascadingSlotGames/Index", new CascadingSlotResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CascadingClusterSlotResult(string token, string gameConfigName, string displayName)
+        {
+            var model = await mediator.Send(new VerifyTokenRequest(token, gameConfigName));
+
+            return model.IsValid ? View("GoldAndDragon/Index", new CascadingSlotResultViewModel(gameConfigName, displayName)) : RedirectToRestrictedPage(model.Message);
         }
 
         [HttpPost]
@@ -217,6 +231,31 @@ namespace GamesAdminMonitoring.Site.Features.ResultMonitor
 
             return PartialView("MiniRoulette/_ResultMonitor",
                 new MiniRouletteResultControl(response.IsSuccessful));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCascadingClusterSlotResult([FromBody] SetCascadingClusterSlotRequest request)
+        {
+            try
+            {
+                var result = await mediator.Send(request);
+                return Json(result);
+            }
+            catch (ApiException ex)
+            {
+                logger.LogError("Refit API Error - StatusCode: {StatusCode}, ReasonPhrase: {ReasonPhrase}, Message: {Message}",
+                                ex.StatusCode,
+                                ex.ReasonPhrase,
+                                ex.Message);
+
+                return StatusCode((int)ex.StatusCode, new
+                {
+                    error = "API Error",
+                    statusCode = ex.StatusCode,
+                    reasonPhrase = ex.ReasonPhrase,
+                    message = ex.Message
+                });
+            }
         }
 
         private IActionResult RedirectToRestrictedPage(string message)

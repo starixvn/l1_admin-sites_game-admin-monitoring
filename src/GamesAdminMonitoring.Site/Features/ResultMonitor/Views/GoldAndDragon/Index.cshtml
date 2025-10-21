@@ -1,0 +1,13 @@
+@using GamesAdminMonitoring.Site.Features.ResultMonitor.ViewModels;
+@model CascadingSlotResultViewModel
+
+@{
+    Layout = "~/Features/_Shared/_CustomLayout.cshtml";
+}
+@section Styles {
+    <link href="~/css/gold-and-dragon-result.min.css" rel="stylesheet" asp-append-version="true" />
+}
+<div id="root" data-game-config-name="@Model.DisplayGameName" data-game-name="@Model.GameName"></div>
+@section Scripts {
+    <script src="~/js/gold-and-dragon-result.min.js"></script>
+}
