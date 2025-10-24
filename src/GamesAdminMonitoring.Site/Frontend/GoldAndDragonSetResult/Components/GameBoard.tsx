@@ -24,6 +24,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
     setSelectedRound(roundInfo);
   }, [roundInfo]);
 
+  // Reset tumble index when selected round changes
+  useEffect(() => {
+    setCurrentTumbleIndex(0);
+  }, [selectedRound]);
+
   const handleSetResult = async () => {
     if (!roundInfo || !nickname.trim()) {
       alert("Round info and nickname are required to set result.");
@@ -87,11 +92,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }
 
   const currentTumble = selectedRound.tumbles[currentTumbleIndex];
-  if (!currentTumble) {
+  if (!currentTumble || currentTumbleIndex >= selectedRound.tumbles.length) {
     return (
       <div className="game-board">
         <div className="no-data">
-          <p>Invalid tumble index.</p>
+          <p>Invalid tumble index or no tumble data available.</p>
         </div>
       </div>
     );
@@ -162,8 +167,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
   };
 
   const handleRoundSelect = (round: RoundInfo | null) => {
-    setSelectedRound(round);
-    setCurrentTumbleIndex(0);
+    if (round) {
+      setSelectedRound(round);
+      setCurrentTumbleIndex(0);
+    }
   };
 
   return (
@@ -288,7 +295,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   ) ?? null,
             )
           }
-          defaultValue={selectedRound?.id}
+          value={selectedRound?.id || ""}
         >
           <option value={freeSpinGroup.rootRound.id}>
             {`Root - Scatter (${freeSpinGroup.rootRound.scatterCount}) - Rage (${freeSpinGroup.rootRound.rageMeter}) - Tumbles (${freeSpinGroup.rootRound.tumbles.length})`}
