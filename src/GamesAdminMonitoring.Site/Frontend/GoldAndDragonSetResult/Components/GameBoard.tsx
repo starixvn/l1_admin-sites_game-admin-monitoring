@@ -39,7 +39,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
     try {
       await apiService.setResult({
         name: nickname,
-        result: freeSpinGroup ? freeSpinGroup : roundInfo,
+        result: freeSpinGroup
+          ? {
+              ...freeSpinGroup.rootRound,
+              freeSpinRounds: freeSpinGroup.freeSpinRounds,
+            }
+          : roundInfo,
       });
       alert("Result set successfully!");
     } catch (error) {
