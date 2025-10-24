@@ -81,6 +81,21 @@ body {
   color: #e74c3c;
 }
 
+.form-group.inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-group.inline input {
+  width: fit-content;
+  margin: 0;
+}
+
+.form-group.inline label {
+  margin: 0;
+}
+
 .form-group input {
   width: 100%;
   padding: 10px;

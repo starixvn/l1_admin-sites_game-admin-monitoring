@@ -5,6 +5,7 @@ import type {
   SuggestionRound,
   RoundInfo,
   RageMeterConfig,
+  FreeSpinGroup,
 } from "./types";
 import { apiService } from "./api";
 import TumbleInput from "./Components/TumbleInput";
@@ -19,8 +20,15 @@ const App: React.FC = () => {
     multiplier: 0,
     rageMeter: 0,
     scatterCount: 0,
+    isFreeSpin: false,
   });
 
+  const [freeSpinGroup, setFreeSpinGroup] = useState<FreeSpinGroup | undefined>(
+    undefined,
+  );
+  const [freeSpinGroupMap, setFreeSpinGroupMap] = useState<
+    Map<string, FreeSpinGroup>
+  >(new Map());
   const [suggestionRounds, setSuggestionRounds] = useState<SuggestionRound[]>(
     [],
   );
@@ -30,20 +38,17 @@ const App: React.FC = () => {
     new Map(),
   );
   const [loading, setLoading] = useState(false);
-  const [currentTumbleIndex, setCurrentTumbleIndex] = useState(0);
 
-  // Rage meter configuration
   const rageMeterConfig: RageMeterConfig = {
-    thresholds: [15, 30, 50, 80],
+    thresholds: [12, 25, 40, 60],
     features: [
-      "Basic Feature",
-      "Enhanced Feature",
-      "Advanced Feature",
-      "Ultimate Feature",
+      "Rage Feature 1",
+      "Rage Feature 2",
+      "Rage Feature 3",
+      "Rage Feature 4",
     ],
   };
 
-  // Add a new tumble
   const addTumble = () => {
     const newTumble: Tumble = {
       clusterWin: [],
@@ -54,7 +59,6 @@ const App: React.FC = () => {
     });
   };
 
-  // Update a tumble
   const updateTumble = (index: number, updatedTumble: Tumble) => {
     const updatedTumbles = [...formData.tumbles];
     updatedTumbles[index] = updatedTumble;
@@ -64,7 +68,6 @@ const App: React.FC = () => {
     });
   };
 
-  // Delete a tumble
   const deleteTumble = (index: number) => {
     const updatedTumbles = formData.tumbles.filter((_, i) => i !== index);
     setFormData({
@@ -72,16 +75,18 @@ const App: React.FC = () => {
       tumbles: updatedTumbles,
     });
   };
+  const resetSelectedRound = () => {
+    setSelectedRoundId(null);
+    setRoundInfo(null);
+    setFreeSpinGroup(undefined);
+  };
 
-  // Handle form submission
   const handleSubmit = async () => {
-    // Validate nickname is required
     if (!formData.nickname.trim()) {
       alert("Please enter a nickname.");
       return;
     }
 
-    // Validate at least one of multiplier, rage meter, or tumbles has a value
     const hasTumbles = formData.tumbles.length > 0;
     const hasMultiplier = formData.multiplier > 0;
     const hasRageMeter = formData.rageMeter > 0;
@@ -111,9 +116,21 @@ const App: React.FC = () => {
     }
 
     setLoading(true);
+    resetSelectedRound();
     try {
       const response = await apiService.getSuggestionRounds(formData);
-      const rounds = response.rounds;
+      const { rounds, exampleFreeSpinRoundGroup } = response;
+      if (exampleFreeSpinRoundGroup) {
+        setFreeSpinGroupMap((prevMap) => {
+          const newMap = new Map(prevMap);
+          newMap.set(
+            exampleFreeSpinRoundGroup.rootRound.id,
+            exampleFreeSpinRoundGroup,
+          );
+          return newMap;
+        });
+        setFreeSpinGroup(exampleFreeSpinRoundGroup);
+      }
       setSuggestionRounds(rounds);
 
       if (rounds.length > 0) {
@@ -124,7 +141,6 @@ const App: React.FC = () => {
         });
 
         setRoundInfo(response.exampleRound);
-        setCurrentTumbleIndex(0);
         setSelectedRoundId(rounds[0].roundInfoId);
       }
     } catch (error) {
@@ -139,7 +155,6 @@ const App: React.FC = () => {
     if (roundInfoMap.has(roundId)) {
       const cachedInfo = roundInfoMap.get(roundId) ?? null;
       setRoundInfo(cachedInfo);
-      setCurrentTumbleIndex(0);
       return;
     }
 
@@ -153,29 +168,58 @@ const App: React.FC = () => {
       });
 
       setRoundInfo(info);
-      setCurrentTumbleIndex(0);
     } catch (error) {
       console.error("Error loading round info:", error);
       alert("Error loading round info. Please try again.");
     }
   };
 
-  const handleRoundSelect = async (roundId: string) => {
-    setSelectedRoundId(roundId);
-    await loadRoundInfo(roundId);
+  const loadFreeSpinGroup = async (
+    roundId: string,
+    currentRoundInfoId: string,
+  ) => {
+    if (freeSpinGroupMap.has(roundId)) {
+      const cachedGroup = freeSpinGroupMap.get(roundId) ?? undefined;
+      setFreeSpinGroup(cachedGroup);
+      setRoundInfo(
+        cachedGroup?.freeSpinRounds.find(
+          (round) => round.id === currentRoundInfoId,
+        ) ?? null,
+      );
+      return;
+    }
+
+    try {
+      const group = await apiService.getFreeSpinRounds(roundId);
+      setFreeSpinGroupMap((prevMap) => {
+        const newMap = new Map(prevMap);
+        newMap.set(roundId, group);
+        return newMap;
+      });
+      setFreeSpinGroup(group);
+      setRoundInfo(
+        group.freeSpinRounds.find((round) => round.id === currentRoundInfoId) ??
+          null,
+      );
+    } catch (error) {
+      console.error("Error loading free spin group:", error);
+      alert("Error loading free spin group. Please try again.");
+    }
   };
 
-  const handleTumbleChange = (index: number) => {
-    if (roundInfo && index >= 0 && index < roundInfo.tumbles.length) {
-      setCurrentTumbleIndex(index);
+  const handleRoundSelect = async (round: SuggestionRound) => {
+    setSelectedRoundId(round.roundInfoId);
+    if (round.isFreeSpin && round.roundId) {
+      await loadFreeSpinGroup(round.roundId, round.roundInfoId);
+    } else {
+      await loadRoundInfo(round.roundInfoId);
     }
   };
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Gold And Dragon Result Control System</h1>
-        <p>Configure game parameters and visualize cluster slot results</p>
+        <h2>Gold And Dragon Set Result</h2>
       </header>
 
       <div className="app-content">
@@ -230,6 +274,17 @@ const App: React.FC = () => {
                 }
                 placeholder="Number of Scatter"
                 min="0"
+              />
+            </div>
+
+            <div className="form-group inline">
+              <label>Is Free Spin:</label>
+              <input
+                type="checkbox"
+                checked={formData.isFreeSpin}
+                onChange={(e) =>
+                  setFormData({ ...formData, isFreeSpin: e.target.checked })
+                }
               />
             </div>
 
@@ -292,9 +347,8 @@ const App: React.FC = () => {
           />
 
           <GameBoard
+            freeSpinGroup={freeSpinGroup}
             roundInfo={roundInfo}
-            currentTumbleIndex={currentTumbleIndex}
-            onTumbleChange={handleTumbleChange}
             rageMeterConfig={rageMeterConfig}
             nickname={formData.nickname}
           />

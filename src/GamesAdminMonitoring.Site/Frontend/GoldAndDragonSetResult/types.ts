@@ -15,13 +15,16 @@ export interface TumbleWithMultiplier {
 
 export interface SuggestionRound {
   roundInfoId: string;
+  isFreeSpin: boolean;
   rageMeter: number;
   tumbles: TumbleWithMultiplier[];
+  roundId?: string;
 }
 
 export interface SuggestionResponse {
   rounds: SuggestionRound[];
   exampleRound: RoundInfo;
+  exampleFreeSpinRoundGroup?: FreeSpinGroup;
 }
 
 export interface Position {
@@ -80,23 +83,12 @@ export interface RoundInfo {
   tumbles: TumbleData[];
   totalWin: number;
   rageMeter: number;
-  createdAt: {
-    $date: string;
-  };
-  updatedAt: {
-    $date: string;
-  };
-  __v: number;
+  scatterCount: number;
 }
 
-// Legacy interface for backward compatibility
-export interface LegacyRoundInfo {
-  id: string;
-  reelSet: number;
-  stopIndex: number[];
-  tumbles: TumbleState[];
-  totalWin: number;
-  rageMeter: number;
+export interface FreeSpinGroup {
+  rootRound: RoundInfo;
+  freeSpinRounds: (RoundInfo & { order: number })[];
 }
 
 export interface FormData {
@@ -105,6 +97,7 @@ export interface FormData {
   multiplier: number;
   rageMeter: number;
   scatterCount: number;
+  isFreeSpin: boolean;
 }
 
 export interface RageMeterConfig {

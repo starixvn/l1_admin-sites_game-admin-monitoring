@@ -4,7 +4,7 @@ import type { SuggestionRound } from "../types";
 interface SuggestionRoundsProps {
   rounds: SuggestionRound[];
   selectedRoundId: string | null;
-  onSelectRound: (roundId: string) => void;
+  onSelectRound: (round: SuggestionRound) => void;
   loading: boolean;
 }
 
@@ -21,8 +21,9 @@ const SuggestionRounds: React.FC<SuggestionRoundsProps> = ({
     );
     const totalTumbles = round.tumbles.length;
     const rageMeter = round.rageMeter;
+    const freeSpinText = round.isFreeSpin ? "Free Spin - " : "";
 
-    return `Rage: ${rageMeter} | ${totalTumbles} tumble(s) | ${totalSymbolWins} symbol win(s)`;
+    return `${freeSpinText} Rage: ${rageMeter} | ${totalTumbles} tumble(s) | ${totalSymbolWins} symbol win(s)`;
   };
 
   const getDetailedSummary = (round: SuggestionRound): string => {
@@ -74,7 +75,7 @@ const SuggestionRounds: React.FC<SuggestionRoundsProps> = ({
             className={`round-item ${
               selectedRoundId === round.roundInfoId ? "selected" : ""
             }`}
-            onClick={() => onSelectRound(round.roundInfoId)}
+            onClick={() => onSelectRound(round)}
           >
             <div className="round-summary">{getRoundSummary(round)}</div>
             <div className="round-details">{getDetailedSummary(round)}</div>

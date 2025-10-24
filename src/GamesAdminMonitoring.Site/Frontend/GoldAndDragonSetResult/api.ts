@@ -1,11 +1,15 @@
-import type { FormData, RoundInfo, SuggestionResponse } from "./types";
-
-// Mock API functions - replace with actual API calls
+import type {
+  FormData,
+  FreeSpinGroup,
+  RoundInfo,
+  SuggestionResponse,
+} from "./types";
 
 const SET_RESULT_API = "/monitoring/ResultMonitor";
 const ENDPOINT = {
   SUGGESTION_ROUNDS: "/QuerySimulationRound/query",
   ROUND_INFO: "/QuerySimulationRound/info",
+  FREE_SPIN_ROUND_INFO: "/QuerySimulationRound/free-spin-info",
   SET_RESULT: "/SetCascadingClusterSlotResult",
 };
 
@@ -13,7 +17,6 @@ const ROUND_SIMULATION_API =
   "https://l2-proxy2.lumigame.com/querysimulationrounds/api";
 
 export const apiService = {
-  // Get suggestion rounds based on form data
   async getSuggestionRounds(formData: FormData): Promise<SuggestionResponse> {
     try {
       const requestBody = {
@@ -28,6 +31,7 @@ export const apiService = {
                 tumbles: formData.tumbles,
               }
             : undefined,
+        isFreeSpin: formData.isFreeSpin,
       };
 
       const response = await fetch(
@@ -64,9 +68,24 @@ export const apiService = {
     }
   },
 
+  async getFreeSpinRounds(roundInfoId: string): Promise<FreeSpinGroup> {
+    try {
+      const response = await fetch(
+        `${ROUND_SIMULATION_API}${ENDPOINT.FREE_SPIN_ROUND_INFO}/${roundInfoId}`,
+        {
+          method: "GET",
+        },
+      );
+      return await response.json();
+    } catch (error) {
+      console.error("Error getting free spin rounds:", error);
+      throw error;
+    }
+  },
+
   async setResult(roundInfo: {
     name: string;
-    result: RoundInfo;
+    result: RoundInfo | FreeSpinGroup;
   }): Promise<void> {
     try {
       const response = await fetch(`${SET_RESULT_API}${ENDPOINT.SET_RESULT}`, {

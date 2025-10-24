@@ -1,24 +1,28 @@
-import React, { useState } from "react";
-import type { RoundInfo, RageMeterConfig } from "../types";
+import React, { useEffect, useState } from "react";
+import type { RoundInfo, RageMeterConfig, FreeSpinGroup } from "../types";
 import RageMeterBar from "./RageMeterBar";
 import { apiService } from "../api";
 
 interface GameBoardProps {
   roundInfo: RoundInfo | null;
-  currentTumbleIndex: number;
-  onTumbleChange: (index: number) => void;
   rageMeterConfig: RageMeterConfig;
   nickname: string;
+  freeSpinGroup?: FreeSpinGroup;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({
   roundInfo,
-  currentTumbleIndex,
-  onTumbleChange,
   rageMeterConfig,
   nickname,
+  freeSpinGroup,
 }) => {
   const [isSettingResult, setIsSettingResult] = useState(false);
+  const [currentTumbleIndex, setCurrentTumbleIndex] = useState(0);
+
+  const [selectedRound, setSelectedRound] = useState<RoundInfo | null>(null);
+  useEffect(() => {
+    setSelectedRound(roundInfo);
+  }, [roundInfo]);
 
   const handleSetResult = async () => {
     if (!roundInfo || !nickname.trim()) {
@@ -28,7 +32,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
     setIsSettingResult(true);
     try {
-      await apiService.setResult({ name: nickname, result: roundInfo });
+      await apiService.setResult({
+        name: nickname,
+        result: freeSpinGroup ? freeSpinGroup : roundInfo,
+      });
       alert("Result set successfully!");
     } catch (error) {
       console.error("Error setting result:", error);
@@ -67,7 +74,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     alert("JSON file exported successfully!");
   };
 
-  if (!roundInfo) {
+  if (!selectedRound) {
     return (
       <div className="game-board">
         <div className="no-data">
@@ -79,7 +86,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     );
   }
 
-  const currentTumble = roundInfo.tumbles[currentTumbleIndex];
+  const currentTumble = selectedRound.tumbles[currentTumbleIndex];
   if (!currentTumble) {
     return (
       <div className="game-board">
@@ -93,13 +100,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const { reels, reelMultipliers, rageMeter } = currentTumble;
 
   const symbols =
-    currentTumbleIndex === roundInfo.tumbles.length - 1
+    currentTumbleIndex === selectedRound.tumbles.length - 1
       ? []
-      : roundInfo.tumbles[currentTumbleIndex + 1].symbols;
+      : selectedRound.tumbles[currentTumbleIndex + 1].symbols;
   const triggeredPositions =
-    currentTumbleIndex === roundInfo.tumbles.length - 1
+    currentTumbleIndex === selectedRound.tumbles.length - 1
       ? []
-      : roundInfo.tumbles[currentTumbleIndex + 1].triggeredPositions;
+      : selectedRound.tumbles[currentTumbleIndex + 1].triggeredPositions;
 
   // Create a map of winning positions for highlighting
   // Note: pos.x is column (reel), pos.y is row within that column
@@ -154,6 +161,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return "#FF6666";
   };
 
+  const handleRoundSelect = (round: RoundInfo | null) => {
+    setSelectedRound(round);
+    setCurrentTumbleIndex(0);
+  };
+
   return (
     <div className="game-board">
       <div className="board-header">
@@ -177,12 +189,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
           </div>
           <div className="info-item">
             <span className="label">Total Win:</span>
-            <span className="value">{roundInfo.totalWin.toFixed(2)}x</span>
+            <span className="value">{selectedRound.totalWin.toFixed(2)}x</span>
           </div>
           <div className="info-item">
             <span className="label">Tumble:</span>
             <span className="value">
-              {currentTumbleIndex + 1} / {roundInfo.tumbles.length}
+              {currentTumbleIndex + 1} / {selectedRound.tumbles.length}
             </span>
           </div>
         </div>
@@ -204,7 +216,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
       <div className="tumble-navigation">
         <button
-          onClick={() => onTumbleChange(currentTumbleIndex - 1)}
+          onClick={() => setCurrentTumbleIndex(currentTumbleIndex - 1)}
           className="btn-control"
           disabled={currentTumbleIndex === 0}
         >
@@ -213,8 +225,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <span>Tumble {currentTumbleIndex + 1}</span>
         <button
           className="btn-control"
-          onClick={() => onTumbleChange(currentTumbleIndex + 1)}
-          disabled={currentTumbleIndex === roundInfo.tumbles.length - 1}
+          onClick={() => setCurrentTumbleIndex(currentTumbleIndex + 1)}
+          disabled={currentTumbleIndex === selectedRound.tumbles.length - 1}
         >
           Next
         </button>
@@ -265,6 +277,29 @@ const GameBoard: React.FC<GameBoardProps> = ({
           ))}
         </div>
       </div>
+      {freeSpinGroup && (
+        <select
+          onChange={(e) =>
+            handleRoundSelect(
+              e.target.value === freeSpinGroup.rootRound.id
+                ? freeSpinGroup.rootRound
+                : freeSpinGroup.freeSpinRounds.find(
+                    (round) => round.id === e.target.value,
+                  ) ?? null,
+            )
+          }
+          defaultValue={selectedRound?.id}
+        >
+          <option value={freeSpinGroup.rootRound.id}>
+            {`Root - Scatter (${freeSpinGroup.rootRound.scatterCount}) - Rage (${freeSpinGroup.rootRound.rageMeter}) - Tumbles (${freeSpinGroup.rootRound.tumbles.length})`}
+          </option>
+          {freeSpinGroup.freeSpinRounds.map((round) => (
+            <option key={round.id} value={round.id}>
+              {`Free Spin ${round.order} - Scatter (${round.scatterCount}) - Rage (${round.rageMeter}) - Tumbles (${round.tumbles.length})`}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 };
