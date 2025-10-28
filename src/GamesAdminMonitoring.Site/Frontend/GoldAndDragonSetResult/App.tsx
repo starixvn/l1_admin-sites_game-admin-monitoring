@@ -21,6 +21,8 @@ const App: React.FC = () => {
     rageMeter: 0,
     scatterCount: 0,
     isFreeSpin: false,
+    fromBuyFreeSpin: false,
+    fromBuySupperFreeSpin: false,
   });
 
   const [freeSpinGroup, setFreeSpinGroup] = useState<FreeSpinGroup | undefined>(
@@ -177,6 +179,7 @@ const App: React.FC = () => {
   const loadFreeSpinGroup = async (
     roundId: string,
     currentRoundInfoId: string,
+    buyFreeSpinMode?: number,
   ) => {
     if (freeSpinGroupMap.has(roundId)) {
       const cachedGroup = freeSpinGroupMap.get(roundId) ?? undefined;
@@ -190,7 +193,10 @@ const App: React.FC = () => {
     }
 
     try {
-      const group = await apiService.getFreeSpinRounds(roundId);
+      const group = await apiService.getFreeSpinRounds(
+        roundId,
+        buyFreeSpinMode,
+      );
       setFreeSpinGroupMap((prevMap) => {
         const newMap = new Map(prevMap);
         newMap.set(roundId, group);
@@ -210,7 +216,11 @@ const App: React.FC = () => {
   const handleRoundSelect = async (round: SuggestionRound) => {
     setSelectedRoundId(round.roundInfoId);
     if (round.isFreeSpin && round.roundId) {
-      await loadFreeSpinGroup(round.roundId, round.roundInfoId);
+      await loadFreeSpinGroup(
+        round.roundId,
+        round.roundInfoId,
+        round.buyFreeSpinMode,
+      );
     } else {
       await loadRoundInfo(round.roundInfoId);
     }
@@ -287,6 +297,38 @@ const App: React.FC = () => {
                 }
               />
             </div>
+            {formData.isFreeSpin && (
+              <>
+                <div className="form-group inline">
+                  <label>From Buy Free Spin:</label>
+                  <input
+                    type="checkbox"
+                    checked={formData.fromBuyFreeSpin}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        fromBuyFreeSpin: e.target.checked,
+                      })
+                    }
+                    disabled={formData.fromBuySupperFreeSpin}
+                  />
+                </div>
+                <div className="form-group inline">
+                  <label>From Buy Supper Free Spin:</label>
+                  <input
+                    type="checkbox"
+                    checked={formData.fromBuySupperFreeSpin}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        fromBuySupperFreeSpin: e.target.checked,
+                      })
+                    }
+                    disabled={formData.fromBuyFreeSpin}
+                  />
+                </div>
+              </>
+            )}
 
             <RageMeterConfigComponent
               rageMeter={formData.rageMeter}

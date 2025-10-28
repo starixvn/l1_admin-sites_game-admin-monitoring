@@ -7,9 +7,9 @@ import type {
 
 const SET_RESULT_API = "/monitoring/ResultMonitor";
 const ENDPOINT = {
-  SUGGESTION_ROUNDS: "/QuerySimulationRound/query",
-  ROUND_INFO: "/QuerySimulationRound/info",
-  FREE_SPIN_ROUND_INFO: "/QuerySimulationRound/free-spin-info",
+  SUGGESTION_ROUNDS: "/GoldAndDragon/query",
+  ROUND_INFO: "/GoldAndDragon/info",
+  FREE_SPIN_ROUND_INFO: "/GoldAndDragon/free-spin-info",
   SET_RESULT: "/SetCascadingClusterSlotResult",
 };
 
@@ -32,6 +32,8 @@ export const apiService = {
               }
             : undefined,
         isFreeSpin: formData.isFreeSpin,
+        ...(formData.fromBuyFreeSpin && { buyFreeSpinMode: 1 }),
+        ...(formData.fromBuySupperFreeSpin && { buyFreeSpinMode: 2 }),
       };
 
       const response = await fetch(
@@ -68,10 +70,16 @@ export const apiService = {
     }
   },
 
-  async getFreeSpinRounds(roundInfoId: string): Promise<FreeSpinGroup> {
+  async getFreeSpinRounds(
+    roundInfoId: string,
+    buyFreeSpinMode?: number,
+  ): Promise<FreeSpinGroup> {
     try {
+      const queryParams = buyFreeSpinMode
+        ? `?buyFreeSpinMode=${buyFreeSpinMode}`
+        : "";
       const response = await fetch(
-        `${ROUND_SIMULATION_API}${ENDPOINT.FREE_SPIN_ROUND_INFO}/${roundInfoId}`,
+        `${ROUND_SIMULATION_API}${ENDPOINT.FREE_SPIN_ROUND_INFO}/${roundInfoId}${queryParams}`,
         {
           method: "GET",
         },

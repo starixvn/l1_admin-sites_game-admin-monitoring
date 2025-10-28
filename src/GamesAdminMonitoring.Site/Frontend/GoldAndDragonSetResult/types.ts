@@ -19,6 +19,7 @@ export interface SuggestionRound {
   rageMeter: number;
   tumbles: TumbleWithMultiplier[];
   roundId?: string;
+  buyFreeSpinMode?: number;
 }
 
 export interface SuggestionResponse {
@@ -98,6 +99,8 @@ export interface FormData {
   rageMeter: number;
   scatterCount: number;
   isFreeSpin: boolean;
+  fromBuyFreeSpin: boolean;
+  fromBuySupperFreeSpin: boolean;
 }
 
 export interface RageMeterConfig {
