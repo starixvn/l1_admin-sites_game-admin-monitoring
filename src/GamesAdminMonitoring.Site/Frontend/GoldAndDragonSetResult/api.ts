@@ -33,7 +33,7 @@ export const apiService = {
             : undefined,
         isFreeSpin: formData.isFreeSpin,
         ...(formData.fromBuyFreeSpin && { buyFreeSpinMode: 1 }),
-        ...(formData.fromBuySupperFreeSpin && { buyFreeSpinMode: 2 }),
+        ...(formData.fromBuySuperFreeSpin && { buyFreeSpinMode: 2 }),
       };
 
       const response = await fetch(

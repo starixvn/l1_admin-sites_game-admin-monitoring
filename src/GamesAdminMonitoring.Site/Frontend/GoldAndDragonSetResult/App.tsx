@@ -22,7 +22,7 @@ const App: React.FC = () => {
     scatterCount: 0,
     isFreeSpin: false,
     fromBuyFreeSpin: false,
-    fromBuySupperFreeSpin: false,
+    fromBuySuperFreeSpin: false,
   });
 
   const [freeSpinGroup, setFreeSpinGroup] = useState<FreeSpinGroup | undefined>(
@@ -310,18 +310,18 @@ const App: React.FC = () => {
                         fromBuyFreeSpin: e.target.checked,
                       })
                     }
-                    disabled={formData.fromBuySupperFreeSpin}
+                    disabled={formData.fromBuySuperFreeSpin}
                   />
                 </div>
                 <div className="form-group inline">
-                  <label>From Buy Supper Free Spin:</label>
+                  <label>From Buy Super Free Spin:</label>
                   <input
                     type="checkbox"
-                    checked={formData.fromBuySupperFreeSpin}
+                    checked={formData.fromBuySuperFreeSpin}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        fromBuySupperFreeSpin: e.target.checked,
+                        fromBuySuperFreeSpin: e.target.checked,
                       })
                     }
                     disabled={formData.fromBuyFreeSpin}

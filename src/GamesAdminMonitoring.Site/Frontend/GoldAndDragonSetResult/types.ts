@@ -100,7 +100,7 @@ export interface FormData {
   scatterCount: number;
   isFreeSpin: boolean;
   fromBuyFreeSpin: boolean;
-  fromBuySupperFreeSpin: boolean;
+  fromBuySuperFreeSpin: boolean;
 }
 
 export interface RageMeterConfig {
