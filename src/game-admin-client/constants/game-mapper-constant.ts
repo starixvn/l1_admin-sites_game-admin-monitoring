@@ -546,7 +546,14 @@ export const gameMapper = {
     socket: "admin/plinko",
     socketRoute: "plinko/socket.io",
     ...getInfoByGameKey("Plinko"),
-  }
+  },
+  159: {
+    name: "PlinkoX",
+    component: Plinko,
+    socket: "admin/plinkox",
+    socketRoute: "plinkox/socket.io",
+    ...getInfoByGameKey("PlinkoX"),
+  },
 };
 
 export const getGameName = (gameName: string) =>
