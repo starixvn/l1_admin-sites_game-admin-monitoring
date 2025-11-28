@@ -1,0 +1,67 @@
+.ludo {
+  .shared-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .game-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .bold {
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .subtitle {
+    color: #666;
+    margin-top: 5px;
+  }
+
+  .input-row {
+    margin-bottom: 15px;
+    align-items: center;
+  }
+
+  .label {
+    font-weight: 500;
+    text-align: right;
+    padding-right: 15px;
+  }
+
+  .input-container {
+    input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+      &.invalid {
+        border-color: #dc3545;
+      }
+    }
+  }
+
+  .custom-button {
+    padding: 10px 30px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #c3e6cb;
+  }
+}
+
+

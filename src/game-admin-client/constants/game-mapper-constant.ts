@@ -51,6 +51,7 @@ import FootballCoinTossGame from "../components/game-monitoring/football-coin-to
 import MarbleFootballGame from "../components/game-monitoring/marble-football/marble-football-game";
 import MarbleFootball2Game from "../components/game-monitoring/marble-football-2/marble-football2-game";
 import RNGSoccer from "../components/game-monitoring/rng-soccer/rng-soccer";
+import Ludo from "../components/game-monitoring/ludo/ludo";
 import BaccaratMultiplayer from "../components/game-monitoring/baccarat-multiplayer";
 import Plinko from "../components/game-monitoring/plinko";
 
@@ -533,6 +534,7 @@ export const gameMapper = {
     socketRoute: "rngsoccer/socket.io",
     ...getInfoByGameKey("RNGSoccer"),
   },
+
   150: {
     name: "BaccaratMultiplayer",
     component: BaccaratMultiplayer,
@@ -553,6 +555,13 @@ export const gameMapper = {
     socket: "admin/plinkox",
     socketRoute: "plinkox/socket.io",
     ...getInfoByGameKey("PlinkoX"),
+  },
+  163: {
+    name: "ludo",
+    component: Ludo,
+    socket: "admin/ludo",
+    socketRoute: "ludo/socket.io",
+    ...getInfoByGameKey("ludo"),
   },
 };
 
