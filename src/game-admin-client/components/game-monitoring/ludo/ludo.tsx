@@ -146,7 +146,7 @@ export default class Ludo extends BaseMonitoring<
                   this.setState({ dice1: parseInt(event.target.value) || 1 })
                 }
                 className={`${
-                  !this.validateDiceValue(dice1) && styles["invalid"]
+                  !this.validateDiceValue(dice1) ? styles["invalid"] : ""
                 }`}
               />
             </Col>
@@ -166,7 +166,7 @@ export default class Ludo extends BaseMonitoring<
                   this.setState({ dice2: parseInt(event.target.value) || 1 })
                 }
                 className={`${
-                  !this.validateDiceValue(dice2) && styles["invalid"]
+                  !this.validateDiceValue(dice2) ? styles["invalid"] : ""
                 }`}
               />
             </Col>
