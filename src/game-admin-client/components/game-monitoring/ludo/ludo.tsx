@@ -7,20 +7,8 @@ import BaseMonitoring, {
   BaseMonitoringProps,
 } from "../../shared/base-monitoring/base-monitoring";
 import { GameState } from "../../shared/common/GameState";
-import RoundNum from "../../shared/round-num/round-num";
-import TimeCounter from "../../shared/time-counter/time-counter";
 import GameTemplate from "../game-template/game-template";
 import styles from "./ludo.module.scss";
-
-export const Resources = {
-  gameName: "Ludo",
-  nextRound: "Next Round",
-  submit: "Submit",
-  fillOutResult: "Fill Out Result",
-  setDefaultResult: "Set Default Result",
-  disabledMessage: "Game is disabled.",
-  updateSuccessful: "Success! Your result has been set.",
-};
 
 export const Constant = {
   totalTimeInRound: 17,
@@ -44,6 +32,7 @@ export default class Ludo extends BaseMonitoring<
   LudoModel,
   BaseMonitoringProps
 > {
+  private submitTimeout?: NodeJS.Timeout;
   constructor(props) {
     super(props);
 
@@ -83,6 +72,9 @@ export default class Ludo extends BaseMonitoring<
 
   handleSubmit() {
     const { dice1, dice2, roundNumber } = this.state;
+    if (this.submitTimeout) {
+      clearTimeout(this.submitTimeout);
+    }
 
     if (!this.validate()) {
       return;
@@ -99,7 +91,7 @@ export default class Ludo extends BaseMonitoring<
 
     this.setState({ isSubmitted: true });
 
-    setTimeout(() => {
+    this.submitTimeout = setTimeout(() => {
       this.setState({ isSubmitted: false });
     }, 2000);
   }
@@ -112,7 +104,7 @@ export default class Ludo extends BaseMonitoring<
         onChangePartnerFilter: this.onChangePartnerFilter,
         onChangeSystemFilter: this.onChangeSystemFilter,
         enableFilter: false,
-        disabled: this.state.gameState == GameState.disabled,
+        disabled: this.state.gameState === GameState.disabled,
         partners: this.props.partners,
       };
 
@@ -185,7 +177,11 @@ export default class Ludo extends BaseMonitoring<
           <Col>
             <Button
               color="primary"
-              disabled={gameState === GameState.waiting || !isValid}
+              disabled={
+                gameState === GameState.disabled ||
+                gameState === GameState.waiting ||
+                !isValid
+              }
               onClick={this.handleSubmit}
               className={styles["custom-button"]}
             >
