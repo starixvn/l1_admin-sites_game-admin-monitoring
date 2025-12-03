@@ -1,0 +1,27 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 10px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.rowBoard {
+  display: flex;
+  flex-direction: row;
+
+  &.inline {
+    flex-direction: column;
+  }
+}
+
+.track {
+  display: flex;
+}
+
+.rowLane {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}

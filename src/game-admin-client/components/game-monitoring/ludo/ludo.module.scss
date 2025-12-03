@@ -55,6 +55,29 @@
     }
   }
 
+  .board-inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .board-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .label {
+      width: 100px;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+  }
+
   .custom-button {
     padding: 10px 30px;
     font-size: 16px;
@@ -70,5 +93,15 @@
     text-align: center;
     border: 1px solid #c3e6cb;
     margin-bottom: 15px;
+  }
+
+  .preview-label {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #ffeeba;
+    font-weight: 500;
   }
 }

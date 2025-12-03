@@ -1,0 +1,53 @@
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid #ccc;
+
+  &.cellPath {
+    background-color: #fff;
+  }
+
+  &.cellStable {
+    background-color: #f5f5f5;
+  }
+
+  &.cellCenter {
+    background-color: #e0e0e0;
+  }
+
+  .cellNumber {
+    font-size: 10px;
+    color: #030303;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+
+  .cellStableInner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.stableRed {
+    background-color: #ffebee;
+  }
+
+  &.stableBlue {
+    background-color: #e3f2fd;
+  }
+
+  &.stableGreen {
+    background-color: #e8f5e9;
+  }
+
+  &.stableYellow {
+    background-color: #fffde7;
+  }
+}

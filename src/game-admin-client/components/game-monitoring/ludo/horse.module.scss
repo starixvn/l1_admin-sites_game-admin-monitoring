@@ -1,0 +1,23 @@
+@use "./player-color.scss" as *;
+
+.in-stable {
+  stroke: white;
+}
+
+@mixin horse-color($color) {
+  fill: $color;
+  width: 30px;
+}
+
+.horse-0 {
+  @include horse-color($yellow-player);
+}
+.horse-1 {
+  @include horse-color($blue-player);
+}
+.horse-2 {
+  @include horse-color($red-player);
+}
+.horse-3 {
+  @include horse-color($green-player);
+}
