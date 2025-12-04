@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useGameContext } from "./GameContext";
 import styles from "./ludo-cell.module.scss";
 import { PlayerColor } from "./enums";
-import { Horse } from "./Horse";
+import { Horse } from "./horse";
 
 export interface LudoCellProps {
   cellNumber: number;
@@ -32,18 +32,18 @@ export function LudoCell({ cellNumber, type, stableColor }: LudoCellProps) {
   const { gameStore } = useGameContext();
   const cellColor = useMemo(
     () => gameStore?.turnResult?.raceMap?.[cellNumber],
-    [gameStore, cellNumber],
+    [gameStore, cellNumber]
   );
   const isKicked = useMemo(
     () => gameStore?.turnResult?.kickedPlayer?.position === cellNumber,
-    [gameStore, cellNumber],
+    [gameStore, cellNumber]
   );
   const hasHorseInStable = useMemo(
     () =>
       gameStore?.turnResult?.stableMap?.[stableColor as PlayerColor]?.includes(
-        cellNumber,
+        cellNumber
       ),
-    [gameStore, stableColor, cellNumber],
+    [gameStore, stableColor, cellNumber]
   );
   return (
     <div className={`${styles.cell} ${typeClassMap[type]} ${stableClass}`}>
@@ -71,3 +71,4 @@ export function LudoCell({ cellNumber, type, stableColor }: LudoCellProps) {
     </div>
   );
 }
+
