@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { PlayerColor } from "./enums";
 import { useGameContext } from "./GameContext";
 import styles from "./horse-starting-area.module.scss";
-import { Horse } from "./Horse";
+import { Horse } from "./horse";
 
 const colorClassMap = {
   [PlayerColor.ZERO]: styles.areaYellow,
