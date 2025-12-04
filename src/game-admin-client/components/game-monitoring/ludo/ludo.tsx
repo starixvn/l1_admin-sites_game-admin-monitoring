@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Container, Input, Row } from "reactstrap";
+import { Button, Col, Container, Input, Label, Row } from "reactstrap";
 import BaseMonitoringState from "../../common/model/BaseMonitoringModel";
 import DiceModel from "../../common/model/DiceModel";
 import DiceType from "../../common/model/DiceType";
@@ -29,9 +29,12 @@ const PLAYER_LABELS = {
 class LudoModel extends BaseMonitoringState {
   dice1: number;
   dice2: number;
+  currentPlayers: PlayerColor[];
+  currentTurnIndex: number;
   currentBoard: { [player in string]: number[] };
   boardInput: { [player in string]: number[] };
   isSubmitted: boolean;
+  isAdvancedMode: boolean;
 
   constructor() {
     super();
@@ -51,6 +54,14 @@ class LudoModel extends BaseMonitoringState {
       [PlayerColor.THREE]: [0, 0, 0, 0],
     };
     this.isSubmitted = false;
+    this.currentPlayers = [
+      PlayerColor.ZERO,
+      PlayerColor.ONE,
+      PlayerColor.TWO,
+      PlayerColor.THREE,
+    ];
+    this.currentTurnIndex = 0;
+    this.isAdvancedMode = false;
   }
 }
 
@@ -99,22 +110,42 @@ export default class Ludo extends BaseMonitoring<
   }
 
   handleSubmit() {
-    const { dice1, dice2, roundNumber, boardInput } = this.state;
+    const {
+      dice1,
+      dice2,
+      roundNumber,
+      boardInput,
+      currentPlayers,
+      currentTurnIndex,
+      isAdvancedMode,
+    } = this.state;
     if (this.submitTimeout) {
       clearTimeout(this.submitTimeout);
     }
 
-    if (!this.validate() || !this.validateBoard()) {
+    if (!this.validate()) {
       return;
+    }
+
+    if (isAdvancedMode && !this.validateBoard()) {
+      return;
+    }
+
+    const result: any = {
+      dice: [dice1, dice2],
+    };
+
+    if (isAdvancedMode) {
+      result.currentBoardState = boardInput;
+      result.currentPlayers = currentPlayers;
+      result.currentTurnIndex = currentTurnIndex;
+      result.winners = [];
     }
 
     this.props.sendMessage({
       set_result: {
         roundId: roundNumber,
-        result: {
-          dice: [dice1, dice2],
-          currentBoardState: boardInput,
-        },
+        result,
       },
     });
 
@@ -180,8 +211,16 @@ export default class Ludo extends BaseMonitoring<
       );
     }
 
-    const { isSubmitted, gameState, dice1, dice2, roundNumber, boardInput } =
-      this.state;
+    const {
+      isSubmitted,
+      gameState,
+      dice1,
+      dice2,
+      roundNumber,
+      boardInput,
+      currentPlayers,
+      isAdvancedMode,
+    } = this.state;
     const isValid = this.validate();
     const isBoardValid = this.validateBoard();
     const previewGameStore = this.getPreviewGameStore();
@@ -243,56 +282,102 @@ export default class Ludo extends BaseMonitoring<
 
         <hr />
 
-        <Row className="mb-2">
-          <Col>
-            <p className={styles["subtitle"]}>
-              Position: 0 = Starting Area, 1-56 = Race Track, 57-62 = Stable
-            </p>
-          </Col>
-        </Row>
-
-        <div className={`${styles["board-inputs"]}`}>
-          {Object.values(PlayerColor)
-            .filter((v) => typeof v === "number")
-            .map((player) => (
-              <div key={player} className={`${styles["board-input"]}`}>
-                <div className={`${styles["label"]}`}>
-                  {PLAYER_LABELS[player as PlayerColor]} Player
-                </div>
-                <div className={`${styles["input-container"]}`}>
-                  {[0, 1, 2, 3].map((horseIndex) => (
-                    <div className={`${styles["input-item"]}`} key={horseIndex}>
-                      <Input
-                        type="number"
-                        min="0"
-                        max="62"
-                        value={boardInput[player as PlayerColor][horseIndex]}
-                        placeholder="0-62"
-                        onChange={(event) =>
-                          this.handleBoardInputChange(
-                            player as PlayerColor,
-                            horseIndex,
-                            parseInt(event.target.value) || 0
-                          )
-                        }
-                        className={`${
-                          !this.validatePosition(
-                            boardInput[player as PlayerColor][horseIndex]
-                          )
-                            ? styles["invalid"]
-                            : ""
-                        }`}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+        <div className={`${styles["advanced-mode-input"]}`}>
+          <div className={`${styles["label"]}`}>Advanced Mode</div>
+          <input
+            id="advancedMode"
+            name="advancedMode"
+            type="checkbox"
+            className={styles["large-checkbox"]}
+            checked={isAdvancedMode}
+            onChange={(event) =>
+              this.setState({ isAdvancedMode: event.target.checked })
+            }
+          />
         </div>
 
-        <GameContextProvider gameStore={previewGameStore}>
-          <LudoBoard />
-        </GameContextProvider>
+        {isAdvancedMode && (
+          <>
+            <div className={`${styles["advanced-mode-input"]} mt-2`}>
+              <div className={`${styles["label"]}`}>Next Turn</div>
+              <div className={styles["input-container"]}>
+                <Input
+                  type="select"
+                  name="currentPlayer"
+                  id="currentPlayer"
+                  value={this.state.currentTurnIndex}
+                  onChange={(event) =>
+                    this.setState({
+                      currentTurnIndex: parseInt(event.target.value),
+                    })
+                  }
+                >
+                  {currentPlayers.map((player, index) => (
+                    <option key={player} value={index}>
+                      {PLAYER_LABELS[player as PlayerColor]}
+                    </option>
+                  ))}
+                </Input>
+              </div>
+            </div>
+
+            <Row className="mb-1">
+              <Col>
+                <p className={styles["subtitle"]}>
+                  Position: 0 = Starting Area, 1-56 = Race Track, 57-62 = Stable
+                </p>
+              </Col>
+            </Row>
+
+            <div className={`${styles["board-inputs"]}`}>
+              {Object.values(PlayerColor)
+                .filter((v) => typeof v === "number")
+                .map((player) => (
+                  <div key={player} className={`${styles["board-input"]}`}>
+                    <div className={`${styles["label"]}`}>
+                      {PLAYER_LABELS[player as PlayerColor]} Player
+                    </div>
+                    <div className={`${styles["input-container"]}`}>
+                      {[0, 1, 2, 3].map((horseIndex) => (
+                        <div
+                          className={`${styles["input-item"]}`}
+                          key={horseIndex}
+                        >
+                          <Input
+                            type="number"
+                            min="0"
+                            max="62"
+                            value={
+                              boardInput[player as PlayerColor][horseIndex]
+                            }
+                            placeholder="0-62"
+                            onChange={(event) =>
+                              this.handleBoardInputChange(
+                                player as PlayerColor,
+                                horseIndex,
+                                parseInt(event.target.value) || 0
+                              )
+                            }
+                            className={`${
+                              !this.validatePosition(
+                                boardInput[player as PlayerColor][horseIndex]
+                              )
+                                ? styles["invalid"]
+                                : ""
+                            }`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+
+            <GameContextProvider gameStore={previewGameStore}>
+              <LudoBoard />
+            </GameContextProvider>
+          </>
+        )}
 
         <Row className="text-center mb-3">
           <Col>
@@ -302,7 +387,7 @@ export default class Ludo extends BaseMonitoring<
                 gameState === GameState.disabled ||
                 gameState === GameState.waiting ||
                 !isValid ||
-                !isBoardValid
+                (isAdvancedMode && !isBoardValid)
               }
               onClick={this.handleSubmit}
               className={styles["custom-button"]}

@@ -63,6 +63,19 @@
     margin-bottom: 10px;
   }
 
+  .input-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .advanced-mode-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
   .board-input {
     display: flex;
     flex-direction: row;
@@ -103,5 +116,11 @@
     text-align: center;
     border: 1px solid #ffeeba;
     font-weight: 500;
+  }
+
+  .checkbox-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
