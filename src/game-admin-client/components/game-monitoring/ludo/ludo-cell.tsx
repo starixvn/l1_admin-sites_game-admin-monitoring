@@ -35,7 +35,7 @@ export function LudoCell({ cellNumber, type, stableColor }: LudoCellProps) {
     [gameStore, cellNumber]
   );
   const isKicked = useMemo(
-    () => gameStore?.turnResult?.kickedPlayer?.position === cellNumber,
+    () => !!(gameStore?.turnResult?.kickedPlayer?.position === cellNumber),
     [gameStore, cellNumber]
   );
   const hasHorseInStable = useMemo(
@@ -67,6 +67,12 @@ export function LudoCell({ cellNumber, type, stableColor }: LudoCellProps) {
               isKicked={isKicked}
             />
           )}
+        </div>
+      )}
+
+      {type === "center" && (
+        <div className={styles.cellStableInner}>
+          {/* Center cell - no content needed */}
         </div>
       )}
     </div>

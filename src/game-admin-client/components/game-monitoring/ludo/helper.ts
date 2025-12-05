@@ -3,6 +3,7 @@ import { PlayerColor } from "./enums";
 export function convertBoard(board: {
   [player in string]: number[];
 }) {
+  //in 1->57, a cell should be assigned to a player
   const raceMap: { [cellNumber: number]: PlayerColor } = {};
   const stableMap: { [color in PlayerColor]?: number[] } = {
     [PlayerColor.ZERO]: [],
@@ -30,3 +31,4 @@ export function convertBoard(board: {
   }
   return { raceMap, stableMap, startingAreaMap };
 }
+

@@ -15,7 +15,7 @@ export function HorseStartingArea({ color }: { color: PlayerColor }) {
   const { gameStore } = useGameContext();
   const counts = useMemo(
     () => gameStore?.turnResult?.startingAreaMap[color] ?? 0,
-    [gameStore]
+    [gameStore, color]
   );
   return (
     <div className={`${styles.startingArea} ${colorClassMap[color]}`}>

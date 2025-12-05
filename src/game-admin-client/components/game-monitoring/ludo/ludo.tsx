@@ -102,13 +102,6 @@ export default class Ludo extends BaseMonitoring<
     return Constant.waitingTime;
   }
 
-  get defaultResult(): any {
-    return [
-      new DiceModel(-1, DiceType.TaiXiu),
-      new DiceModel(-1, DiceType.TaiXiu),
-    ];
-  }
-
   get defaultBetList(): {} {
     return {};
   }
