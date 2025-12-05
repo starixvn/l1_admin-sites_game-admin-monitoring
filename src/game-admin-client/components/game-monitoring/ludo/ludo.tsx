@@ -14,6 +14,14 @@ import { PlayerColor } from "./enums";
 import { GameContextProvider, GameStore } from "./GameContext";
 import { convertBoard } from "./helper";
 
+interface LudoResult {
+  dice: [number, number];
+  currentBoardState?: { [player in PlayerColor]: (number | "")[] };
+  currentPlayers?: PlayerColor[];
+  currentTurnIndex?: number;
+  winners?: any[];
+}
+
 export const Constant = {
   totalTimeInRound: 17,
   waitingTime: 3,
@@ -142,7 +150,7 @@ export default class Ludo extends BaseMonitoring<
       return;
     }
 
-    const result: any = {
+    const result: LudoResult = {
       dice: [dice1, dice2],
     };
 
@@ -212,6 +220,38 @@ export default class Ludo extends BaseMonitoring<
     return { turnResult };
   }
 
+  private renderDiceInput(
+    diceLabel: string,
+    diceValue: number | "",
+    diceKey: "dice1" | "dice2"
+  ) {
+    return (
+      <Row className={`${styles["input-row"]}`}>
+        <Col xs="4" className={`${styles["label"]}`}>
+          {diceLabel}
+        </Col>
+        <Col xs="8" className={styles["input-container"]}>
+          <Input
+            type="number"
+            min="1"
+            max="6"
+            value={diceValue}
+            placeholder="1-6"
+            onChange={(event) => {
+              const value =
+                event.target.value === "" ? "" : parseInt(event.target.value);
+              if (value !== "" && (value < 1 || value > 6)) return;
+              this.setState({ [diceKey]: value } as any);
+            }}
+            className={
+              !this.validateDiceValue(diceValue) ? styles["invalid"] : ""
+            }
+          />
+        </Col>
+      </Row>
+    );
+  }
+
   render() {
     if (this.props.isProduction) {
       const gameTemplateProps = {
@@ -259,61 +299,8 @@ export default class Ludo extends BaseMonitoring<
         </Row>
 
         <Row className={`${styles["input"]}`}>
-          <Row className={`${styles["input-row"]}`}>
-            {" "}
-            <Col xs="4" className={`${styles["label"]}`}>
-              Dice 1
-            </Col>
-            <Col xs="8" className={styles["input-container"]}>
-              <Input
-                type="number"
-                min="1"
-                max="6"
-                value={dice1}
-                placeholder="1-6"
-                onChange={(event) => {
-                  const value =
-                    event.target.value === ""
-                      ? ""
-                      : parseInt(event.target.value);
-                  if (value !== "" && (value < 1 || value > 6)) {
-                    return;
-                  }
-                  this.setState({ dice1: value });
-                }}
-                className={`${
-                  !this.validateDiceValue(dice1) ? styles["invalid"] : ""
-                }`}
-              />
-            </Col>
-          </Row>
-          <Row className={`${styles["input-row"]}`}>
-            <Col xs="4" className={`${styles["label"]}`}>
-              Dice 2
-            </Col>
-            <Col xs="8" className={styles["input-container"]}>
-              <Input
-                type="number"
-                min="1"
-                max="6"
-                value={dice2}
-                placeholder="1-6"
-                onChange={(event) => {
-                  const value =
-                    event.target.value === ""
-                      ? ""
-                      : parseInt(event.target.value);
-                  if (value !== "" && (value < 1 || value > 6)) {
-                    return;
-                  }
-                  this.setState({ dice2: value });
-                }}
-                className={`${
-                  !this.validateDiceValue(dice2) ? styles["invalid"] : ""
-                }`}
-              />
-            </Col>
-          </Row>
+          {this.renderDiceInput("Dice 1", dice1, "dice1")}
+          {this.renderDiceInput("Dice 2", dice2, "dice2")}
         </Row>
 
         <hr />
