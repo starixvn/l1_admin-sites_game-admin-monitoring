@@ -69,7 +69,7 @@ export default class Ludo extends BaseMonitoring<
   LudoModel,
   BaseMonitoringProps
 > {
-  private submitTimeout?: NodeJS.Timeout;
+  private submitTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(props) {
     super(props);
@@ -77,6 +77,13 @@ export default class Ludo extends BaseMonitoring<
     this.state = new LudoModel();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBoardInputChange = this.handleBoardInputChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    if (this.submitTimeout) {
+      clearTimeout(this.submitTimeout);
+      this.submitTimeout = undefined;
+    }
   }
 
   get totalTimeInRound(): number {
@@ -98,7 +105,7 @@ export default class Ludo extends BaseMonitoring<
     return {};
   }
 
-  validateDiceValue(value: number | ""): boolean {
+  validateDiceValue(value: number | ""): value is number {
     return value !== "" && value >= 1 && value <= 6;
   }
 
@@ -119,11 +126,15 @@ export default class Ludo extends BaseMonitoring<
       currentTurnIndex,
       isAdvancedMode,
     } = this.state;
+
+    if (this.state.isSubmitted) {
+      return;
+    }
     if (this.submitTimeout) {
       clearTimeout(this.submitTimeout);
     }
 
-    if (!this.validate()) {
+    if (!this.validateDiceValue(dice1) || !this.validateDiceValue(dice2)) {
       return;
     }
 
@@ -157,7 +168,7 @@ export default class Ludo extends BaseMonitoring<
   }
 
   // Board setting methods
-  validatePosition(value: number | ""): boolean {
+  validatePosition(value: number | ""): value is number {
     return value !== "" && value >= 0 && value <= 62;
   }
 
@@ -189,7 +200,7 @@ export default class Ludo extends BaseMonitoring<
     });
   }
 
-  getPreviewGameStore(): GameStore | undefined {
+  getPreviewGameStore(): GameStore {
     const { boardInput } = this.state;
     const normalizedBoard: { [player in string]: number[] } = {};
     for (const player in boardInput) {
@@ -231,8 +242,10 @@ export default class Ludo extends BaseMonitoring<
       isAdvancedMode,
     } = this.state;
     const isValid = this.validate();
-    const isBoardValid = this.validateBoard();
-    const previewGameStore = this.getPreviewGameStore();
+    const isBoardValid = isAdvancedMode ? this.validateBoard() : true;
+    const previewGameStore = isAdvancedMode
+      ? this.getPreviewGameStore()
+      : undefined;
 
     return (
       <Container className={styles["ludo"]}>
@@ -413,6 +426,7 @@ export default class Ludo extends BaseMonitoring<
               disabled={
                 gameState === GameState.disabled ||
                 gameState === GameState.waiting ||
+                this.state.isSubmitted ||
                 !isValid ||
                 (isAdvancedMode && !isBoardValid)
               }
