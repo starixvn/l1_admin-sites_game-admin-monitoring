@@ -40,14 +40,15 @@ export function LudoCell({ cellNumber, type, stableColor }: LudoCellProps) {
   );
   const hasHorseInStable = useMemo(
     () =>
-      gameStore?.turnResult?.stableMap?.[stableColor as PlayerColor]?.includes(
-        cellNumber
-      ),
-    [gameStore, stableColor, cellNumber]
+      type === "stable" &&
+      stableColor !== undefined &&
+      gameStore?.turnResult?.stableMap?.[stableColor]?.includes(cellNumber),
+    [gameStore, type, stableColor, cellNumber]
   );
+
   return (
     <div className={`${styles.cell} ${typeClassMap[type]} ${stableClass}`}>
-      {cellNumber !== undefined && type === "path" && (
+      {type === "path" && (
         <>
           <span className={styles.cellNumber}>{cellNumber}</span>
           {cellColor !== undefined && (

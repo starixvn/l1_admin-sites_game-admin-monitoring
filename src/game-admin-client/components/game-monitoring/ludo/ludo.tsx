@@ -27,12 +27,12 @@ const PLAYER_LABELS = {
 };
 
 class LudoModel extends BaseMonitoringState {
-  dice1: number;
-  dice2: number;
+  dice1: number | "";
+  dice2: number | "";
   currentPlayers: PlayerColor[];
   currentTurnIndex: number;
-  currentBoard: { [player in string]: number[] };
-  boardInput: { [player in string]: number[] };
+  currentBoard: { [player in PlayerColor]: number[] };
+  boardInput: { [player in PlayerColor]: (number | "")[] };
   isSubmitted: boolean;
   isAdvancedMode: boolean;
 
@@ -98,8 +98,8 @@ export default class Ludo extends BaseMonitoring<
     return {};
   }
 
-  validateDiceValue(value: number): boolean {
-    return value >= 1 && value <= 6;
+  validateDiceValue(value: number | ""): boolean {
+    return value !== "" && value >= 1 && value <= 6;
   }
 
   validate(): boolean {
@@ -157,8 +157,8 @@ export default class Ludo extends BaseMonitoring<
   }
 
   // Board setting methods
-  validatePosition(value: number): boolean {
-    return value >= 0 && value <= 62;
+  validatePosition(value: number | ""): boolean {
+    return value !== "" && value >= 0 && value <= 62;
   }
 
   validateBoard(): boolean {
@@ -176,8 +176,11 @@ export default class Ludo extends BaseMonitoring<
   handleBoardInputChange(
     player: PlayerColor,
     horseIndex: number,
-    value: number
+    value: number | ""
   ) {
+    if (value !== "" && (value < 0 || value > 62)) {
+      return;
+    }
     this.setState((prevState) => {
       const newBoardInput = { ...prevState.boardInput };
       newBoardInput[player] = [...newBoardInput[player]];
@@ -188,7 +191,13 @@ export default class Ludo extends BaseMonitoring<
 
   getPreviewGameStore(): GameStore | undefined {
     const { boardInput } = this.state;
-    const turnResult = convertBoard(boardInput);
+    const normalizedBoard: { [player in string]: number[] } = {};
+    for (const player in boardInput) {
+      normalizedBoard[player] = boardInput[player].map((v) =>
+        v === "" ? 0 : v
+      );
+    }
+    const turnResult = convertBoard(normalizedBoard);
     return { turnResult };
   }
 
@@ -249,9 +258,16 @@ export default class Ludo extends BaseMonitoring<
                 max="6"
                 value={dice1}
                 placeholder="1-6"
-                onChange={(event) =>
-                  this.setState({ dice1: parseInt(event.target.value) || 1 })
-                }
+                onChange={(event) => {
+                  const value =
+                    event.target.value === ""
+                      ? ""
+                      : parseInt(event.target.value);
+                  if (value !== "" && (value < 1 || value > 6)) {
+                    return;
+                  }
+                  this.setState({ dice1: value });
+                }}
                 className={`${
                   !this.validateDiceValue(dice1) ? styles["invalid"] : ""
                 }`}
@@ -269,9 +285,16 @@ export default class Ludo extends BaseMonitoring<
                 max="6"
                 value={dice2}
                 placeholder="1-6"
-                onChange={(event) =>
-                  this.setState({ dice2: parseInt(event.target.value) || 1 })
-                }
+                onChange={(event) => {
+                  const value =
+                    event.target.value === ""
+                      ? ""
+                      : parseInt(event.target.value);
+                  if (value !== "" && (value < 1 || value > 6)) {
+                    return;
+                  }
+                  this.setState({ dice2: value });
+                }}
                 className={`${
                   !this.validateDiceValue(dice2) ? styles["invalid"] : ""
                 }`}
@@ -355,7 +378,9 @@ export default class Ludo extends BaseMonitoring<
                               this.handleBoardInputChange(
                                 player as PlayerColor,
                                 horseIndex,
-                                parseInt(event.target.value) || 0
+                                event.target.value === ""
+                                  ? ""
+                                  : parseInt(event.target.value)
                               )
                             }
                             className={`${
@@ -373,9 +398,11 @@ export default class Ludo extends BaseMonitoring<
                 ))}
             </div>
 
-            <GameContextProvider gameStore={previewGameStore}>
-              <LudoBoard />
-            </GameContextProvider>
+            {previewGameStore && (
+              <GameContextProvider gameStore={previewGameStore}>
+                <LudoBoard />
+              </GameContextProvider>
+            )}
           </>
         )}
 

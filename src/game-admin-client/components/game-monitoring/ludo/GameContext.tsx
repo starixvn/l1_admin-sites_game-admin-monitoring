@@ -16,7 +16,7 @@ interface GameContextType {
   gameStore?: GameStore;
 }
 
-const GameContext = createContext<GameContextType>({});
+const GameContext = createContext<GameContextType | undefined>({});
 
 export function GameContextProvider({
   children,
